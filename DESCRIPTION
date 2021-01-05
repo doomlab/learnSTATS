@@ -1,0 +1,52 @@
+Package: learnSTATS
+Type: Package
+Title: Introduction to Statistics (ANLY 500)
+Version: 0.1.0
+Authors@R:
+    person(given = "Erin M.",
+           family = "Buchanan",
+           role = "cre",
+           email = "buchananlab@gmail.com",
+           comment = c(ORCID = "0000-0002-9689-4189"))
+Maintainer: Erin M. Buchanan <buchananlab@gmail.com>
+Description: This package will allow you to take ANLY 500. The package
+    installs all the necessary materials for the entire semester,
+    includes tutorials, and lectures to help you complete the course. 
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.1.1
+Imports: 
+    learnr,
+    shiny,
+    knitr
+VignetteBuilder: knitr
+Suggests: 
+    rmarkdown,
+    palmerpenguins,
+    rio,
+    psych,
+    car,
+    utils,
+    Hmisc,
+    GGally,
+    MOTE,
+    MeMoBootR,
+    QuantPsyc,
+    VIM,
+    cocor,
+    corrplot,
+    emmeans,
+    ez,
+    ggplot2,
+    mice,
+    moments,
+    papaja,
+    pastecs,
+    ppcor,
+    quantmod,
+    pwr,
+    reshape
+Remotes: 
+    doomlab/MeMoBootR,
+    crsh/papaja
