@@ -1,0 +1,286 @@
+---
+title: "Introduction to R"
+tutorial: 
+  id: "introR"
+output: learnr::tutorial
+runtime: shiny_prerendered
+description: Check out your R skills for our introduction to data analytics (introduction to statistics!) course. 
+---
+
+```{r setup, include=FALSE}
+library(learnr)
+library(learnSTATS)
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Introduction to R Class Assignment
+
+In this example, you will practice your *R* skills! You will map key concepts of variable types to objects types and begin interacting in a console as part of this tutorial. The learning objectives include:
+
+- Understand logical operators
+- Work with variables, vectors, matrices, and dataframes
+- Write your own functions
+- Load libraries and files 
+  
+## Introduction R Video Part 1
+
+The following videos are provided as a lecture for the class material. You can view the lecture notes within *R* using `vignette("Introduction-to-R", "learnSTATS")`. You can skip these pages if you are in class to go on to the assignment. 
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/oV0SBUbmnmg" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+## Introduction R Video Part 2
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/W_xmhVzF12s" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+## Introduction R Video Part 3
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/NuDxrW4jsgQ" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+## Exercises
+
+In this next section, you will answer questions using the *R* code blocks provided. Be sure to use the `solution` option to see the answer if you need it!
+
+Please enter your name for submission. If you do not need to submit, just type anything you'd like in this box. 
+
+```{r details}
+question_text(
+  "Student Name:",
+  answer("Your Name", correct = TRUE),
+  incorrect = "Thanks!",
+  try_again_button = "Modify your answer",
+  allow_retry = TRUE
+)
+```
+
+## Logical Operators 
+
+Use logical operations to get R to agree that "two plus two equals 5" is FALSE.
+
+```{r q1, exercise = TRUE}
+
+```
+
+```{r q1-solution}
+2 + 2 == 5
+```
+
+Use logical operations to test whether 8 ^ 13 is less than 15 ^ 9.
+
+```{r q2, exercise = TRUE}
+
+```
+
+```{r q2-solution}
+8 ^ 13 < 15 ^ 19
+```
+
+## Simple Variables
+
+Create a variable called `potato` whose value corresponds to the number of `potatoes` you've eaten in the last week. Then print out the value of `potato`. 
+
+```{r q3, exercise = TRUE}
+
+```
+
+```{r q3-solution}
+#there are a lot of right answers!
+potato <- 15
+```
+
+Calculate the square root of `potato` using the `sqrt()` function. Print out the value of potato again to verify that the value of potato hasn't changed. Note that `potato` has been set to 15 for this question. 
+
+```{r q4-setup}
+potato <- 15
+```
+
+```{r q4, exercise = TRUE}
+
+```
+
+```{r q4-solution}
+sqrt(potato)
+potato
+```
+
+Reassign the value of `potato` to `potato * 2`. Print out the new value of `potato` to verify that it has changed.
+
+```{r q5-setup}
+potato <- 15
+```
+
+```{r q5, exercise = TRUE}
+
+```
+
+```{r q5-solution}
+potato <- potato * 2
+potato
+```
+
+Create three new variables:
+  
+  - Create a string (character variable), and name that variable `charVar`. 
+  - Create a logical variable, and name that variable `logicalVar`.
+  - Create a variable that contains a missing value `NA`, and name that variable `missingVar`. 
+  - Use `class()` to verify that each variable is the right type. 
+
+```{r q6, exercise = TRUE}
+
+```
+
+```{r q6-solution}
+charVar <- "cheese"
+logicalVar <- TRUE
+missingVar <- NA
+class(charVar)
+class(logicalVar)
+class(missingVar)
+```
+
+## Vectors
+
+Create a numeric vector with three elements using c().
+
+```{r q7, exercise = TRUE}
+
+```
+
+```{r q7-solution}
+#lots of right answers!
+c(1,2,3)
+```
+
+Create a character vector with three elements using c().
+
+```{r q8, exercise = TRUE}
+
+```
+
+```{r q8-solution}
+#lots of right answers!
+c("this", "is", "characters")
+```
+
+Create a numeric vector called `age` whose elements contain the ages of three people you know. Add the names of these people using `names(age)`. 
+
+```{r q9, exercise = TRUE}
+
+```
+
+```{r q9-solution}
+#lots of right answers!
+age <- c(34, 38, 27)
+names(age) <- c("scott", "abby", "katy")
+```
+
+Use "indexing by number" to get R to print out the first element of `Orange$circumference`.
+
+```{r q10, exercise = TRUE}
+data("Orange")
+
+```
+
+```{r q10-solution}
+data("Orange")
+Orange$circumference[1]
+```
+
+Use logical indexing to return all the circumferences of Orange trees greater than 100.
+
+```{r q11, exercise = TRUE}
+Orange$circumference[]
+```
+
+```{r q11-solution}
+Orange$circumference[Orange$circumference > 100]
+```
+
+## Dataframes
+
+Load the `airquality` dataset. Use the $ method to print out the `Wind` variable in `airquality.`
+
+```{r q13, exercise = TRUE}
+
+```
+
+```{r q13-solution}
+data("airquality")
+airquality$Wind
+```
+
+Print out only the first 10 cases (rows) in the `airquality` dataset. Hint: typing c(1,2,3,4,5,6,7,8,9,10) is tedious. R allows you to use 1:10 as a shorthand method!
+
+```{r q16, exercise = TRUE}
+
+```
+
+```{r q16-solution}
+airquality[1:10 , ]
+```
+
+Use logical indexing to print out all days in `airquality` where the `Ozone` level was higher than 20. 
+
+```{r q17, exercise = TRUE}
+
+```
+
+```{r q17-solution}
+airquality[airquality$Ozone > 20 , ]
+```
+
+Use subset() to do the same thing. Notice the difference in the output.
+
+```{r q18, exercise = TRUE}
+
+```
+
+```{r q18-solution}
+subset(airquality, Ozone > 20)
+```
+
+Use the `length()` function to determine the number of observations in the `airquality` dataframe.
+
+```{r q20, exercise = TRUE}
+
+```
+
+```{r q20-solution}
+#remember that number of rows needs to be on a vector 
+length(airquality$Ozone) 
+```
+
+## Functions 
+
+Make a simple function to calculate x + 6.
+
+```{r q24, exercise = TRUE}
+
+```
+
+```{r q24-solution}
+addup <- function(x) { x + 6 }
+```
+
+## Packages
+
+Load the `utils` library.
+
+```{r q29, exercise = TRUE}
+
+```
+
+```{r q29-solution}
+library(utils)
+```
+
+## Submit
+
+On this page, you will create the submission for your instructor (if necessary). Please copy this report and submit using a Word document or paste into the text window of your submission page. Click "Generate Submission" to get your work! 
+
+```{r context="server"}
+encoder_logic()
+```
+
+```{r encode, echo=FALSE}
+encoder_ui()
+```

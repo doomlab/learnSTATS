@@ -2,7 +2,7 @@
 title: "Data Screening Part 1"
 output: rmarkdown::slidy_presentation
 description: >
-  This vignette includes the lecture slides for the data screening section of our course (part 6/12).
+  This vignette includes the lecture slides for the data screening part of the course (part 6/12).
 vignette: >
   %\VignetteIndexEntry{"Data Screening Part 1"}
   %\VignetteEngine{knitr::rmarkdown}
@@ -129,11 +129,16 @@ summary(notypos)
 
 - When you have an inaccurate value in one or only a few columns, you can fix those values using logical operators that we discussed in our subsetting section. 
 - In this example, we know that students could not have missed more than 15 days. 
+- They cannot be more than 12 for Grade.
 
 ```{r}
 summary(notypos$Grade)
-notypos$Grade[ notypos$Grade > 15 ] <- NA
+notypos$Grade[ notypos$Grade > 12 ] <- NA
 summary(notypos$Grade)
+
+summary(notypos$Absences)
+notypos$Absences[ notypos$Absences > 15 ] <- NA
+summary(notypos$Absences)
 ```
 
 ## Accuracy: Continuous Variables 
@@ -233,7 +238,7 @@ knitr::include_graphics("pictures/datascreen/missing.png")
 - Multiple imputation is now the most popular way to estimate missing data points because computing programs have made this process easier. 
 
     - Creates a set of potential expected values for each missing point. 
-    - Using matrix algebra, the program estimates the probably of each value and picks the highest one. 
+    - Using matrix algebra, the program estimates the probability of each value and picks the highest one. 
 
 ## Visualize Missing Data
 

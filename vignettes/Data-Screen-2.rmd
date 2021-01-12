@@ -15,6 +15,7 @@ knitr::opts_chunk$set(
   comment = "#>"
 )
 ```
+
 ## Data Screening: Next Steps
 
 - In the last lecture, we discussed:

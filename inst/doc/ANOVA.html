@@ -780,29 +780,35 @@ list-style-type: none;
 <li>You will get a warning - just ignore it: “Warning converting partno to a factor for ANOVA”.</li>
 </ul>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">library</span>(ez)</span>
-<span id="cb2-2"><a href="#cb2-2"></a></span>
-<span id="cb2-3"><a href="#cb2-3"></a><span class="co">## you must have a participant number for ezANOVA</span></span>
-<span id="cb2-4"><a href="#cb2-4"></a>master<span class="op">$</span>partno &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(master)</span>
-<span id="cb2-5"><a href="#cb2-5"></a><span class="kw">options</span>(<span class="dt">scipen =</span> <span class="dv">20</span>)</span>
-<span id="cb2-6"><a href="#cb2-6"></a><span class="kw">ezANOVA</span>(<span class="dt">data =</span> master,</span>
-<span id="cb2-7"><a href="#cb2-7"></a>        <span class="dt">dv =</span> libido,</span>
-<span id="cb2-8"><a href="#cb2-8"></a>        <span class="dt">between =</span> dose,</span>
-<span id="cb2-9"><a href="#cb2-9"></a>        <span class="dt">wid =</span> partno,</span>
-<span id="cb2-10"><a href="#cb2-10"></a>        <span class="dt">type =</span> <span class="dv">3</span>, </span>
-<span id="cb2-11"><a href="#cb2-11"></a>        <span class="dt">detailed =</span> T)</span>
-<span id="cb2-12"><a href="#cb2-12"></a><span class="co">#&gt; Warning: Converting &quot;partno&quot; to factor for ANOVA.</span></span>
-<span id="cb2-13"><a href="#cb2-13"></a><span class="co">#&gt; Coefficient covariances computed by hccm()</span></span>
-<span id="cb2-14"><a href="#cb2-14"></a><span class="co">#&gt; $ANOVA</span></span>
-<span id="cb2-15"><a href="#cb2-15"></a><span class="co">#&gt;        Effect DFn DFd       SSn  SSd         F</span></span>
-<span id="cb2-16"><a href="#cb2-16"></a><span class="co">#&gt; 1 (Intercept)   1  12 180.26667 23.6 91.661017</span></span>
-<span id="cb2-17"><a href="#cb2-17"></a><span class="co">#&gt; 2        dose   2  12  20.13333 23.6  5.118644</span></span>
-<span id="cb2-18"><a href="#cb2-18"></a><span class="co">#&gt;                 p p&lt;.05       ges</span></span>
-<span id="cb2-19"><a href="#cb2-19"></a><span class="co">#&gt; 1 0.0000005720565     * 0.8842381</span></span>
-<span id="cb2-20"><a href="#cb2-20"></a><span class="co">#&gt; 2 0.0246942895382     * 0.4603659</span></span>
-<span id="cb2-21"><a href="#cb2-21"></a><span class="co">#&gt; </span></span>
-<span id="cb2-22"><a href="#cb2-22"></a><span class="co">#&gt; $`Levene&#39;s Test for Homogeneity of Variance`</span></span>
-<span id="cb2-23"><a href="#cb2-23"></a><span class="co">#&gt;   DFn DFd       SSn SSd         F         p p&lt;.05</span></span>
-<span id="cb2-24"><a href="#cb2-24"></a><span class="co">#&gt; 1   2  12 0.1333333 6.8 0.1176471 0.8900225</span></span></code></pre></div>
+<span id="cb2-2"><a href="#cb2-2"></a><span class="co">#&gt; Registered S3 methods overwritten by &#39;lme4&#39;:</span></span>
+<span id="cb2-3"><a href="#cb2-3"></a><span class="co">#&gt;   method                          from</span></span>
+<span id="cb2-4"><a href="#cb2-4"></a><span class="co">#&gt;   cooks.distance.influence.merMod car </span></span>
+<span id="cb2-5"><a href="#cb2-5"></a><span class="co">#&gt;   influence.merMod                car </span></span>
+<span id="cb2-6"><a href="#cb2-6"></a><span class="co">#&gt;   dfbeta.influence.merMod         car </span></span>
+<span id="cb2-7"><a href="#cb2-7"></a><span class="co">#&gt;   dfbetas.influence.merMod        car</span></span>
+<span id="cb2-8"><a href="#cb2-8"></a></span>
+<span id="cb2-9"><a href="#cb2-9"></a><span class="co">## you must have a participant number for ezANOVA</span></span>
+<span id="cb2-10"><a href="#cb2-10"></a>master<span class="op">$</span>partno &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(master)</span>
+<span id="cb2-11"><a href="#cb2-11"></a><span class="kw">options</span>(<span class="dt">scipen =</span> <span class="dv">20</span>)</span>
+<span id="cb2-12"><a href="#cb2-12"></a><span class="kw">ezANOVA</span>(<span class="dt">data =</span> master,</span>
+<span id="cb2-13"><a href="#cb2-13"></a>        <span class="dt">dv =</span> libido,</span>
+<span id="cb2-14"><a href="#cb2-14"></a>        <span class="dt">between =</span> dose,</span>
+<span id="cb2-15"><a href="#cb2-15"></a>        <span class="dt">wid =</span> partno,</span>
+<span id="cb2-16"><a href="#cb2-16"></a>        <span class="dt">type =</span> <span class="dv">3</span>, </span>
+<span id="cb2-17"><a href="#cb2-17"></a>        <span class="dt">detailed =</span> T)</span>
+<span id="cb2-18"><a href="#cb2-18"></a><span class="co">#&gt; Warning: Converting &quot;partno&quot; to factor for ANOVA.</span></span>
+<span id="cb2-19"><a href="#cb2-19"></a><span class="co">#&gt; Coefficient covariances computed by hccm()</span></span>
+<span id="cb2-20"><a href="#cb2-20"></a><span class="co">#&gt; $ANOVA</span></span>
+<span id="cb2-21"><a href="#cb2-21"></a><span class="co">#&gt;        Effect DFn DFd       SSn  SSd         F               p</span></span>
+<span id="cb2-22"><a href="#cb2-22"></a><span class="co">#&gt; 1 (Intercept)   1  12 180.26667 23.6 91.661017 0.0000005720565</span></span>
+<span id="cb2-23"><a href="#cb2-23"></a><span class="co">#&gt; 2        dose   2  12  20.13333 23.6  5.118644 0.0246942895382</span></span>
+<span id="cb2-24"><a href="#cb2-24"></a><span class="co">#&gt;   p&lt;.05       ges</span></span>
+<span id="cb2-25"><a href="#cb2-25"></a><span class="co">#&gt; 1     * 0.8842381</span></span>
+<span id="cb2-26"><a href="#cb2-26"></a><span class="co">#&gt; 2     * 0.4603659</span></span>
+<span id="cb2-27"><a href="#cb2-27"></a><span class="co">#&gt; </span></span>
+<span id="cb2-28"><a href="#cb2-28"></a><span class="co">#&gt; $`Levene&#39;s Test for Homogeneity of Variance`</span></span>
+<span id="cb2-29"><a href="#cb2-29"></a><span class="co">#&gt;   DFn DFd       SSn SSd         F         p p&lt;.05</span></span>
+<span id="cb2-30"><a href="#cb2-30"></a><span class="co">#&gt; 1   2  12 0.1333333 6.8 0.1176471 0.8900225</span></span></code></pre></div>
 </div>
 <div id="anova-levenes" class="slide section level2">
 <h1>ANOVA: Levene’s</h1>
@@ -821,24 +827,23 @@ list-style-type: none;
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="co">## running a one way anova - if Levene&#39;s Test is significant</span></span>
 <span id="cb4-2"><a href="#cb4-2"></a><span class="kw">oneway.test</span>(libido <span class="op">~</span><span class="st"> </span>dose, <span class="dt">data =</span> master)</span>
 <span id="cb4-3"><a href="#cb4-3"></a><span class="co">#&gt; </span></span>
-<span id="cb4-4"><a href="#cb4-4"></a><span class="co">#&gt;  One-way analysis of means (not assuming equal</span></span>
-<span id="cb4-5"><a href="#cb4-5"></a><span class="co">#&gt;  variances)</span></span>
-<span id="cb4-6"><a href="#cb4-6"></a><span class="co">#&gt; </span></span>
-<span id="cb4-7"><a href="#cb4-7"></a><span class="co">#&gt; data:  libido and dose</span></span>
-<span id="cb4-8"><a href="#cb4-8"></a><span class="co">#&gt; F = 4.3205, num df = 2.0000, denom df = 7.9434,</span></span>
-<span id="cb4-9"><a href="#cb4-9"></a><span class="co">#&gt; p-value = 0.05374</span></span></code></pre></div>
+<span id="cb4-4"><a href="#cb4-4"></a><span class="co">#&gt;  One-way analysis of means (not assuming equal variances)</span></span>
+<span id="cb4-5"><a href="#cb4-5"></a><span class="co">#&gt; </span></span>
+<span id="cb4-6"><a href="#cb4-6"></a><span class="co">#&gt; data:  libido and dose</span></span>
+<span id="cb4-7"><a href="#cb4-7"></a><span class="co">#&gt; F = 4.3205, num df = 2.0000, denom df = 7.9434, p-value =</span></span>
+<span id="cb4-8"><a href="#cb4-8"></a><span class="co">#&gt; 0.05374</span></span></code></pre></div>
 </div>
 <div id="anova-f-statistic" class="slide section level2">
 <h1>ANOVA: F-Statistic</h1>
 <ul>
 <li>There was a significant effect of Viagra on levels of libido, <span class="math inline">\(F(2, 12) = 5.12, p = .025, \eta^2= .46\)</span></li>
 </ul>
-<pre><code>#&gt;        Effect DFn DFd       SSn  SSd         F
-#&gt; 1 (Intercept)   1  12 180.26667 23.6 91.661017
-#&gt; 2        dose   2  12  20.13333 23.6  5.118644
-#&gt;                 p p&lt;.05       ges
-#&gt; 1 0.0000005720565     * 0.8842381
-#&gt; 2 0.0246942895382     * 0.4603659</code></pre>
+<pre><code>#&gt;        Effect DFn DFd       SSn  SSd         F               p
+#&gt; 1 (Intercept)   1  12 180.26667 23.6 91.661017 0.0000005720565
+#&gt; 2        dose   2  12  20.13333 23.6  5.118644 0.0246942895382
+#&gt;   p&lt;.05       ges
+#&gt; 1     * 0.8842381
+#&gt; 2     * 0.4603659</code></pre>
 </div>
 <div id="anova-effect-size" class="slide section level2">
 <h1>ANOVA: Effect Size</h1>
@@ -1088,12 +1093,11 @@ list-style-type: none;
 <span id="cb11-18"><a href="#cb11-18"></a><span class="co">#&gt; dose2.L       1.9799     0.6272   3.157     0.00827 ** </span></span>
 <span id="cb11-19"><a href="#cb11-19"></a><span class="co">#&gt; dose2.Q       0.3266     0.6272   0.521     0.61201    </span></span>
 <span id="cb11-20"><a href="#cb11-20"></a><span class="co">#&gt; ---</span></span>
-<span id="cb11-21"><a href="#cb11-21"></a><span class="co">#&gt; Signif. codes:  </span></span>
-<span id="cb11-22"><a href="#cb11-22"></a><span class="co">#&gt; 0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</span></span>
-<span id="cb11-23"><a href="#cb11-23"></a><span class="co">#&gt; </span></span>
-<span id="cb11-24"><a href="#cb11-24"></a><span class="co">#&gt; Residual standard error: 1.402 on 12 degrees of freedom</span></span>
-<span id="cb11-25"><a href="#cb11-25"></a><span class="co">#&gt; Multiple R-squared:  0.4604, Adjusted R-squared:  0.3704 </span></span>
-<span id="cb11-26"><a href="#cb11-26"></a><span class="co">#&gt; F-statistic: 5.119 on 2 and 12 DF,  p-value: 0.02469</span></span></code></pre></div>
+<span id="cb11-21"><a href="#cb11-21"></a><span class="co">#&gt; Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</span></span>
+<span id="cb11-22"><a href="#cb11-22"></a><span class="co">#&gt; </span></span>
+<span id="cb11-23"><a href="#cb11-23"></a><span class="co">#&gt; Residual standard error: 1.402 on 12 degrees of freedom</span></span>
+<span id="cb11-24"><a href="#cb11-24"></a><span class="co">#&gt; Multiple R-squared:  0.4604, Adjusted R-squared:  0.3704 </span></span>
+<span id="cb11-25"><a href="#cb11-25"></a><span class="co">#&gt; F-statistic: 5.119 on 2 and 12 DF,  p-value: 0.02469</span></span></code></pre></div>
 </div>
 <div id="trend-analysis-visualization" class="slide section level2">
 <h1>Trend Analysis: Visualization</h1>
