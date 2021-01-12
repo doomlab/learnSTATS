@@ -629,24 +629,18 @@ list-style-type: none;
 </div>
 <div id="the-data" class="slide section level2">
 <h1>The Data</h1>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">library</span>(rio)</span>
-<span id="cb1-2"><a href="#cb1-2"></a>master &lt;-<span class="st"> </span><span class="kw">import</span>(<span class="st">&quot;data/viagra.sav&quot;</span>)</span>
-<span id="cb1-3"><a href="#cb1-3"></a><span class="kw">str</span>(master)</span>
-<span id="cb1-4"><a href="#cb1-4"></a><span class="co">#&gt; &#39;data.frame&#39;:    15 obs. of  3 variables:</span></span>
-<span id="cb1-5"><a href="#cb1-5"></a><span class="co">#&gt;  $ person: num  1 2 3 4 5 6 7 8 9 10 ...</span></span>
-<span id="cb1-6"><a href="#cb1-6"></a><span class="co">#&gt;   ..- attr(*, &quot;label&quot;)= chr &quot;Participant&quot;</span></span>
-<span id="cb1-7"><a href="#cb1-7"></a><span class="co">#&gt;   ..- attr(*, &quot;format.spss&quot;)= chr &quot;F8.0&quot;</span></span>
-<span id="cb1-8"><a href="#cb1-8"></a><span class="co">#&gt;  $ dose  : num  1 1 1 1 1 2 2 2 2 2 ...</span></span>
-<span id="cb1-9"><a href="#cb1-9"></a><span class="co">#&gt;   ..- attr(*, &quot;label&quot;)= chr &quot;Dose of Viagra&quot;</span></span>
-<span id="cb1-10"><a href="#cb1-10"></a><span class="co">#&gt;   ..- attr(*, &quot;format.spss&quot;)= chr &quot;F8.0&quot;</span></span>
-<span id="cb1-11"><a href="#cb1-11"></a><span class="co">#&gt;   ..- attr(*, &quot;labels&quot;)= Named num [1:3] 1 2 3</span></span>
-<span id="cb1-12"><a href="#cb1-12"></a><span class="co">#&gt;   .. ..- attr(*, &quot;names&quot;)= chr [1:3] &quot;Placebo&quot; &quot;Low Dose&quot; &quot;High Dose&quot;</span></span>
-<span id="cb1-13"><a href="#cb1-13"></a><span class="co">#&gt;  $ libido: num  3 2 1 1 4 5 2 4 2 3 ...</span></span>
-<span id="cb1-14"><a href="#cb1-14"></a><span class="co">#&gt;   ..- attr(*, &quot;label&quot;)= chr &quot;Libido&quot;</span></span>
-<span id="cb1-15"><a href="#cb1-15"></a><span class="co">#&gt;   ..- attr(*, &quot;format.spss&quot;)= chr &quot;F8.0&quot;</span></span>
-<span id="cb1-16"><a href="#cb1-16"></a>master<span class="op">$</span>dose &lt;-<span class="st"> </span><span class="kw">factor</span>(master<span class="op">$</span>dose, </span>
-<span id="cb1-17"><a href="#cb1-17"></a>                      <span class="dt">levels =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>),</span>
-<span id="cb1-18"><a href="#cb1-18"></a>                      <span class="dt">labels =</span> <span class="kw">c</span>(<span class="st">&quot;Placebo&quot;</span>, <span class="st">&quot;Low Dose&quot;</span>, <span class="st">&quot;High Dose&quot;</span>))</span></code></pre></div>
+<pre><code>#&gt; &#39;data.frame&#39;:    15 obs. of  3 variables:
+#&gt;  $ person: num  1 2 3 4 5 6 7 8 9 10 ...
+#&gt;   ..- attr(*, &quot;label&quot;)= chr &quot;Participant&quot;
+#&gt;   ..- attr(*, &quot;format.spss&quot;)= chr &quot;F8.0&quot;
+#&gt;  $ dose  : num  1 1 1 1 1 2 2 2 2 2 ...
+#&gt;   ..- attr(*, &quot;label&quot;)= chr &quot;Dose of Viagra&quot;
+#&gt;   ..- attr(*, &quot;format.spss&quot;)= chr &quot;F8.0&quot;
+#&gt;   ..- attr(*, &quot;labels&quot;)= Named num [1:3] 1 2 3
+#&gt;   .. ..- attr(*, &quot;names&quot;)= chr [1:3] &quot;Placebo&quot; &quot;Low Dose&quot; &quot;High Dose&quot;
+#&gt;  $ libido: num  3 2 1 1 4 5 2 4 2 3 ...
+#&gt;   ..- attr(*, &quot;label&quot;)= chr &quot;Libido&quot;
+#&gt;   ..- attr(*, &quot;format.spss&quot;)= chr &quot;F8.0&quot;</code></pre>
 </div>
 <div id="calculate-ss_t" class="slide section level2">
 <h1>Calculate <span class="math inline">\(SS_T\)</span></h1>
@@ -799,12 +793,12 @@ list-style-type: none;
 <span id="cb2-18"><a href="#cb2-18"></a><span class="co">#&gt; Warning: Converting &quot;partno&quot; to factor for ANOVA.</span></span>
 <span id="cb2-19"><a href="#cb2-19"></a><span class="co">#&gt; Coefficient covariances computed by hccm()</span></span>
 <span id="cb2-20"><a href="#cb2-20"></a><span class="co">#&gt; $ANOVA</span></span>
-<span id="cb2-21"><a href="#cb2-21"></a><span class="co">#&gt;        Effect DFn DFd       SSn  SSd         F               p</span></span>
-<span id="cb2-22"><a href="#cb2-22"></a><span class="co">#&gt; 1 (Intercept)   1  12 180.26667 23.6 91.661017 0.0000005720565</span></span>
-<span id="cb2-23"><a href="#cb2-23"></a><span class="co">#&gt; 2        dose   2  12  20.13333 23.6  5.118644 0.0246942895382</span></span>
-<span id="cb2-24"><a href="#cb2-24"></a><span class="co">#&gt;   p&lt;.05       ges</span></span>
-<span id="cb2-25"><a href="#cb2-25"></a><span class="co">#&gt; 1     * 0.8842381</span></span>
-<span id="cb2-26"><a href="#cb2-26"></a><span class="co">#&gt; 2     * 0.4603659</span></span>
+<span id="cb2-21"><a href="#cb2-21"></a><span class="co">#&gt;        Effect DFn DFd       SSn  SSd         F</span></span>
+<span id="cb2-22"><a href="#cb2-22"></a><span class="co">#&gt; 1 (Intercept)   1  12 180.26667 23.6 91.661017</span></span>
+<span id="cb2-23"><a href="#cb2-23"></a><span class="co">#&gt; 2        dose   2  12  20.13333 23.6  5.118644</span></span>
+<span id="cb2-24"><a href="#cb2-24"></a><span class="co">#&gt;                 p p&lt;.05       ges</span></span>
+<span id="cb2-25"><a href="#cb2-25"></a><span class="co">#&gt; 1 0.0000005720565     * 0.8842381</span></span>
+<span id="cb2-26"><a href="#cb2-26"></a><span class="co">#&gt; 2 0.0246942895382     * 0.4603659</span></span>
 <span id="cb2-27"><a href="#cb2-27"></a><span class="co">#&gt; </span></span>
 <span id="cb2-28"><a href="#cb2-28"></a><span class="co">#&gt; $`Levene&#39;s Test for Homogeneity of Variance`</span></span>
 <span id="cb2-29"><a href="#cb2-29"></a><span class="co">#&gt;   DFn DFd       SSn SSd         F         p p&lt;.05</span></span>
@@ -824,26 +818,25 @@ list-style-type: none;
 <li>What do you do if homogeneity test was significant? <em>(Levene’s)</em></li>
 <li>Run a Welch correction on the ANOVA using the oneway function.</li>
 </ul>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="co">## running a one way anova - if Levene&#39;s Test is significant</span></span>
-<span id="cb4-2"><a href="#cb4-2"></a><span class="kw">oneway.test</span>(libido <span class="op">~</span><span class="st"> </span>dose, <span class="dt">data =</span> master)</span>
-<span id="cb4-3"><a href="#cb4-3"></a><span class="co">#&gt; </span></span>
-<span id="cb4-4"><a href="#cb4-4"></a><span class="co">#&gt;  One-way analysis of means (not assuming equal variances)</span></span>
-<span id="cb4-5"><a href="#cb4-5"></a><span class="co">#&gt; </span></span>
-<span id="cb4-6"><a href="#cb4-6"></a><span class="co">#&gt; data:  libido and dose</span></span>
-<span id="cb4-7"><a href="#cb4-7"></a><span class="co">#&gt; F = 4.3205, num df = 2.0000, denom df = 7.9434, p-value =</span></span>
-<span id="cb4-8"><a href="#cb4-8"></a><span class="co">#&gt; 0.05374</span></span></code></pre></div>
+<pre><code>#&gt; 
+#&gt;  One-way analysis of means (not assuming equal
+#&gt;  variances)
+#&gt; 
+#&gt; data:  libido and dose
+#&gt; F = 4.3205, num df = 2.0000, denom df = 7.9434,
+#&gt; p-value = 0.05374</code></pre>
 </div>
 <div id="anova-f-statistic" class="slide section level2">
 <h1>ANOVA: F-Statistic</h1>
 <ul>
 <li>There was a significant effect of Viagra on levels of libido, <span class="math inline">\(F(2, 12) = 5.12, p = .025, \eta^2= .46\)</span></li>
 </ul>
-<pre><code>#&gt;        Effect DFn DFd       SSn  SSd         F               p
-#&gt; 1 (Intercept)   1  12 180.26667 23.6 91.661017 0.0000005720565
-#&gt; 2        dose   2  12  20.13333 23.6  5.118644 0.0246942895382
-#&gt;   p&lt;.05       ges
-#&gt; 1     * 0.8842381
-#&gt; 2     * 0.4603659</code></pre>
+<pre><code>#&gt;        Effect DFn DFd       SSn  SSd         F
+#&gt; 1 (Intercept)   1  12 180.26667 23.6 91.661017
+#&gt; 2        dose   2  12  20.13333 23.6  5.118644
+#&gt;                 p p&lt;.05       ges
+#&gt; 1 0.0000005720565     * 0.8842381
+#&gt; 2 0.0246942895382     * 0.4603659</code></pre>
 </div>
 <div id="anova-effect-size" class="slide section level2">
 <h1>ANOVA: Effect Size</h1>
@@ -1093,11 +1086,12 @@ list-style-type: none;
 <span id="cb11-18"><a href="#cb11-18"></a><span class="co">#&gt; dose2.L       1.9799     0.6272   3.157     0.00827 ** </span></span>
 <span id="cb11-19"><a href="#cb11-19"></a><span class="co">#&gt; dose2.Q       0.3266     0.6272   0.521     0.61201    </span></span>
 <span id="cb11-20"><a href="#cb11-20"></a><span class="co">#&gt; ---</span></span>
-<span id="cb11-21"><a href="#cb11-21"></a><span class="co">#&gt; Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</span></span>
-<span id="cb11-22"><a href="#cb11-22"></a><span class="co">#&gt; </span></span>
-<span id="cb11-23"><a href="#cb11-23"></a><span class="co">#&gt; Residual standard error: 1.402 on 12 degrees of freedom</span></span>
-<span id="cb11-24"><a href="#cb11-24"></a><span class="co">#&gt; Multiple R-squared:  0.4604, Adjusted R-squared:  0.3704 </span></span>
-<span id="cb11-25"><a href="#cb11-25"></a><span class="co">#&gt; F-statistic: 5.119 on 2 and 12 DF,  p-value: 0.02469</span></span></code></pre></div>
+<span id="cb11-21"><a href="#cb11-21"></a><span class="co">#&gt; Signif. codes:  </span></span>
+<span id="cb11-22"><a href="#cb11-22"></a><span class="co">#&gt; 0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</span></span>
+<span id="cb11-23"><a href="#cb11-23"></a><span class="co">#&gt; </span></span>
+<span id="cb11-24"><a href="#cb11-24"></a><span class="co">#&gt; Residual standard error: 1.402 on 12 degrees of freedom</span></span>
+<span id="cb11-25"><a href="#cb11-25"></a><span class="co">#&gt; Multiple R-squared:  0.4604, Adjusted R-squared:  0.3704 </span></span>
+<span id="cb11-26"><a href="#cb11-26"></a><span class="co">#&gt; F-statistic: 5.119 on 2 and 12 DF,  p-value: 0.02469</span></span></code></pre></div>
 </div>
 <div id="trend-analysis-visualization" class="slide section level2">
 <h1>Trend Analysis: Visualization</h1>

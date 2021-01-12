@@ -791,20 +791,30 @@ list-style-type: none;
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="kw">cor</span>(exam[ , <span class="dv">-1</span>], </span>
 <span id="cb8-2"><a href="#cb8-2"></a>    <span class="dt">use=</span><span class="st">&quot;pairwise.complete.obs&quot;</span>, </span>
 <span id="cb8-3"><a href="#cb8-3"></a>    <span class="dt">method =</span> <span class="st">&quot;pearson&quot;</span>)</span>
-<span id="cb8-4"><a href="#cb8-4"></a><span class="co">#&gt;              Revise         Exam     Anxiety       Gender</span></span>
-<span id="cb8-5"><a href="#cb8-5"></a><span class="co">#&gt; Revise   1.00000000  0.396720697 -0.70924926  0.085350584</span></span>
-<span id="cb8-6"><a href="#cb8-6"></a><span class="co">#&gt; Exam     0.39672070  1.000000000 -0.44099341 -0.004674066</span></span>
-<span id="cb8-7"><a href="#cb8-7"></a><span class="co">#&gt; Anxiety -0.70924926 -0.440993412  1.00000000 -0.002365840</span></span>
-<span id="cb8-8"><a href="#cb8-8"></a><span class="co">#&gt; Gender   0.08535058 -0.004674066 -0.00236584  1.000000000</span></span>
-<span id="cb8-9"><a href="#cb8-9"></a></span>
-<span id="cb8-10"><a href="#cb8-10"></a><span class="kw">cor</span>(exam[ , <span class="dv">-1</span>], </span>
-<span id="cb8-11"><a href="#cb8-11"></a>    <span class="dt">use=</span><span class="st">&quot;pairwise.complete.obs&quot;</span>, </span>
-<span id="cb8-12"><a href="#cb8-12"></a>    <span class="dt">method =</span> <span class="st">&quot;kendall&quot;</span>)</span>
-<span id="cb8-13"><a href="#cb8-13"></a><span class="co">#&gt;              Revise         Exam     Anxiety       Gender</span></span>
-<span id="cb8-14"><a href="#cb8-14"></a><span class="co">#&gt; Revise   1.00000000  0.263325853 -0.48856004  0.099160691</span></span>
-<span id="cb8-15"><a href="#cb8-15"></a><span class="co">#&gt; Exam     0.26332585  1.000000000 -0.28479188 -0.007164456</span></span>
-<span id="cb8-16"><a href="#cb8-16"></a><span class="co">#&gt; Anxiety -0.48856004 -0.284791876  1.00000000  0.018699690</span></span>
-<span id="cb8-17"><a href="#cb8-17"></a><span class="co">#&gt; Gender   0.09916069 -0.007164456  0.01869969  1.000000000</span></span></code></pre></div>
+<span id="cb8-4"><a href="#cb8-4"></a><span class="co">#&gt;              Revise         Exam     Anxiety</span></span>
+<span id="cb8-5"><a href="#cb8-5"></a><span class="co">#&gt; Revise   1.00000000  0.396720697 -0.70924926</span></span>
+<span id="cb8-6"><a href="#cb8-6"></a><span class="co">#&gt; Exam     0.39672070  1.000000000 -0.44099341</span></span>
+<span id="cb8-7"><a href="#cb8-7"></a><span class="co">#&gt; Anxiety -0.70924926 -0.440993412  1.00000000</span></span>
+<span id="cb8-8"><a href="#cb8-8"></a><span class="co">#&gt; Gender   0.08535058 -0.004674066 -0.00236584</span></span>
+<span id="cb8-9"><a href="#cb8-9"></a><span class="co">#&gt;               Gender</span></span>
+<span id="cb8-10"><a href="#cb8-10"></a><span class="co">#&gt; Revise   0.085350584</span></span>
+<span id="cb8-11"><a href="#cb8-11"></a><span class="co">#&gt; Exam    -0.004674066</span></span>
+<span id="cb8-12"><a href="#cb8-12"></a><span class="co">#&gt; Anxiety -0.002365840</span></span>
+<span id="cb8-13"><a href="#cb8-13"></a><span class="co">#&gt; Gender   1.000000000</span></span>
+<span id="cb8-14"><a href="#cb8-14"></a></span>
+<span id="cb8-15"><a href="#cb8-15"></a><span class="kw">cor</span>(exam[ , <span class="dv">-1</span>], </span>
+<span id="cb8-16"><a href="#cb8-16"></a>    <span class="dt">use=</span><span class="st">&quot;pairwise.complete.obs&quot;</span>, </span>
+<span id="cb8-17"><a href="#cb8-17"></a>    <span class="dt">method =</span> <span class="st">&quot;kendall&quot;</span>)</span>
+<span id="cb8-18"><a href="#cb8-18"></a><span class="co">#&gt;              Revise         Exam     Anxiety</span></span>
+<span id="cb8-19"><a href="#cb8-19"></a><span class="co">#&gt; Revise   1.00000000  0.263325853 -0.48856004</span></span>
+<span id="cb8-20"><a href="#cb8-20"></a><span class="co">#&gt; Exam     0.26332585  1.000000000 -0.28479188</span></span>
+<span id="cb8-21"><a href="#cb8-21"></a><span class="co">#&gt; Anxiety -0.48856004 -0.284791876  1.00000000</span></span>
+<span id="cb8-22"><a href="#cb8-22"></a><span class="co">#&gt; Gender   0.09916069 -0.007164456  0.01869969</span></span>
+<span id="cb8-23"><a href="#cb8-23"></a><span class="co">#&gt;               Gender</span></span>
+<span id="cb8-24"><a href="#cb8-24"></a><span class="co">#&gt; Revise   0.099160691</span></span>
+<span id="cb8-25"><a href="#cb8-25"></a><span class="co">#&gt; Exam    -0.007164456</span></span>
+<span id="cb8-26"><a href="#cb8-26"></a><span class="co">#&gt; Anxiety  0.018699690</span></span>
+<span id="cb8-27"><a href="#cb8-27"></a><span class="co">#&gt; Gender   1.000000000</span></span></code></pre></div>
 </div>
 <div id="correlation-how-to-calculate-3" class="slide section level2">
 <h1>Correlation: How to Calculate</h1>
@@ -1123,16 +1133,16 @@ list-style-type: none;
 <span id="cb17-8"><a href="#cb17-8"></a><span class="co">#&gt; Gender   0.1206059 -0.02247429  0.0747992  1.00000000</span></span>
 <span id="cb17-9"><a href="#cb17-9"></a><span class="co">#&gt; </span></span>
 <span id="cb17-10"><a href="#cb17-10"></a><span class="co">#&gt; $p.value</span></span>
-<span id="cb17-11"><a href="#cb17-11"></a><span class="co">#&gt;                        Revise       Exam               Anxiety</span></span>
-<span id="cb17-12"><a href="#cb17-12"></a><span class="co">#&gt; Revise  0.0000000000000000000 0.18029461 0.0000000000001703877</span></span>
-<span id="cb17-13"><a href="#cb17-13"></a><span class="co">#&gt; Exam    0.1802946142925934414 0.00000000 0.0138418805036515987</span></span>
-<span id="cb17-14"><a href="#cb17-14"></a><span class="co">#&gt; Anxiety 0.0000000000001703877 0.01384188 0.0000000000000000000</span></span>
-<span id="cb17-15"><a href="#cb17-15"></a><span class="co">#&gt; Gender  0.2296046052632922940 0.82347277 0.4572346435286890332</span></span>
-<span id="cb17-16"><a href="#cb17-16"></a><span class="co">#&gt;            Gender</span></span>
-<span id="cb17-17"><a href="#cb17-17"></a><span class="co">#&gt; Revise  0.2296046</span></span>
-<span id="cb17-18"><a href="#cb17-18"></a><span class="co">#&gt; Exam    0.8234728</span></span>
-<span id="cb17-19"><a href="#cb17-19"></a><span class="co">#&gt; Anxiety 0.4572346</span></span>
-<span id="cb17-20"><a href="#cb17-20"></a><span class="co">#&gt; Gender  0.0000000</span></span>
+<span id="cb17-11"><a href="#cb17-11"></a><span class="co">#&gt;                        Revise       Exam</span></span>
+<span id="cb17-12"><a href="#cb17-12"></a><span class="co">#&gt; Revise  0.0000000000000000000 0.18029461</span></span>
+<span id="cb17-13"><a href="#cb17-13"></a><span class="co">#&gt; Exam    0.1802946142925934414 0.00000000</span></span>
+<span id="cb17-14"><a href="#cb17-14"></a><span class="co">#&gt; Anxiety 0.0000000000001703877 0.01384188</span></span>
+<span id="cb17-15"><a href="#cb17-15"></a><span class="co">#&gt; Gender  0.2296046052632922940 0.82347277</span></span>
+<span id="cb17-16"><a href="#cb17-16"></a><span class="co">#&gt;                       Anxiety    Gender</span></span>
+<span id="cb17-17"><a href="#cb17-17"></a><span class="co">#&gt; Revise  0.0000000000001703877 0.2296046</span></span>
+<span id="cb17-18"><a href="#cb17-18"></a><span class="co">#&gt; Exam    0.0138418805036515987 0.8234728</span></span>
+<span id="cb17-19"><a href="#cb17-19"></a><span class="co">#&gt; Anxiety 0.0000000000000000000 0.4572346</span></span>
+<span id="cb17-20"><a href="#cb17-20"></a><span class="co">#&gt; Gender  0.4572346435286890332 0.0000000</span></span>
 <span id="cb17-21"><a href="#cb17-21"></a><span class="co">#&gt; </span></span>
 <span id="cb17-22"><a href="#cb17-22"></a><span class="co">#&gt; $statistic</span></span>
 <span id="cb17-23"><a href="#cb17-23"></a><span class="co">#&gt;            Revise       Exam    Anxiety     Gender</span></span>
@@ -1164,16 +1174,16 @@ list-style-type: none;
 <span id="cb18-7"><a href="#cb18-7"></a><span class="co">#&gt; Gender   0.1206031 -0.02231536  0.07446008  1.00000000</span></span>
 <span id="cb18-8"><a href="#cb18-8"></a><span class="co">#&gt; </span></span>
 <span id="cb18-9"><a href="#cb18-9"></a><span class="co">#&gt; $p.value</span></span>
-<span id="cb18-10"><a href="#cb18-10"></a><span class="co">#&gt;                     Revise       Exam             Anxiety</span></span>
-<span id="cb18-11"><a href="#cb18-11"></a><span class="co">#&gt; Revise  0.0000000000000000 0.34943989 0.00000000005384648</span></span>
-<span id="cb18-12"><a href="#cb18-12"></a><span class="co">#&gt; Exam    0.2295835036896037 0.00000000 0.02433797063496123</span></span>
-<span id="cb18-13"><a href="#cb18-13"></a><span class="co">#&gt; Anxiety 0.0000000001414541 0.08622476 0.00000000000000000</span></span>
-<span id="cb18-14"><a href="#cb18-14"></a><span class="co">#&gt; Gender  0.2296154398101875 0.82470106 0.45928285817840431</span></span>
-<span id="cb18-15"><a href="#cb18-15"></a><span class="co">#&gt;            Gender</span></span>
-<span id="cb18-16"><a href="#cb18-16"></a><span class="co">#&gt; Revise  0.4021110</span></span>
-<span id="cb18-17"><a href="#cb18-17"></a><span class="co">#&gt; Exam    0.8426994</span></span>
-<span id="cb18-18"><a href="#cb18-18"></a><span class="co">#&gt; Anxiety 0.6118058</span></span>
-<span id="cb18-19"><a href="#cb18-19"></a><span class="co">#&gt; Gender  0.0000000</span></span>
+<span id="cb18-10"><a href="#cb18-10"></a><span class="co">#&gt;                     Revise       Exam</span></span>
+<span id="cb18-11"><a href="#cb18-11"></a><span class="co">#&gt; Revise  0.0000000000000000 0.34943989</span></span>
+<span id="cb18-12"><a href="#cb18-12"></a><span class="co">#&gt; Exam    0.2295835036896037 0.00000000</span></span>
+<span id="cb18-13"><a href="#cb18-13"></a><span class="co">#&gt; Anxiety 0.0000000001414541 0.08622476</span></span>
+<span id="cb18-14"><a href="#cb18-14"></a><span class="co">#&gt; Gender  0.2296154398101875 0.82470106</span></span>
+<span id="cb18-15"><a href="#cb18-15"></a><span class="co">#&gt;                     Anxiety    Gender</span></span>
+<span id="cb18-16"><a href="#cb18-16"></a><span class="co">#&gt; Revise  0.00000000005384648 0.4021110</span></span>
+<span id="cb18-17"><a href="#cb18-17"></a><span class="co">#&gt; Exam    0.02433797063496123 0.8426994</span></span>
+<span id="cb18-18"><a href="#cb18-18"></a><span class="co">#&gt; Anxiety 0.00000000000000000 0.6118058</span></span>
+<span id="cb18-19"><a href="#cb18-19"></a><span class="co">#&gt; Gender  0.45928285817840431 0.0000000</span></span>
 <span id="cb18-20"><a href="#cb18-20"></a><span class="co">#&gt; </span></span>
 <span id="cb18-21"><a href="#cb18-21"></a><span class="co">#&gt; $statistic</span></span>
 <span id="cb18-22"><a href="#cb18-22"></a><span class="co">#&gt;            Revise       Exam    Anxiety     Gender</span></span>

@@ -734,19 +734,27 @@ list-style-type: none;
 <li>We only have one missing data point, which we can exclude because with only four columns, we cannot estimate missing data.</li>
 </ul>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">summary</span>(master)</span>
-<span id="cb2-2"><a href="#cb2-2"></a><span class="co">#&gt;    PIL_total       CESD_total   AUDIT_TOTAL_NEW  DAST_TOTAL_NEW </span></span>
-<span id="cb2-3"><a href="#cb2-3"></a><span class="co">#&gt;  Min.   : 60.0   Min.   : 0.0   Min.   : 0.000   Min.   :0.000  </span></span>
-<span id="cb2-4"><a href="#cb2-4"></a><span class="co">#&gt;  1st Qu.:103.0   1st Qu.: 7.0   1st Qu.: 2.000   1st Qu.:0.000  </span></span>
-<span id="cb2-5"><a href="#cb2-5"></a><span class="co">#&gt;  Median :111.0   Median :11.0   Median : 5.000   Median :0.000  </span></span>
-<span id="cb2-6"><a href="#cb2-6"></a><span class="co">#&gt;  Mean   :110.7   Mean   :13.2   Mean   : 6.807   Mean   :0.906  </span></span>
-<span id="cb2-7"><a href="#cb2-7"></a><span class="co">#&gt;  3rd Qu.:121.0   3rd Qu.:17.0   3rd Qu.:11.000   3rd Qu.:1.000  </span></span>
-<span id="cb2-8"><a href="#cb2-8"></a><span class="co">#&gt;  Max.   :138.0   Max.   :47.0   Max.   :31.000   Max.   :9.000  </span></span>
-<span id="cb2-9"><a href="#cb2-9"></a><span class="co">#&gt;                                                  NA&#39;s   :1</span></span>
-<span id="cb2-10"><a href="#cb2-10"></a>nomiss &lt;-<span class="st"> </span><span class="kw">na.omit</span>(master)</span>
-<span id="cb2-11"><a href="#cb2-11"></a><span class="kw">nrow</span>(master)</span>
-<span id="cb2-12"><a href="#cb2-12"></a><span class="co">#&gt; [1] 267</span></span>
-<span id="cb2-13"><a href="#cb2-13"></a><span class="kw">nrow</span>(nomiss)</span>
-<span id="cb2-14"><a href="#cb2-14"></a><span class="co">#&gt; [1] 266</span></span></code></pre></div>
+<span id="cb2-2"><a href="#cb2-2"></a><span class="co">#&gt;    PIL_total       CESD_total   AUDIT_TOTAL_NEW </span></span>
+<span id="cb2-3"><a href="#cb2-3"></a><span class="co">#&gt;  Min.   : 60.0   Min.   : 0.0   Min.   : 0.000  </span></span>
+<span id="cb2-4"><a href="#cb2-4"></a><span class="co">#&gt;  1st Qu.:103.0   1st Qu.: 7.0   1st Qu.: 2.000  </span></span>
+<span id="cb2-5"><a href="#cb2-5"></a><span class="co">#&gt;  Median :111.0   Median :11.0   Median : 5.000  </span></span>
+<span id="cb2-6"><a href="#cb2-6"></a><span class="co">#&gt;  Mean   :110.7   Mean   :13.2   Mean   : 6.807  </span></span>
+<span id="cb2-7"><a href="#cb2-7"></a><span class="co">#&gt;  3rd Qu.:121.0   3rd Qu.:17.0   3rd Qu.:11.000  </span></span>
+<span id="cb2-8"><a href="#cb2-8"></a><span class="co">#&gt;  Max.   :138.0   Max.   :47.0   Max.   :31.000  </span></span>
+<span id="cb2-9"><a href="#cb2-9"></a><span class="co">#&gt;                                                 </span></span>
+<span id="cb2-10"><a href="#cb2-10"></a><span class="co">#&gt;  DAST_TOTAL_NEW </span></span>
+<span id="cb2-11"><a href="#cb2-11"></a><span class="co">#&gt;  Min.   :0.000  </span></span>
+<span id="cb2-12"><a href="#cb2-12"></a><span class="co">#&gt;  1st Qu.:0.000  </span></span>
+<span id="cb2-13"><a href="#cb2-13"></a><span class="co">#&gt;  Median :0.000  </span></span>
+<span id="cb2-14"><a href="#cb2-14"></a><span class="co">#&gt;  Mean   :0.906  </span></span>
+<span id="cb2-15"><a href="#cb2-15"></a><span class="co">#&gt;  3rd Qu.:1.000  </span></span>
+<span id="cb2-16"><a href="#cb2-16"></a><span class="co">#&gt;  Max.   :9.000  </span></span>
+<span id="cb2-17"><a href="#cb2-17"></a><span class="co">#&gt;  NA&#39;s   :1</span></span>
+<span id="cb2-18"><a href="#cb2-18"></a>nomiss &lt;-<span class="st"> </span><span class="kw">na.omit</span>(master)</span>
+<span id="cb2-19"><a href="#cb2-19"></a><span class="kw">nrow</span>(master)</span>
+<span id="cb2-20"><a href="#cb2-20"></a><span class="co">#&gt; [1] 267</span></span>
+<span id="cb2-21"><a href="#cb2-21"></a><span class="kw">nrow</span>(nomiss)</span>
+<span id="cb2-22"><a href="#cb2-22"></a><span class="co">#&gt; [1] 266</span></span></code></pre></div>
 </div>
 <div id="example-outliers" class="slide section level2">
 <h1>Example: Outliers</h1>
@@ -870,28 +878,29 @@ list-style-type: none;
 <span id="cb9-9"><a href="#cb9-9"></a><span class="co">#&gt; -14.201  -4.927  -1.121   3.301  29.331 </span></span>
 <span id="cb9-10"><a href="#cb9-10"></a><span class="co">#&gt; </span></span>
 <span id="cb9-11"><a href="#cb9-11"></a><span class="co">#&gt; Coefficients:</span></span>
-<span id="cb9-12"><a href="#cb9-12"></a><span class="co">#&gt;                 Estimate Std. Error t value            Pr(&gt;|t|)</span></span>
-<span id="cb9-13"><a href="#cb9-13"></a><span class="co">#&gt; (Intercept)     55.42805    3.84395  14.420 &lt;0.0000000000000002</span></span>
-<span id="cb9-14"><a href="#cb9-14"></a><span class="co">#&gt; PIL_total       -0.38364    0.03339 -11.488 &lt;0.0000000000000002</span></span>
-<span id="cb9-15"><a href="#cb9-15"></a><span class="co">#&gt; AUDIT_TOTAL_NEW -0.11687    0.09102  -1.284               0.200</span></span>
-<span id="cb9-16"><a href="#cb9-16"></a><span class="co">#&gt; DAST_TOTAL_NEW   0.90399    0.41160   2.196               0.029</span></span>
-<span id="cb9-17"><a href="#cb9-17"></a><span class="co">#&gt;                    </span></span>
-<span id="cb9-18"><a href="#cb9-18"></a><span class="co">#&gt; (Intercept)     ***</span></span>
-<span id="cb9-19"><a href="#cb9-19"></a><span class="co">#&gt; PIL_total       ***</span></span>
-<span id="cb9-20"><a href="#cb9-20"></a><span class="co">#&gt; AUDIT_TOTAL_NEW    </span></span>
-<span id="cb9-21"><a href="#cb9-21"></a><span class="co">#&gt; DAST_TOTAL_NEW  *  </span></span>
+<span id="cb9-12"><a href="#cb9-12"></a><span class="co">#&gt;                 Estimate Std. Error t value</span></span>
+<span id="cb9-13"><a href="#cb9-13"></a><span class="co">#&gt; (Intercept)     55.42805    3.84395  14.420</span></span>
+<span id="cb9-14"><a href="#cb9-14"></a><span class="co">#&gt; PIL_total       -0.38364    0.03339 -11.488</span></span>
+<span id="cb9-15"><a href="#cb9-15"></a><span class="co">#&gt; AUDIT_TOTAL_NEW -0.11687    0.09102  -1.284</span></span>
+<span id="cb9-16"><a href="#cb9-16"></a><span class="co">#&gt; DAST_TOTAL_NEW   0.90399    0.41160   2.196</span></span>
+<span id="cb9-17"><a href="#cb9-17"></a><span class="co">#&gt;                            Pr(&gt;|t|)    </span></span>
+<span id="cb9-18"><a href="#cb9-18"></a><span class="co">#&gt; (Intercept)     &lt;0.0000000000000002 ***</span></span>
+<span id="cb9-19"><a href="#cb9-19"></a><span class="co">#&gt; PIL_total       &lt;0.0000000000000002 ***</span></span>
+<span id="cb9-20"><a href="#cb9-20"></a><span class="co">#&gt; AUDIT_TOTAL_NEW               0.200    </span></span>
+<span id="cb9-21"><a href="#cb9-21"></a><span class="co">#&gt; DAST_TOTAL_NEW                0.029 *  </span></span>
 <span id="cb9-22"><a href="#cb9-22"></a><span class="co">#&gt; ---</span></span>
-<span id="cb9-23"><a href="#cb9-23"></a><span class="co">#&gt; Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</span></span>
-<span id="cb9-24"><a href="#cb9-24"></a><span class="co">#&gt; </span></span>
-<span id="cb9-25"><a href="#cb9-25"></a><span class="co">#&gt; Residual standard error: 7.28 on 252 degrees of freedom</span></span>
-<span id="cb9-26"><a href="#cb9-26"></a><span class="co">#&gt; Multiple R-squared:  0.3651, Adjusted R-squared:  0.3575 </span></span>
-<span id="cb9-27"><a href="#cb9-27"></a><span class="co">#&gt; F-statistic:  48.3 on 3 and 252 DF,  p-value: &lt; 0.00000000000000022</span></span>
-<span id="cb9-28"><a href="#cb9-28"></a><span class="co">#&gt; </span></span>
-<span id="cb9-29"><a href="#cb9-29"></a><span class="co">#&gt; Correlation of Coefficients:</span></span>
-<span id="cb9-30"><a href="#cb9-30"></a><span class="co">#&gt;                 (Intercept) PIL_total AUDIT_TOTAL_NEW</span></span>
-<span id="cb9-31"><a href="#cb9-31"></a><span class="co">#&gt; PIL_total       -0.98                                </span></span>
-<span id="cb9-32"><a href="#cb9-32"></a><span class="co">#&gt; AUDIT_TOTAL_NEW -0.17        0.05                    </span></span>
-<span id="cb9-33"><a href="#cb9-33"></a><span class="co">#&gt; DAST_TOTAL_NEW  -0.13        0.11     -0.44</span></span></code></pre></div>
+<span id="cb9-23"><a href="#cb9-23"></a><span class="co">#&gt; Signif. codes:  </span></span>
+<span id="cb9-24"><a href="#cb9-24"></a><span class="co">#&gt; 0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</span></span>
+<span id="cb9-25"><a href="#cb9-25"></a><span class="co">#&gt; </span></span>
+<span id="cb9-26"><a href="#cb9-26"></a><span class="co">#&gt; Residual standard error: 7.28 on 252 degrees of freedom</span></span>
+<span id="cb9-27"><a href="#cb9-27"></a><span class="co">#&gt; Multiple R-squared:  0.3651, Adjusted R-squared:  0.3575 </span></span>
+<span id="cb9-28"><a href="#cb9-28"></a><span class="co">#&gt; F-statistic:  48.3 on 3 and 252 DF,  p-value: &lt; 0.00000000000000022</span></span>
+<span id="cb9-29"><a href="#cb9-29"></a><span class="co">#&gt; </span></span>
+<span id="cb9-30"><a href="#cb9-30"></a><span class="co">#&gt; Correlation of Coefficients:</span></span>
+<span id="cb9-31"><a href="#cb9-31"></a><span class="co">#&gt;                 (Intercept) PIL_total AUDIT_TOTAL_NEW</span></span>
+<span id="cb9-32"><a href="#cb9-32"></a><span class="co">#&gt; PIL_total       -0.98                                </span></span>
+<span id="cb9-33"><a href="#cb9-33"></a><span class="co">#&gt; AUDIT_TOTAL_NEW -0.17        0.05                    </span></span>
+<span id="cb9-34"><a href="#cb9-34"></a><span class="co">#&gt; DAST_TOTAL_NEW  -0.13        0.11     -0.44</span></span></code></pre></div>
 </div>
 <div id="example-assumption-set-up" class="slide section level2">
 <h1>Example: Assumption Set Up</h1>
@@ -946,28 +955,29 @@ list-style-type: none;
 <span id="cb14-9"><a href="#cb14-9"></a><span class="co">#&gt; -14.201  -4.927  -1.121   3.301  29.331 </span></span>
 <span id="cb14-10"><a href="#cb14-10"></a><span class="co">#&gt; </span></span>
 <span id="cb14-11"><a href="#cb14-11"></a><span class="co">#&gt; Coefficients:</span></span>
-<span id="cb14-12"><a href="#cb14-12"></a><span class="co">#&gt;                 Estimate Std. Error t value            Pr(&gt;|t|)</span></span>
-<span id="cb14-13"><a href="#cb14-13"></a><span class="co">#&gt; (Intercept)     55.42805    3.84395  14.420 &lt;0.0000000000000002</span></span>
-<span id="cb14-14"><a href="#cb14-14"></a><span class="co">#&gt; PIL_total       -0.38364    0.03339 -11.488 &lt;0.0000000000000002</span></span>
-<span id="cb14-15"><a href="#cb14-15"></a><span class="co">#&gt; AUDIT_TOTAL_NEW -0.11687    0.09102  -1.284               0.200</span></span>
-<span id="cb14-16"><a href="#cb14-16"></a><span class="co">#&gt; DAST_TOTAL_NEW   0.90399    0.41160   2.196               0.029</span></span>
-<span id="cb14-17"><a href="#cb14-17"></a><span class="co">#&gt;                    </span></span>
-<span id="cb14-18"><a href="#cb14-18"></a><span class="co">#&gt; (Intercept)     ***</span></span>
-<span id="cb14-19"><a href="#cb14-19"></a><span class="co">#&gt; PIL_total       ***</span></span>
-<span id="cb14-20"><a href="#cb14-20"></a><span class="co">#&gt; AUDIT_TOTAL_NEW    </span></span>
-<span id="cb14-21"><a href="#cb14-21"></a><span class="co">#&gt; DAST_TOTAL_NEW  *  </span></span>
+<span id="cb14-12"><a href="#cb14-12"></a><span class="co">#&gt;                 Estimate Std. Error t value</span></span>
+<span id="cb14-13"><a href="#cb14-13"></a><span class="co">#&gt; (Intercept)     55.42805    3.84395  14.420</span></span>
+<span id="cb14-14"><a href="#cb14-14"></a><span class="co">#&gt; PIL_total       -0.38364    0.03339 -11.488</span></span>
+<span id="cb14-15"><a href="#cb14-15"></a><span class="co">#&gt; AUDIT_TOTAL_NEW -0.11687    0.09102  -1.284</span></span>
+<span id="cb14-16"><a href="#cb14-16"></a><span class="co">#&gt; DAST_TOTAL_NEW   0.90399    0.41160   2.196</span></span>
+<span id="cb14-17"><a href="#cb14-17"></a><span class="co">#&gt;                            Pr(&gt;|t|)    </span></span>
+<span id="cb14-18"><a href="#cb14-18"></a><span class="co">#&gt; (Intercept)     &lt;0.0000000000000002 ***</span></span>
+<span id="cb14-19"><a href="#cb14-19"></a><span class="co">#&gt; PIL_total       &lt;0.0000000000000002 ***</span></span>
+<span id="cb14-20"><a href="#cb14-20"></a><span class="co">#&gt; AUDIT_TOTAL_NEW               0.200    </span></span>
+<span id="cb14-21"><a href="#cb14-21"></a><span class="co">#&gt; DAST_TOTAL_NEW                0.029 *  </span></span>
 <span id="cb14-22"><a href="#cb14-22"></a><span class="co">#&gt; ---</span></span>
-<span id="cb14-23"><a href="#cb14-23"></a><span class="co">#&gt; Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</span></span>
-<span id="cb14-24"><a href="#cb14-24"></a><span class="co">#&gt; </span></span>
-<span id="cb14-25"><a href="#cb14-25"></a><span class="co">#&gt; Residual standard error: 7.28 on 252 degrees of freedom</span></span>
-<span id="cb14-26"><a href="#cb14-26"></a><span class="co">#&gt; Multiple R-squared:  0.3651, Adjusted R-squared:  0.3575 </span></span>
-<span id="cb14-27"><a href="#cb14-27"></a><span class="co">#&gt; F-statistic:  48.3 on 3 and 252 DF,  p-value: &lt; 0.00000000000000022</span></span>
-<span id="cb14-28"><a href="#cb14-28"></a></span>
-<span id="cb14-29"><a href="#cb14-29"></a><span class="kw">library</span>(papaja)</span>
-<span id="cb14-30"><a href="#cb14-30"></a>apa_style &lt;-<span class="st"> </span><span class="kw">apa_print</span>(model2)</span>
-<span id="cb14-31"><a href="#cb14-31"></a>apa_style<span class="op">$</span>full_result<span class="op">$</span>modelfit</span>
-<span id="cb14-32"><a href="#cb14-32"></a><span class="co">#&gt; $r2</span></span>
-<span id="cb14-33"><a href="#cb14-33"></a><span class="co">#&gt; [1] &quot;$R^2 = .37$, 90\\% CI $[0.28$, $0.44]$, $F(3, 252) = 48.30$, $p &lt; .001$&quot;</span></span></code></pre></div>
+<span id="cb14-23"><a href="#cb14-23"></a><span class="co">#&gt; Signif. codes:  </span></span>
+<span id="cb14-24"><a href="#cb14-24"></a><span class="co">#&gt; 0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</span></span>
+<span id="cb14-25"><a href="#cb14-25"></a><span class="co">#&gt; </span></span>
+<span id="cb14-26"><a href="#cb14-26"></a><span class="co">#&gt; Residual standard error: 7.28 on 252 degrees of freedom</span></span>
+<span id="cb14-27"><a href="#cb14-27"></a><span class="co">#&gt; Multiple R-squared:  0.3651, Adjusted R-squared:  0.3575 </span></span>
+<span id="cb14-28"><a href="#cb14-28"></a><span class="co">#&gt; F-statistic:  48.3 on 3 and 252 DF,  p-value: &lt; 0.00000000000000022</span></span>
+<span id="cb14-29"><a href="#cb14-29"></a></span>
+<span id="cb14-30"><a href="#cb14-30"></a><span class="kw">library</span>(papaja)</span>
+<span id="cb14-31"><a href="#cb14-31"></a>apa_style &lt;-<span class="st"> </span><span class="kw">apa_print</span>(model2)</span>
+<span id="cb14-32"><a href="#cb14-32"></a>apa_style<span class="op">$</span>full_result<span class="op">$</span>modelfit</span>
+<span id="cb14-33"><a href="#cb14-33"></a><span class="co">#&gt; $r2</span></span>
+<span id="cb14-34"><a href="#cb14-34"></a><span class="co">#&gt; [1] &quot;$R^2 = .37$, 90\\% CI $[0.28$, $0.44]$, $F(3, 252) = 48.30$, $p &lt; .001$&quot;</span></span></code></pre></div>
 <ul>
 <li><span class="math inline">\(R^2 = .37\)</span>, 90% CI <span class="math inline">\([0.28\)</span>, <span class="math inline">\(0.44]\)</span>, <span class="math inline">\(F(3, 252) = 48.30\)</span>, <span class="math inline">\(p &lt; .001\)</span></li>
 </ul>
@@ -985,22 +995,23 @@ list-style-type: none;
 <span id="cb15-9"><a href="#cb15-9"></a><span class="co">#&gt; -14.201  -4.927  -1.121   3.301  29.331 </span></span>
 <span id="cb15-10"><a href="#cb15-10"></a><span class="co">#&gt; </span></span>
 <span id="cb15-11"><a href="#cb15-11"></a><span class="co">#&gt; Coefficients:</span></span>
-<span id="cb15-12"><a href="#cb15-12"></a><span class="co">#&gt;                 Estimate Std. Error t value            Pr(&gt;|t|)</span></span>
-<span id="cb15-13"><a href="#cb15-13"></a><span class="co">#&gt; (Intercept)     55.42805    3.84395  14.420 &lt;0.0000000000000002</span></span>
-<span id="cb15-14"><a href="#cb15-14"></a><span class="co">#&gt; PIL_total       -0.38364    0.03339 -11.488 &lt;0.0000000000000002</span></span>
-<span id="cb15-15"><a href="#cb15-15"></a><span class="co">#&gt; AUDIT_TOTAL_NEW -0.11687    0.09102  -1.284               0.200</span></span>
-<span id="cb15-16"><a href="#cb15-16"></a><span class="co">#&gt; DAST_TOTAL_NEW   0.90399    0.41160   2.196               0.029</span></span>
-<span id="cb15-17"><a href="#cb15-17"></a><span class="co">#&gt;                    </span></span>
-<span id="cb15-18"><a href="#cb15-18"></a><span class="co">#&gt; (Intercept)     ***</span></span>
-<span id="cb15-19"><a href="#cb15-19"></a><span class="co">#&gt; PIL_total       ***</span></span>
-<span id="cb15-20"><a href="#cb15-20"></a><span class="co">#&gt; AUDIT_TOTAL_NEW    </span></span>
-<span id="cb15-21"><a href="#cb15-21"></a><span class="co">#&gt; DAST_TOTAL_NEW  *  </span></span>
+<span id="cb15-12"><a href="#cb15-12"></a><span class="co">#&gt;                 Estimate Std. Error t value</span></span>
+<span id="cb15-13"><a href="#cb15-13"></a><span class="co">#&gt; (Intercept)     55.42805    3.84395  14.420</span></span>
+<span id="cb15-14"><a href="#cb15-14"></a><span class="co">#&gt; PIL_total       -0.38364    0.03339 -11.488</span></span>
+<span id="cb15-15"><a href="#cb15-15"></a><span class="co">#&gt; AUDIT_TOTAL_NEW -0.11687    0.09102  -1.284</span></span>
+<span id="cb15-16"><a href="#cb15-16"></a><span class="co">#&gt; DAST_TOTAL_NEW   0.90399    0.41160   2.196</span></span>
+<span id="cb15-17"><a href="#cb15-17"></a><span class="co">#&gt;                            Pr(&gt;|t|)    </span></span>
+<span id="cb15-18"><a href="#cb15-18"></a><span class="co">#&gt; (Intercept)     &lt;0.0000000000000002 ***</span></span>
+<span id="cb15-19"><a href="#cb15-19"></a><span class="co">#&gt; PIL_total       &lt;0.0000000000000002 ***</span></span>
+<span id="cb15-20"><a href="#cb15-20"></a><span class="co">#&gt; AUDIT_TOTAL_NEW               0.200    </span></span>
+<span id="cb15-21"><a href="#cb15-21"></a><span class="co">#&gt; DAST_TOTAL_NEW                0.029 *  </span></span>
 <span id="cb15-22"><a href="#cb15-22"></a><span class="co">#&gt; ---</span></span>
-<span id="cb15-23"><a href="#cb15-23"></a><span class="co">#&gt; Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</span></span>
-<span id="cb15-24"><a href="#cb15-24"></a><span class="co">#&gt; </span></span>
-<span id="cb15-25"><a href="#cb15-25"></a><span class="co">#&gt; Residual standard error: 7.28 on 252 degrees of freedom</span></span>
-<span id="cb15-26"><a href="#cb15-26"></a><span class="co">#&gt; Multiple R-squared:  0.3651, Adjusted R-squared:  0.3575 </span></span>
-<span id="cb15-27"><a href="#cb15-27"></a><span class="co">#&gt; F-statistic:  48.3 on 3 and 252 DF,  p-value: &lt; 0.00000000000000022</span></span></code></pre></div>
+<span id="cb15-23"><a href="#cb15-23"></a><span class="co">#&gt; Signif. codes:  </span></span>
+<span id="cb15-24"><a href="#cb15-24"></a><span class="co">#&gt; 0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</span></span>
+<span id="cb15-25"><a href="#cb15-25"></a><span class="co">#&gt; </span></span>
+<span id="cb15-26"><a href="#cb15-26"></a><span class="co">#&gt; Residual standard error: 7.28 on 252 degrees of freedom</span></span>
+<span id="cb15-27"><a href="#cb15-27"></a><span class="co">#&gt; Multiple R-squared:  0.3651, Adjusted R-squared:  0.3575 </span></span>
+<span id="cb15-28"><a href="#cb15-28"></a><span class="co">#&gt; F-statistic:  48.3 on 3 and 252 DF,  p-value: &lt; 0.00000000000000022</span></span></code></pre></div>
 </div>
 <div id="example-predictors-1" class="slide section level2">
 <h1>Example: Predictors</h1>
@@ -1078,16 +1089,16 @@ list-style-type: none;
 <div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a><span class="kw">library</span>(ppcor)</span>
 <span id="cb18-2"><a href="#cb18-2"></a>partials &lt;-<span class="st"> </span><span class="kw">pcor</span>(noout)</span>
 <span id="cb18-3"><a href="#cb18-3"></a>partials<span class="op">$</span>estimate<span class="op">^</span><span class="dv">2</span></span>
-<span id="cb18-4"><a href="#cb18-4"></a><span class="co">#&gt;                     PIL_total  CESD_total AUDIT_TOTAL_NEW</span></span>
-<span id="cb18-5"><a href="#cb18-5"></a><span class="co">#&gt; PIL_total       1.00000000000 0.343709973     0.007980553</span></span>
-<span id="cb18-6"><a href="#cb18-6"></a><span class="co">#&gt; CESD_total      0.34370997288 1.000000000     0.006499564</span></span>
-<span id="cb18-7"><a href="#cb18-7"></a><span class="co">#&gt; AUDIT_TOTAL_NEW 0.00798055333 0.006499564     1.000000000</span></span>
-<span id="cb18-8"><a href="#cb18-8"></a><span class="co">#&gt; DAST_TOTAL_NEW  0.00004885456 0.018782246     0.194332714</span></span>
-<span id="cb18-9"><a href="#cb18-9"></a><span class="co">#&gt;                 DAST_TOTAL_NEW</span></span>
-<span id="cb18-10"><a href="#cb18-10"></a><span class="co">#&gt; PIL_total        0.00004885456</span></span>
-<span id="cb18-11"><a href="#cb18-11"></a><span class="co">#&gt; CESD_total       0.01878224618</span></span>
-<span id="cb18-12"><a href="#cb18-12"></a><span class="co">#&gt; AUDIT_TOTAL_NEW  0.19433271415</span></span>
-<span id="cb18-13"><a href="#cb18-13"></a><span class="co">#&gt; DAST_TOTAL_NEW   1.00000000000</span></span></code></pre></div>
+<span id="cb18-4"><a href="#cb18-4"></a><span class="co">#&gt;                     PIL_total  CESD_total</span></span>
+<span id="cb18-5"><a href="#cb18-5"></a><span class="co">#&gt; PIL_total       1.00000000000 0.343709973</span></span>
+<span id="cb18-6"><a href="#cb18-6"></a><span class="co">#&gt; CESD_total      0.34370997288 1.000000000</span></span>
+<span id="cb18-7"><a href="#cb18-7"></a><span class="co">#&gt; AUDIT_TOTAL_NEW 0.00798055333 0.006499564</span></span>
+<span id="cb18-8"><a href="#cb18-8"></a><span class="co">#&gt; DAST_TOTAL_NEW  0.00004885456 0.018782246</span></span>
+<span id="cb18-9"><a href="#cb18-9"></a><span class="co">#&gt;                 AUDIT_TOTAL_NEW DAST_TOTAL_NEW</span></span>
+<span id="cb18-10"><a href="#cb18-10"></a><span class="co">#&gt; PIL_total           0.007980553  0.00004885456</span></span>
+<span id="cb18-11"><a href="#cb18-11"></a><span class="co">#&gt; CESD_total          0.006499564  0.01878224618</span></span>
+<span id="cb18-12"><a href="#cb18-12"></a><span class="co">#&gt; AUDIT_TOTAL_NEW     1.000000000  0.19433271415</span></span>
+<span id="cb18-13"><a href="#cb18-13"></a><span class="co">#&gt; DAST_TOTAL_NEW      0.194332714  1.00000000000</span></span></code></pre></div>
 </div>
 <div id="example-hierarchical-regression" class="slide section level2">
 <h1>Example: Hierarchical Regression</h1>
@@ -1181,10 +1192,10 @@ list-style-type: none;
 <span id="cb20-9"><a href="#cb20-9"></a><span class="co">#&gt; [1] 18</span></span>
 <span id="cb20-10"><a href="#cb20-10"></a><span class="co">#&gt; </span></span>
 <span id="cb20-11"><a href="#cb20-11"></a><span class="co">#&gt; $labels</span></span>
-<span id="cb20-12"><a href="#cb20-12"></a><span class="co">#&gt;    No Treatment         Placebo Seroxat (Paxil)         Effexor </span></span>
-<span id="cb20-13"><a href="#cb20-13"></a><span class="co">#&gt;               0               1               2               3 </span></span>
-<span id="cb20-14"><a href="#cb20-14"></a><span class="co">#&gt;         Cheerup </span></span>
-<span id="cb20-15"><a href="#cb20-15"></a><span class="co">#&gt;               4</span></span>
+<span id="cb20-12"><a href="#cb20-12"></a><span class="co">#&gt;    No Treatment         Placebo Seroxat (Paxil) </span></span>
+<span id="cb20-13"><a href="#cb20-13"></a><span class="co">#&gt;               0               1               2 </span></span>
+<span id="cb20-14"><a href="#cb20-14"></a><span class="co">#&gt;         Effexor         Cheerup </span></span>
+<span id="cb20-15"><a href="#cb20-15"></a><span class="co">#&gt;               3               4</span></span>
 <span id="cb20-16"><a href="#cb20-16"></a>hdata<span class="op">$</span>treat &lt;-<span class="st"> </span><span class="kw">factor</span>(hdata<span class="op">$</span>treat,</span>
 <span id="cb20-17"><a href="#cb20-17"></a>                     <span class="dt">levels =</span> <span class="dv">0</span><span class="op">:</span><span class="dv">4</span>,</span>
 <span id="cb20-18"><a href="#cb20-18"></a>                     <span class="dt">labels =</span> <span class="kw">c</span>(<span class="st">&quot;No Treatment&quot;</span>, <span class="st">&quot;Placebo&quot;</span>, <span class="st">&quot;Paxil&quot;</span>,</span>
@@ -1211,15 +1222,19 @@ list-style-type: none;
 <span id="cb21-9"><a href="#cb21-9"></a><span class="co">#&gt; -6.5120 -1.9028 -0.2193  2.0544  6.7958 </span></span>
 <span id="cb21-10"><a href="#cb21-10"></a><span class="co">#&gt; </span></span>
 <span id="cb21-11"><a href="#cb21-11"></a><span class="co">#&gt; Coefficients:</span></span>
-<span id="cb21-12"><a href="#cb21-12"></a><span class="co">#&gt;               Estimate Std. Error t value            Pr(&gt;|t|)    </span></span>
-<span id="cb21-13"><a href="#cb21-13"></a><span class="co">#&gt; (Intercept)   11.00363    0.84477  13.026 &lt;0.0000000000000002 ***</span></span>
-<span id="cb21-14"><a href="#cb21-14"></a><span class="co">#&gt; familyhistory  0.15313    0.05254   2.915              0.0054 ** </span></span>
-<span id="cb21-15"><a href="#cb21-15"></a><span class="co">#&gt; ---</span></span>
-<span id="cb21-16"><a href="#cb21-16"></a><span class="co">#&gt; Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</span></span>
-<span id="cb21-17"><a href="#cb21-17"></a><span class="co">#&gt; </span></span>
-<span id="cb21-18"><a href="#cb21-18"></a><span class="co">#&gt; Residual standard error: 3.133 on 48 degrees of freedom</span></span>
-<span id="cb21-19"><a href="#cb21-19"></a><span class="co">#&gt; Multiple R-squared:  0.1504, Adjusted R-squared:  0.1327 </span></span>
-<span id="cb21-20"><a href="#cb21-20"></a><span class="co">#&gt; F-statistic: 8.495 on 1 and 48 DF,  p-value: 0.005396</span></span></code></pre></div>
+<span id="cb21-12"><a href="#cb21-12"></a><span class="co">#&gt;               Estimate Std. Error t value</span></span>
+<span id="cb21-13"><a href="#cb21-13"></a><span class="co">#&gt; (Intercept)   11.00363    0.84477  13.026</span></span>
+<span id="cb21-14"><a href="#cb21-14"></a><span class="co">#&gt; familyhistory  0.15313    0.05254   2.915</span></span>
+<span id="cb21-15"><a href="#cb21-15"></a><span class="co">#&gt;                          Pr(&gt;|t|)    </span></span>
+<span id="cb21-16"><a href="#cb21-16"></a><span class="co">#&gt; (Intercept)   &lt;0.0000000000000002 ***</span></span>
+<span id="cb21-17"><a href="#cb21-17"></a><span class="co">#&gt; familyhistory              0.0054 ** </span></span>
+<span id="cb21-18"><a href="#cb21-18"></a><span class="co">#&gt; ---</span></span>
+<span id="cb21-19"><a href="#cb21-19"></a><span class="co">#&gt; Signif. codes:  </span></span>
+<span id="cb21-20"><a href="#cb21-20"></a><span class="co">#&gt; 0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</span></span>
+<span id="cb21-21"><a href="#cb21-21"></a><span class="co">#&gt; </span></span>
+<span id="cb21-22"><a href="#cb21-22"></a><span class="co">#&gt; Residual standard error: 3.133 on 48 degrees of freedom</span></span>
+<span id="cb21-23"><a href="#cb21-23"></a><span class="co">#&gt; Multiple R-squared:  0.1504, Adjusted R-squared:  0.1327 </span></span>
+<span id="cb21-24"><a href="#cb21-24"></a><span class="co">#&gt; F-statistic: 8.495 on 1 and 48 DF,  p-value: 0.005396</span></span></code></pre></div>
 </div>
 <div id="example-hierarchical-regression-dummy-coding-3" class="slide section level2">
 <h1>Example: Hierarchical Regression + Dummy Coding</h1>
@@ -1242,19 +1257,27 @@ list-style-type: none;
 <span id="cb22-9"><a href="#cb22-9"></a><span class="co">#&gt; -5.7908 -1.6690  0.0508  1.6674  5.4108 </span></span>
 <span id="cb22-10"><a href="#cb22-10"></a><span class="co">#&gt; </span></span>
 <span id="cb22-11"><a href="#cb22-11"></a><span class="co">#&gt; Coefficients:</span></span>
-<span id="cb22-12"><a href="#cb22-12"></a><span class="co">#&gt;               Estimate Std. Error t value             Pr(&gt;|t|)    </span></span>
-<span id="cb22-13"><a href="#cb22-13"></a><span class="co">#&gt; (Intercept)   13.98816    1.09637  12.759 &lt; 0.0000000000000002 ***</span></span>
-<span id="cb22-14"><a href="#cb22-14"></a><span class="co">#&gt; familyhistory  0.13513    0.05088   2.656             0.010973 *  </span></span>
-<span id="cb22-15"><a href="#cb22-15"></a><span class="co">#&gt; treatPlacebo  -4.09905    1.21381  -3.377             0.001542 ** </span></span>
-<span id="cb22-16"><a href="#cb22-16"></a><span class="co">#&gt; treatPaxil    -2.03744    1.22146  -1.668             0.102411    </span></span>
-<span id="cb22-17"><a href="#cb22-17"></a><span class="co">#&gt; treatEffexor  -2.59078    1.26984  -2.040             0.047356 *  </span></span>
-<span id="cb22-18"><a href="#cb22-18"></a><span class="co">#&gt; treatCheerup  -4.96339    1.22489  -4.052             0.000203 ***</span></span>
-<span id="cb22-19"><a href="#cb22-19"></a><span class="co">#&gt; ---</span></span>
-<span id="cb22-20"><a href="#cb22-20"></a><span class="co">#&gt; Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</span></span>
-<span id="cb22-21"><a href="#cb22-21"></a><span class="co">#&gt; </span></span>
-<span id="cb22-22"><a href="#cb22-22"></a><span class="co">#&gt; Residual standard error: 2.714 on 44 degrees of freedom</span></span>
-<span id="cb22-23"><a href="#cb22-23"></a><span class="co">#&gt; Multiple R-squared:  0.4154, Adjusted R-squared:  0.349 </span></span>
-<span id="cb22-24"><a href="#cb22-24"></a><span class="co">#&gt; F-statistic: 6.254 on 5 and 44 DF,  p-value: 0.0001832</span></span></code></pre></div>
+<span id="cb22-12"><a href="#cb22-12"></a><span class="co">#&gt;               Estimate Std. Error t value</span></span>
+<span id="cb22-13"><a href="#cb22-13"></a><span class="co">#&gt; (Intercept)   13.98816    1.09637  12.759</span></span>
+<span id="cb22-14"><a href="#cb22-14"></a><span class="co">#&gt; familyhistory  0.13513    0.05088   2.656</span></span>
+<span id="cb22-15"><a href="#cb22-15"></a><span class="co">#&gt; treatPlacebo  -4.09905    1.21381  -3.377</span></span>
+<span id="cb22-16"><a href="#cb22-16"></a><span class="co">#&gt; treatPaxil    -2.03744    1.22146  -1.668</span></span>
+<span id="cb22-17"><a href="#cb22-17"></a><span class="co">#&gt; treatEffexor  -2.59078    1.26984  -2.040</span></span>
+<span id="cb22-18"><a href="#cb22-18"></a><span class="co">#&gt; treatCheerup  -4.96339    1.22489  -4.052</span></span>
+<span id="cb22-19"><a href="#cb22-19"></a><span class="co">#&gt;                           Pr(&gt;|t|)    </span></span>
+<span id="cb22-20"><a href="#cb22-20"></a><span class="co">#&gt; (Intercept)   &lt; 0.0000000000000002 ***</span></span>
+<span id="cb22-21"><a href="#cb22-21"></a><span class="co">#&gt; familyhistory             0.010973 *  </span></span>
+<span id="cb22-22"><a href="#cb22-22"></a><span class="co">#&gt; treatPlacebo              0.001542 ** </span></span>
+<span id="cb22-23"><a href="#cb22-23"></a><span class="co">#&gt; treatPaxil                0.102411    </span></span>
+<span id="cb22-24"><a href="#cb22-24"></a><span class="co">#&gt; treatEffexor              0.047356 *  </span></span>
+<span id="cb22-25"><a href="#cb22-25"></a><span class="co">#&gt; treatCheerup              0.000203 ***</span></span>
+<span id="cb22-26"><a href="#cb22-26"></a><span class="co">#&gt; ---</span></span>
+<span id="cb22-27"><a href="#cb22-27"></a><span class="co">#&gt; Signif. codes:  </span></span>
+<span id="cb22-28"><a href="#cb22-28"></a><span class="co">#&gt; 0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</span></span>
+<span id="cb22-29"><a href="#cb22-29"></a><span class="co">#&gt; </span></span>
+<span id="cb22-30"><a href="#cb22-30"></a><span class="co">#&gt; Residual standard error: 2.714 on 44 degrees of freedom</span></span>
+<span id="cb22-31"><a href="#cb22-31"></a><span class="co">#&gt; Multiple R-squared:  0.4154, Adjusted R-squared:  0.349 </span></span>
+<span id="cb22-32"><a href="#cb22-32"></a><span class="co">#&gt; F-statistic: 6.254 on 5 and 44 DF,  p-value: 0.0001832</span></span></code></pre></div>
 </div>
 <div id="example-hierarchical-regression-dummy-coding-4" class="slide section level2">
 <h1>Example: Hierarchical Regression + Dummy Coding</h1>
@@ -1273,7 +1296,8 @@ list-style-type: none;
 <span id="cb23-7"><a href="#cb23-7"></a><span class="co">#&gt; 1     48 471.12                                </span></span>
 <span id="cb23-8"><a href="#cb23-8"></a><span class="co">#&gt; 2     44 324.13  4    146.99 4.9883 0.002102 **</span></span>
 <span id="cb23-9"><a href="#cb23-9"></a><span class="co">#&gt; ---</span></span>
-<span id="cb23-10"><a href="#cb23-10"></a><span class="co">#&gt; Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</span></span></code></pre></div>
+<span id="cb23-10"><a href="#cb23-10"></a><span class="co">#&gt; Signif. codes:  </span></span>
+<span id="cb23-11"><a href="#cb23-11"></a><span class="co">#&gt; 0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</span></span></code></pre></div>
 </div>
 <div id="example-hierarchical-regression-dummy-coding-5" class="slide section level2">
 <h1>Example: Hierarchical Regression + Dummy Coding</h1>
@@ -1300,15 +1324,23 @@ list-style-type: none;
 #&gt; -5.7908 -1.6690  0.0508  1.6674  5.4108 
 #&gt; 
 #&gt; Coefficients:
-#&gt;               Estimate Std. Error t value             Pr(&gt;|t|)    
-#&gt; (Intercept)   13.98816    1.09637  12.759 &lt; 0.0000000000000002 ***
-#&gt; familyhistory  0.13513    0.05088   2.656             0.010973 *  
-#&gt; treatPlacebo  -4.09905    1.21381  -3.377             0.001542 ** 
-#&gt; treatPaxil    -2.03744    1.22146  -1.668             0.102411    
-#&gt; treatEffexor  -2.59078    1.26984  -2.040             0.047356 *  
-#&gt; treatCheerup  -4.96339    1.22489  -4.052             0.000203 ***
+#&gt;               Estimate Std. Error t value
+#&gt; (Intercept)   13.98816    1.09637  12.759
+#&gt; familyhistory  0.13513    0.05088   2.656
+#&gt; treatPlacebo  -4.09905    1.21381  -3.377
+#&gt; treatPaxil    -2.03744    1.22146  -1.668
+#&gt; treatEffexor  -2.59078    1.26984  -2.040
+#&gt; treatCheerup  -4.96339    1.22489  -4.052
+#&gt;                           Pr(&gt;|t|)    
+#&gt; (Intercept)   &lt; 0.0000000000000002 ***
+#&gt; familyhistory             0.010973 *  
+#&gt; treatPlacebo              0.001542 ** 
+#&gt; treatPaxil                0.102411    
+#&gt; treatEffexor              0.047356 *  
+#&gt; treatCheerup              0.000203 ***
 #&gt; ---
-#&gt; Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+#&gt; Signif. codes:  
+#&gt; 0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 #&gt; 
 #&gt; Residual standard error: 2.714 on 44 degrees of freedom
 #&gt; Multiple R-squared:  0.4154, Adjusted R-squared:  0.349 
