@@ -1,7 +1,7 @@
 ---
 title: "Correlation"
 output: rmarkdown::slidy_presentation
-description: >
+description: > 
   This vignette includes the lecture slides for the correlation section of the course (part 8/12).
 vignette: >
   %\VignetteIndexEntry{"Correlation"}
@@ -145,11 +145,13 @@ $$SD^2 = \frac {\sum(X_i-\bar{X})^2}{N-1}$$
 - Or we could write it like this:
 
 $$SD^2 = \frac {\sum(X_i-\bar{X})(X_i-\bar{X})}{N-1}$$
+
 ## Revision of Variance
 
 - **Covariance** is similar - it tells is by how much scores on two variables differ from their respective means.
 
 $$Cov(x,y) = \frac {\sum(X_i-\bar{X})(Y_i-\bar{Y})}{N-1} $$
+
 ## Revision of Variance: Calculating Variance 
 
 ```{r}
@@ -181,9 +183,9 @@ $$r = \frac{Cov(x,y)}{S_xS_y}$$
 
 $$r = \frac{\sum(X_i-\bar{X})(Y_i-\bar{Y})}{(N-1)S_xS_y} $$
 
-- Basically, *r* values have the model + error built into one number.
-- We can just look at *r* to determine "model fit" or strength of relationship.
+- We can just look at *r* to determine the strength of relationship.
 - We can also calculate the confidence interval or standard error for *r*. It has traditionally not been quite as popular because of the annoyance of calculating it. *R* makes this easy!
+- We can use this confidence interval to assess model fit. 
 
 ## The Correlation Coefficient
 
@@ -197,6 +199,8 @@ $$r = \frac{\sum(X_i-\bar{X})(Y_i-\bar{Y})}{(N-1)S_xS_y} $$
     - .3 = medium effect
     - .5 = large effect
     - Remember, that these are guidelines.
+
+## The Correlation Coefficient
     
 - Coefficient of determination, $r^2$
 
@@ -220,7 +224,7 @@ cor(exam$Revise, exam$Exam)
 
 ## Correlation: Example
 
-- Correlation is both an effect size and a statistical test. What should I check for data screening? 
+- Correlation is an effect size and can be used for statistical testing. What should I check for data screening? 
 
     - Accuracy
     - Missing (pairwise exclusion may be useful)
@@ -238,10 +242,14 @@ cor(exam$Revise, exam$Exam)
     - H0: The correlation between exam performance and exam revisions is zero. 
     - H1: The correlation between exam performance and exam revisions is not zero. 
 
+## Correlation: Understanding the NHST
+
 - We can use many different forms of this type of set up:
 
     - H0: The correlation between exam performance and exam revisions is less than .1 
     - H1: The correlation between exam performance and exam revisions is greater than .1
+    
+## Correlation: Understanding the NHST
     
 - The main "rule" is that the two hypotheses are opposites and cover the entire range of possibilities. For example, here's an incompatible set up:
 
@@ -252,7 +260,7 @@ cor(exam$Revise, exam$Exam)
 ## Correlation: How to Calculate
 
 - We've already used `cor()` during data screening. 
-- But what about *p* values for our statistical test? 
+- But what about *p* values for our statistical test? What does a *p* value tell us again?
 - Also, what about confidence intervals and other types of correlation? 
 
 ## Correlation: How to Calculate
@@ -374,6 +382,7 @@ with(liar, cor.test(Creativity, Position, method = "kendall"))
 liar$Novice2 <- as.numeric(as.factor(liar$Novice))
 str(liar) #we had to factor because of the character variable
 with(liar, cor.test(Creativity, Novice2))
+plot(liar$Creativity, liar$Novice2)
 ```
 
 ## Comparing Correlations
@@ -460,4 +469,4 @@ spcor(exam[ , -c(1)], method = "pearson")
     - There are way more correlations than just Pearson
     - We can compare correlations
     - We can somewhat control for the third variable problem with partial and semi-partial correlations
-    - Correlation is a test statistic and an effect size
+    - Correlation more than an effect size

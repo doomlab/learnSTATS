@@ -1,74 +1,243 @@
 ---
 title: "Basic Statistics"
+tutorial:
+  id: "basics"
 output: learnr::tutorial
 runtime: shiny_prerendered
+description: Let's begin to practice our statistical skills by calculating basic statistics using R. 
 ---
 
-```{r setup, include=FALSE}
+```{r setup, include=FALSE, mesage = F}
 library(learnr)
+library(learnSTATS)
+data(basics_data)
+library(faux)
+
+basics_data <- sim_df(basics_data, 
+                      sample(100:200, 1),
+                      between = "where")
+
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
+## Introduction to Basic Statistics
 
-## Topic 1
+In this example, we will expand your *R* skills into some basic level statistics. You will explore hypothesis testing, as well as calculate frequency distributions, z-scores, and more. The learning objectives include:
 
-### Exercise 
-
-*Here's a simple exercise with an empty code chunk provided for entering the answer.*
-
-Write the R code required to add two plus two:
-
-```{r two-plus-two, exercise=TRUE}
-
-```
-
-### Exercise with Code
-
-*Here's an exercise with some prepopulated code as well as `exercise.lines = 5` to provide a bit more initial room to work.*
-
-Now write a function that adds any two numbers and then call it:
-
-```{r add-function, exercise=TRUE, exercise.lines = 5}
-add <- function() {
+- Introduction to data analytics
+- What is data analytics and the definition of predictive, descriptive and prescriptive analytics
+- Theories, hypothesis, and collecting data
+- What is the research process?
+- What are qualitative and quantitative data?
+- Identifying and measurement of variables
   
-}
-```
+## Introduction to Data Analytics
 
-## Topic 2
+The following videos are provided as a lecture for the class material. In this case, there is not a technical assignment for the Introduction to Data Analytics material. The lectures are provided here as part of the flow for the course. You can view the lecture notes within *R* using `vignette("Introduction-Data-Analytics", "learnSTATS")`. You can skip these pages if you are in class to go on to the assignment. 
 
-### Exercise with Hint
+<iframe width="560" height="315" src="https://www.youtube.com/embed/NDVVTFUJtcA" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-*Here's an exercise where the chunk is pre-evaulated via the `exercise.eval` option (so the user can see the default output we'd like them to customize). We also add a "hint" to the correct solution via the chunk immediate below labeled `print-limit-hint`.*
+## Introduction to Data Analytics Video Part 2
 
-Modify the following code to limit the number of rows printed to 5:
+<iframe width="560" height="315" src="https://www.youtube.com/embed/t3hE0uTTjVU" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-```{r print-limit, exercise=TRUE, exercise.eval=TRUE}
-mtcars
-```
+## Introduction to Data Analytics Video Part 3
 
-```{r print-limit-hint}
-head(mtcars)
-```
+<iframe width="560" height="315" src="https://www.youtube.com/embed/z0B0ZPiEN_8" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-### Quiz
+## Basic Statistics Video Part 1
 
-*You can include any number of single or multiple choice questions as a quiz. Use the `question` function to define a question and the `quiz` function for grouping multiple questions together.*
+These videos are part of the materials for this learnr assignment. You can view the lecture notes within *R* using `vignette("Basic-Stats-Concepts", "learnSTATS")`.
 
-Some questions to verify that you understand the purposes of various base and recommended R packages:
+<iframe width="560" height="315" src="https://www.youtube.com/embed/CqpsS5M9avk" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-```{r quiz}
-quiz(
-  question("Which package contains functions for installing other R packages?",
-    answer("base"),
-    answer("tools"),
-    answer("utils", correct = TRUE),
-    answer("codetools")
-  ),
-  question("Which of the R packages listed below are used to create plots?",
-    answer("lattice", correct = TRUE),
-    answer("tools"),
-    answer("stats"),
-    answer("grid", correct = TRUE)
-  )
+## Basic Statistics Video Part 2
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/JiGRPh49H9A" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+## Exercises
+
+In this next section, you will answer questions using the *R* code blocks provided. Be sure to use the `solution` option to see the answer if you need it!
+
+Please enter your name for submission. If you do not need to submit, just type anything you'd like in this box. 
+
+```{r details}
+question_text(
+  "Student Name:",
+  answer("Your Name", correct = TRUE),
+  incorrect = "Thanks!",
+  try_again_button = "Modify your answer",
+  allow_retry = TRUE
 )
 ```
+
+## Part 1: Variables, Hypothesis, Designs
+
+*Title:* Offshore outsourcing: Its advantages, disadvantages, and effect on the American economy
+
+*Abstract*: The United States has trained some of the world's best computer programmers and technology experts. Despite all of this training, many businesses do not have a full understanding of information technology. As the importance of technology in the business world grows, many companies are wasting money on extensive technology projects. When problems arise, they expect that further investment will solve these issues. To prevent such problems, many companies have begun to outsource these functions in an effort to reduce costs and improve performance. The majority of these outsourced information technology and call center jobs are going to low-wage countries, such as India and China where English-speaking college graduates are being hired at substantially lower wages. The purpose of this study is to evaluate the positive and negative aspects of offshore outsourcing with a focus on the outsourcing markets in India and China, arguably the two most popular destinations for outsourcers. The cost savings associated with offshore outsourcing will be evaluated in relation to the security risks and other weakness of offshore outsourcing. In addition, an analysis of the number of jobs sent overseas versus the number of jobs created in the United States will be used to assess the effects that outsourcing is having on the American economy and job market. Finally, the value of jobs lost from the American economy will be compared to the value of jobs created. The goal of these analyses is to create a clear picture of this increasingly popular business strategy.
+
+Answer the following questions about the abstract above:
+
+```{r hypothesis-open}
+question_text(
+  "What is a potential hypothesis of the researchers?",
+  answer("Many correct answers.", correct = TRUE),
+  incorrect = "There are many right answers for this question, except copying this output!",
+  try_again_button = "Modify your answer",
+  allow_retry = TRUE
+)
+```
+
+```{r independent-open}
+question_text(
+  "What is one of the independent variables?",
+  answer("There are likely three independent variables.", correct = TRUE),
+  incorrect = "Potentially you could identify country as a variable (there are more right answers as well)!",
+  try_again_button = "Modify your answer",
+  allow_retry = TRUE
+)
+```
+
+```{r independenttype-open}
+question_text(
+  "What type of variable is the independent variable?",
+  answer("Categorical", correct = TRUE),
+  incorrect = "More than likely, the independent variable is categorical.",
+  try_again_button = "Modify your answer",
+  allow_retry = TRUE
+)
+```
+
+```{r dependent-open}
+question_text(
+  "What is one of the dependent variables?",
+  answer("Several potential variables can be listed.", correct = TRUE),
+  incorrect = "Several potential variables can be listed, but one example is cost savings.",
+  try_again_button = "Modify your answer",
+  allow_retry = TRUE
+)
+```
+
+```{r dependenttype-open}
+question_text(
+  "What type of variable is the dependent variable?",
+  answer("Generally, our dependent variables are continuous.", correct = TRUE),
+  incorrect = "Generally, our dependent variables are continuous.",
+  try_again_button = "Modify your answer",
+  allow_retry = TRUE
+)
+```
+
+```{r research-open}
+question_text(
+  "What type of research design is the experiment and why?",
+  answer("Correlational because you didn't manipulate the variables.", correct = TRUE),
+  incorrect = "Hint: research designs are correlational or experimental.",
+  try_again_button = "Modify your answer",
+  allow_retry = TRUE
+)
+```
+
+```{r datacollection-open}
+question_text(
+  "What type of data collection did the researchers use?",
+  answer("Repeated measures", correct = TRUE),
+  incorrect = "Hint: data collection is repeated measures or between subjects.",
+  try_again_button = "Modify your answer",
+  allow_retry = TRUE
+)
+```
+
+## Calculate Statistics
+
+The `basics_data` dataframe has been loaded for you. In the dataframe, you are provided with the following columns: 
+
+- ID: an ID number for each business.
+- Where: where the jobs were outsourced to. 
+- Jobs: the percent of outsourced jobs for a call center.
+- Cost: one calculation of the cost savings for the business.
+- Cost2: a separate way to calculate cost savings for the business.
+
+```{r echo = TRUE}
+names(basics_data)
+```
+
+Create a frequency table the places the jobs were outsources to using the `table()` function.
+
+```{r freqtable, exercise = TRUE}
+
+```
+
+```{r freqtable-solution}
+table(basics_data$where)
+```
+
+Create histograms of the two types of cost savings using `hist()` and include the `breaks` argument to help create a readable histogram. Try `breaks = 15`. Note, there should be two histograms!
+
+```{r histograms, exercise = TRUE}
+
+```
+
+```{r histograms-solution}
+hist(basics_data$cost, breaks = 15)
+
+hist(basics_data$cost2, breaks = 15)
+```
+
+Calculate the skewness and kurtosis values for your cost savings using the `psych` library and the `describe()` function. Remember, you have to load the library first!
+
+```{r skew, exercise = TRUE}
+
+```
+
+```{r skew-solution}
+library(psych)
+describe(basics_data$cost)
+describe(basics_data$cost2)
+```
+
+Hit the > button on the right of the describe output to see more information about each variable to answer these questions. 
+
+```{r interpretskew-open}
+question_text(
+  "Which of these two variables is more normal?",
+  answer("cost depends on randomization", correct = TRUE),
+  incorrect = "Hint: Skew and Excess Kurtosis are closest to zero when normal.",
+  try_again_button = "Modify your answer",
+  allow_retry = TRUE
+)
+```
+
+```{r means-open}
+question_text(
+  "Which of these two cost saving solutions is more effective?",
+  answer("cost", correct = TRUE),
+  incorrect = "Hint: You want cost savings to be the higher number. Saving more money is better!",
+  try_again_button = "Modify your answer",
+  allow_retry = TRUE
+)
+```
+
+```{r sd-open}
+question_text(
+  "Which of these two cost saving solutions is more variable?",
+  answer("Depends on your interpretation.", correct = TRUE),
+  incorrect = "Hint: You could use a measure of dispersion to make this choice.",
+  try_again_button = "Modify your answer",
+  allow_retry = TRUE
+)
+```
+
+## Submit
+
+On this page, you will create the submission for your instructor (if necessary). Please copy this report and submit using a Word document or paste into the text window of your submission page. Click "Generate Submission" to get your work! 
+
+```{r context="server"}
+encoder_logic()
+```
+
+```{r encode, echo=FALSE}
+encoder_ui()
+```
+

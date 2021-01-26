@@ -50,3 +50,5 @@ Suggests:
 Remotes: 
     doomlab/MeMoBootR,
     crsh/papaja
+Depends: 
+    R (>= 2.10)
