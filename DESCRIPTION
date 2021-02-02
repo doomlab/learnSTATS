@@ -46,7 +46,8 @@ Suggests:
     ppcor,
     quantmod,
     pwr,
-    reshape
+    reshape,
+    faux
 Remotes: 
     doomlab/MeMoBootR,
     crsh/papaja

@@ -1,74 +1,284 @@
 ---
 title: "More Statistics"
+tutorial:
+  id: "moreStats"
 output: learnr::tutorial
 runtime: shiny_prerendered
+description: Let's now move on from basic statistics to building our first models using the mean and standard error. 
 ---
 
-```{r setup, include=FALSE}
+```{r setup, include=FALSE, mesage = F}
 library(learnr)
+library(learnSTATS)
+library(faux)
+
+##simulated data
+between <- list(where_bought = c(online = "Online",
+                                 store = "Store"),
+                who_bought = c(different = "Different", 
+                               same = "Same"))
+within <- list(rm_var = c("money", "time"))
+
+##pattern is money, then time, so keep the numbers larger in the first one
+mu <- data.frame(
+  online_different = c(25, 10),
+  online_same = c(25, 10),
+  store_different = c(35, 15),
+  store_same = c(35, 20), 
+  row.names = within$rm_var)
+  
+more_data <- sim_design(within, between, 
+                        n = sample(25:50, 1), 
+                        mu = mu, 
+                        sd = 3, 
+                        r = .10,
+                        interactive = FALSE,
+                        empirical = FALSE, 
+                        plot = FALSE)
+
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
+## Introduction to More Statistics
 
-## Topic 1
+In this example, we will begin to build our first statistical models. You will learn how to use `apply` family of functions to calculate our descriptive statistics. The learning objectives include:
 
-### Exercise 
-
-*Here's a simple exercise with an empty code chunk provided for entering the answer.*
-
-Write the R code required to add two plus two:
-
-```{r two-plus-two, exercise=TRUE}
-
-```
-
-### Exercise with Code
-
-*Here's an exercise with some prepopulated code as well as `exercise.lines = 5` to provide a bit more initial room to work.*
-
-Now write a function that adds any two numbers and then call it:
-
-```{r add-function, exercise=TRUE, exercise.lines = 5}
-add <- function() {
+- Know what a statistical model is and why we use them
+- Measures of central tendency, dispersion, frequency distributions
+- Know what the 'fit' of a model is and why it is important
+- Distinguish models for samples and populations
   
-}
-```
+## More Statistics Video Part 1
 
-## Topic 2
+The following videos are provided as a lecture for the class material. The lectures are provided here as part of the flow for the course. You can view the lecture notes within *R* using `vignette("More-Stats-Concepts", "learnSTATS")`. You can skip these pages if you are in class to go on to the assignment. 
 
-### Exercise with Hint
+<iframe width="560" height="315" src="https://www.youtube.com/embed/o5a7wQXtAe0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-*Here's an exercise where the chunk is pre-evaulated via the `exercise.eval` option (so the user can see the default output we'd like them to customize). We also add a "hint" to the correct solution via the chunk immediate below labeled `print-limit-hint`.*
+## More Statistics Video Part 2
 
-Modify the following code to limit the number of rows printed to 5:
+<iframe width="560" height="315" src="https://www.youtube.com/embed/mmRejGb3cYg" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-```{r print-limit, exercise=TRUE, exercise.eval=TRUE}
-mtcars
-```
+## Exercises
 
-```{r print-limit-hint}
-head(mtcars)
-```
+In this next section, you will answer questions using the *R* code blocks provided. Be sure to use the `solution` option to see the answer if you need it!
 
-### Quiz
+Please enter your name for submission. If you do not need to submit, just type anything you'd like in this box. 
 
-*You can include any number of single or multiple choice questions as a quiz. Use the `question` function to define a question and the `quiz` function for grouping multiple questions together.*
-
-Some questions to verify that you understand the purposes of various base and recommended R packages:
-
-```{r quiz}
-quiz(
-  question("Which package contains functions for installing other R packages?",
-    answer("base"),
-    answer("tools"),
-    answer("utils", correct = TRUE),
-    answer("codetools")
-  ),
-  question("Which of the R packages listed below are used to create plots?",
-    answer("lattice", correct = TRUE),
-    answer("tools"),
-    answer("stats"),
-    answer("grid", correct = TRUE)
-  )
+```{r details}
+question_text(
+  "Student Name:",
+  answer("Your Name", correct = TRUE),
+  incorrect = "Thanks!",
+  try_again_button = "Modify your answer",
+  allow_retry = TRUE
 )
 ```
+
+## Experiment Design
+
+*Title*: Consumer Pseudo-Showrooming and Omni-Channel Product Placement Strategies
+
+*Abstract*: Recent advances in information technologies (IT) have powered the merger of online and offline retail channels into one single platform. Modern consumers frequently switch between online and offline channels when they navigate through various stages of the decision journey, motivating multichannel sellers to develop omni-channel strategies that optimize their overall profit. This study examines consumers' cross-channel search behavior of "pseudo-showrooming," or the consumer behavior of inspecting one product at a seller's physical store before buying a related but different product at the same seller’s online store, and investigates how such consumer behavior allows a multichannel seller to achieve better coordination between its online and offline arms through optimal product placement strategies.
+
+Participants in the study were grouped into the following categories: 
+
+  - `Where_bought`: Where they ended up purchasing an item: bought at the store, bought online. 
+  - `Who_bought`: If they bought from the same or a different retailer. 
+
+Each participant was then measured on:
+
+  - `Money`: how much money they spent in dollars on the product.
+  - `Time`: how much time (in minutes) they spent looking at the product online. 
+  
+```{r null-open}
+question_text(
+  "What would be one possible null hypothesis based on this study?",
+  answer("Many right answers.", correct = TRUE),
+  incorrect = "Hint: remember that your null hypothesis should indicate how the IV relates to the DV AND says that there is NO effect.",
+  try_again_button = "Modify your answer",
+  allow_retry = TRUE
+)
+```
+
+```{r alt-open}
+question_text(
+  "What would be one possible alternative hypothesis based on this study?",
+  answer("Many right answers.", correct = TRUE),
+  incorrect = "Hint: remember that your alternative hypothesis should indicate how the IV relates to the DV AND says that there IS an effect.",
+  try_again_button = "Modify your answer",
+  allow_retry = TRUE
+)
+```
+
+```{r type1-open}
+question_text(
+  "Give an example of type 1 error based on this study (do not just define, explain in context how it might have happened here).",
+  answer("Many right answers.", correct = TRUE),
+  incorrect = "Hint: you could say something like we said there was a difference in time spent based on where they bought the item, but in reality there was no time difference (type 1 = say there is an effect, when there actually is not)",
+  try_again_button = "Modify your answer",
+  allow_retry = TRUE
+)
+```
+
+```{r sample-open}
+question_text(
+  "Who are they sampling in this study?",
+  answer("Consumers.", correct = TRUE),
+  incorrect = "Hint: you could say shoppers, consumers, clients, etc.",
+  try_again_button = "Modify your answer",
+  allow_retry = TRUE
+)
+```
+
+## Build Models
+
+Here's the `head()` and `summary()` of our example data:
+
+```{r echo = TRUE}
+head(more_data)
+summary(more_data)
+```
+
+```{r levels-open}
+question_text(
+  "For the where bought variable, what are the groups tested?",
+  answer("online, store", correct = TRUE),
+  incorrect = "Hint: look at the summary output to see the groups examined.",
+  try_again_button = "Modify your answer",
+  allow_retry = TRUE
+)
+```
+
+Often, groups for each individual variable in a study are called *levels*. When you combined two variables, you create *conditions*. For our study, we have four conditions by combining `where_bought` and `who_bought`: 
+
+- Bought online, different retailer
+- Bought in store, different retailer
+- Bought online, same retailer
+- Bought in store, same retailer
+
+We can use the `tapply()` to calculate the means, standard deviations, and standard errors for each group. The code is started for you below, and you should fill in each comment (#) with the code to get the means for the `money` dependent variable when `where_bought` and `who_bought` variable. 
+
+```{r mean, exercise = TRUE}
+M <- tapply(
+  #dependent variable
+  list(more_data$where_bought, more_data$who_bought),
+  #function name
+)
+
+M
+```
+
+```{r mean-solution}
+M <- tapply(
+  more_data$money,
+  list(more_data$where_bought, more_data$who_bought),
+  mean
+)
+
+M
+```
+
+Modify the `tapply()` code from above to calculate the standard deviation for each condition.
+
+```{r sd, exercise = TRUE}
+SD <- tapply()
+
+SD
+```
+
+```{r sd-solution}
+SD <- tapply(
+  more_data$money,
+  list(more_data$where_bought, more_data$who_bought),
+  sd
+)
+
+SD
+```
+
+```{r bestfit-open}
+question_text(
+  "Which condition appears to have the best model fit using the mean as the model (i.e. smallest error) for money spent?",
+  answer("online, same", correct = TRUE),
+  incorrect = "Hint: look for the smallest standard deviation to see which model fits best. ",
+  try_again_button = "Modify your answer",
+  allow_retry = TRUE
+)
+```
+
+## Effect Sizes and Confidence Intervals
+
+Use the `MOTE` library to calculate the effect size for the difference between money spent for store versus online when bought at the same retailer. Your `M` and `SD` are printed how to help you figure out how to grab the right numbers. We've also included sample size `N` like the lecture example to allow you to complete the question. 
+
+```{r echo = F}
+M <- tapply(more_data$money, 
+             list(more_data$where_bought, more_data$who_bought),
+             mean)
+
+SD <- tapply(more_data$money, 
+             list(more_data$where_bought, more_data$who_bought),
+             sd)
+```
+
+```{r echo = TRUE}
+M
+SD
+N <- tapply(more_data$money, 
+             list(more_data$where_bought, more_data$who_bought),
+             length)
+N
+```
+
+For the `MOTE` library, we need to grab only one value at a time to fill in. By saving `M`, we can treat it like a small dataframe or matrix. Therefore, `M[1,1]` is the mean score for bought online at a different retailer. In the code below, fill in the `[]` with the numbers for store, same retailer as the first mean, sd, and sample size. Then fill in online, same retailer for the second mean, sd, and sample size.
+
+The effect size and confidence intervals will print out once you've filled it in correctly!
+
+```{r MOTE, exercise = TRUE}
+library(MOTE)
+
+effect <- d.ind.t(m1 = M[], m2 = M[],
+                  sd1 = SD[], sd2 = SD[],
+                  n1 = N[], n2 = N[], a = .05)
+effect$d
+
+effect$M1low #lower confidence interval
+effect$M1 #mean
+effect$M1high #upper confidence interval
+```
+
+```{r MOTE-solution}
+library(MOTE)
+
+effect <- d.ind.t(m1 = M[2,2], m2 = M[1,2],
+                  sd1 = SD[2,2], sd2 = SD[1,2],
+                  n1 = N[2,2], n2 = N[1,2], a = .05)
+effect$d
+
+effect$M1low #lower confidence interval
+effect$M1 #mean
+effect$M1high #upper confidence interval
+```
+
+```{r effectsize-open}
+question_text(
+  "What can you determine about the effect size in the experiment - is it small, medium or large?",
+  answer("large", correct = TRUE),
+  incorrect = "Hint: small is .2, medium is .5, and large is .8.",
+  try_again_button = "Modify your answer",
+  allow_retry = TRUE
+)
+```
+
+## Submit
+
+On this page, you will create the submission for your instructor (if necessary). Please copy this report and submit using a Word document or paste into the text window of your submission page. Click "Generate Submission" to get your work! 
+
+```{r context="server"}
+encoder_logic()
+```
+
+```{r encode, echo=FALSE}
+encoder_ui()
+```
+
+

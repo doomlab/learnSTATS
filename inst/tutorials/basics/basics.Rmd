@@ -71,7 +71,7 @@ question_text(
 )
 ```
 
-## Part 1: Variables, Hypothesis, Designs
+## Variables, Hypothesis, Designs
 
 *Title:* Offshore outsourcing: Its advantages, disadvantages, and effect on the American economy
 
