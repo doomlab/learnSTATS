@@ -1,74 +1,77 @@
 ---
 title: "Correlation"
+tutorial:
+  id: "correlation"
 output: learnr::tutorial
 runtime: shiny_prerendered
+description: Let's now move on from basic statistics to building our first models using the mean and standard error. 
 ---
 
-```{r setup, include=FALSE}
+```{r setup, include=FALSE, mesage = F}
 library(learnr)
+library(learnSTATS)
+library(faux)
+
+##original data
+lab7_original <- read.csv(paste("07_lab_correlation/07_data", current_data, sep = ""))
+summary(lab7_original)
+
+lab7_update <- sim_df(lab7_original, #data frame
+                      how_many, #how many of each group
+                      between = "gender",
+                      seed = this_year_seed) 
+
+##add a bit more noise
+lab7_update$temporality <- lab7_update$temporality * small_changes[1]
+lab7_update$expectability <- round(lab7_update$expectability * small_changes[2], 0)
+lab7_update$relativity <- lab7_update$relativity * small_changes[3]
+lab7_update$positive <- lab7_update$positive * small_changes[4]
+
+
+
+lab7_update <- messy(lab7_update, 
+                     prop = .03,
+                     3:6,
+                     replace = NA)
+
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
+## Introduction to More Statistics
 
-## Topic 1
+In this example, we will begin to build our first statistical models. You will learn how to use `apply` family of functions to calculate our descriptive statistics. The learning objectives include:
 
-### Exercise 
-
-*Here's a simple exercise with an empty code chunk provided for entering the answer.*
-
-Write the R code required to add two plus two:
-
-```{r two-plus-two, exercise=TRUE}
-
-```
-
-### Exercise with Code
-
-*Here's an exercise with some prepopulated code as well as `exercise.lines = 5` to provide a bit more initial room to work.*
-
-Now write a function that adds any two numbers and then call it:
-
-```{r add-function, exercise=TRUE, exercise.lines = 5}
-add <- function() {
+- Know what a statistical model is and why we use them
+- Measures of central tendency, dispersion, frequency distributions
+- Know what the 'fit' of a model is and why it is important
+- Distinguish models for samples and populations
   
-}
-```
 
-## Topic 2
+https://youtu.be/LPlDgz6CNBE
+https://youtu.be/zD5op6nHSpU
 
-### Exercise with Hint
+## More Statistics Video Part 1
 
-*Here's an exercise where the chunk is pre-evaulated via the `exercise.eval` option (so the user can see the default output we'd like them to customize). We also add a "hint" to the correct solution via the chunk immediate below labeled `print-limit-hint`.*
+The following videos are provided as a lecture for the class material. The lectures are provided here as part of the flow for the course. You can view the lecture notes within *R* using `vignette("More-Stats-Concepts", "learnSTATS")`. You can skip these pages if you are in class to go on to the assignment. 
 
-Modify the following code to limit the number of rows printed to 5:
+<iframe width="560" height="315" src="https://www.youtube.com/embed/o5a7wQXtAe0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-```{r print-limit, exercise=TRUE, exercise.eval=TRUE}
-mtcars
-```
+## More Statistics Video Part 2
 
-```{r print-limit-hint}
-head(mtcars)
-```
+<iframe width="560" height="315" src="https://www.youtube.com/embed/mmRejGb3cYg" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-### Quiz
+## Exercises
 
-*You can include any number of single or multiple choice questions as a quiz. Use the `question` function to define a question and the `quiz` function for grouping multiple questions together.*
+In this next section, you will answer questions using the *R* code blocks provided. Be sure to use the `solution` option to see the answer if you need it!
 
-Some questions to verify that you understand the purposes of various base and recommended R packages:
+Please enter your name for submission. If you do not need to submit, just type anything you'd like in this box. 
 
-```{r quiz}
-quiz(
-  question("Which package contains functions for installing other R packages?",
-    answer("base"),
-    answer("tools"),
-    answer("utils", correct = TRUE),
-    answer("codetools")
-  ),
-  question("Which of the R packages listed below are used to create plots?",
-    answer("lattice", correct = TRUE),
-    answer("tools"),
-    answer("stats"),
-    answer("grid", correct = TRUE)
-  )
+```{r details}
+question_text(
+  "Student Name:",
+  answer("Your Name", correct = TRUE),
+  incorrect = "Thanks!",
+  try_again_button = "Modify your answer",
+  allow_retry = TRUE
 )
 ```

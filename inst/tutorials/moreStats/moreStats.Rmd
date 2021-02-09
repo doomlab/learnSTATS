@@ -233,6 +233,20 @@ For the `MOTE` library, we need to grab only one value at a time to fill in. By 
 
 The effect size and confidence intervals will print out once you've filled it in correctly!
 
+```{r MOTE-setup}
+M <- tapply(more_data$money, 
+             list(more_data$where_bought, more_data$who_bought),
+             mean)
+
+SD <- tapply(more_data$money, 
+             list(more_data$where_bought, more_data$who_bought),
+             sd)
+
+N <- tapply(more_data$money, 
+             list(more_data$where_bought, more_data$who_bought),
+             length)
+```
+
 ```{r MOTE, exercise = TRUE}
 library(MOTE)
 

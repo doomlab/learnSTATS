@@ -1,74 +1,242 @@
 ---
 title: "Data Screening 2"
+tutorial:
+  id: "datascreen2"
 output: learnr::tutorial
 runtime: shiny_prerendered
+description: This tutorial covers the second half of data screening for the assumptions of additivity, linearity, normality, homogeneity, and homoscedasticity. 
 ---
 
-```{r setup, include=FALSE}
+```{r setup, include=FALSE, mesage = F}
 library(learnr)
+library(learnSTATS)
+library(faux)
+library(mice)
+library(corrplot)
+data("datascreen_data")
+
+datascreen_data$Gender <- factor(datascreen_data$Gender, 
+                               levels = 1:2)
+datascreen_data$Group <- factor(datascreen_data$Group, 
+                              levels = 1:2)
+datascreen_data <- subset(datascreen_data, 
+                        complete.cases(datascreen_data))
+
+datascreen_data <- sim_df(datascreen_data, #data frame
+                      sample(50:100, 1), #how many of each group
+                      between = c("Gender", "Group")) 
+
+datascreen_data <- messy(datascreen_data, 
+                     prop = .02,
+                     2:6,
+                     replace = NA)
+
+datascreen_data <- datascreen_data[ , -1]
+
+notypos <- datascreen_data
+notypos$Gender <- factor(notypos$Gender, 
+                        levels = c(1,2), 
+                        labels = c("Male", "Female"))
+notypos$Group <- factor(notypos$Group, 
+                       levels = c(1,2), 
+                       labels = c("Control", "Experimental"))
+notypos[ , 3:5][ notypos[ , 3:5] > 125 ] <- NA
+notypos[ , 3:5][ notypos[ , 3:5] < 2 ] <- NA
+percentmiss <- function(x){ sum(is.na(x))/length(x) *100 }
+missing <- apply(notypos, 1, percentmiss)
+replacerows <- subset(notypos, missing <= 25)
+norows <- subset(notypos, missing > 25)
+replacecols <- replacerows[ , c(3:5)]
+nocols <- replacerows[ , -c(3:5)]
+tempnomiss <- mice(replacecols, print = FALSE)
+nomiss <- complete(tempnomiss, 1)
+allcolumns <- cbind(nocols, nomiss)
+mahal <- mahalanobis(allcolumns[ , -c(1,2)], 
+                    colMeans(allcolumns[ , -c(1,2)], na.rm = TRUE),
+                    cov(allcolumns[ , -c(1,2)], use="pairwise.complete.obs"))
+cutoff <- qchisq(1 - .001, ncol(allcolumns[ , -c(1,2)])) 
+noout <- subset(allcolumns, mahal < cutoff)
+
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
+## Data Screening Assumptions
 
-## Topic 1
+Last week, we worked on data screening for accuracy, missing, and outliers. This week you will get to practice screening for assumptions of parametric tests. We will work through how to use *R* to clean up our dataset from last week, testing the following assumptions:
 
-### Exercise 
+- Additivity
+- Normality
+- Linearity
+- Homogeneity
+- Homoscedasticity
 
-*Here's a simple exercise with an empty code chunk provided for entering the answer.*
+## Data Screening Week 2 Video Part 1
 
-Write the R code required to add two plus two:
+The following videos are provided as a lecture for the class material. The lectures are provided here as part of the flow for the course. You can view the lecture notes within *R* using `vignette("Data-Screen-2", "learnSTATS")`. You can skip these pages if you are in class to go on to the assignment. 
 
-```{r two-plus-two, exercise=TRUE}
+<iframe width="560" height="315" src="https://www.youtube.com/embed/yv0X1qyNTXQ" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-```
+## Data Screening Week 2 Video Part 2
 
-### Exercise with Code
+<iframe width="560" height="315" src="https://www.youtube.com/embed/ab-c7kSMelM" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-*Here's an exercise with some prepopulated code as well as `exercise.lines = 5` to provide a bit more initial room to work.*
+## Exercises
 
-Now write a function that adds any two numbers and then call it:
+In this next section, you will answer questions using the *R* code blocks provided. Be sure to use the `solution` option to see the answer if you need it!
 
-```{r add-function, exercise=TRUE, exercise.lines = 5}
-add <- function() {
-  
-}
-```
+Please enter your name for submission. If you do not need to submit, just type anything you'd like in this box. 
 
-## Topic 2
-
-### Exercise with Hint
-
-*Here's an exercise where the chunk is pre-evaulated via the `exercise.eval` option (so the user can see the default output we'd like them to customize). We also add a "hint" to the correct solution via the chunk immediate below labeled `print-limit-hint`.*
-
-Modify the following code to limit the number of rows printed to 5:
-
-```{r print-limit, exercise=TRUE, exercise.eval=TRUE}
-mtcars
-```
-
-```{r print-limit-hint}
-head(mtcars)
-```
-
-### Quiz
-
-*You can include any number of single or multiple choice questions as a quiz. Use the `question` function to define a question and the `quiz` function for grouping multiple questions together.*
-
-Some questions to verify that you understand the purposes of various base and recommended R packages:
-
-```{r quiz}
-quiz(
-  question("Which package contains functions for installing other R packages?",
-    answer("base"),
-    answer("tools"),
-    answer("utils", correct = TRUE),
-    answer("codetools")
-  ),
-  question("Which of the R packages listed below are used to create plots?",
-    answer("lattice", correct = TRUE),
-    answer("tools"),
-    answer("stats"),
-    answer("grid", correct = TRUE)
-  )
+```{r details}
+question_text(
+  "Student Name:",
+  answer("Your Name", correct = TRUE),
+  incorrect = "Thanks!",
+  try_again_button = "Modify your answer",
+  allow_retry = TRUE
 )
 ```
+
+## Dataset
+
+A large number employees participated in a company-wide experiment to test if an educational program would be effective at increasing employee satisfaction. Half of the employees were assigned to be in the control group, while the other half were assigned to be in the experimental group. The experimental group was the only group that received the educational intervention. All groups were given an employee satisfaction scale at time one to measure their initial levels of satisfaction. The same scale was then used half way through the program and at the end of the program. The goal of the experiment was to assess satisfaction to see if it increased across the measurements during the program as compared to a control group. 
+
+a) Gender (1 = male, 2 = female)
+b) Group (1 = control group, 2 = experimental group)
+c) 3 satisfaction scores, ranging from 2-125 points. Decimals are possible! The control group was measured at the same three time points, but did not take part in the educational program. 
+    i) Before the program
+    ii)	Half way through the program 
+    iii) After the program 
+
+```{r echo = TRUE}
+head(datascreen_data)
+```
+
+## Additivity
+
+Using our `noout` dataset from the last steps of our outlier check, let's screen our continuous variables for additivity. Create a correlation table and visualization using the `corrplot` library. 
+    
+```{r additivity, exercise = TRUE}
+library(corrplot)
+```
+
+```{r additivity-solution}
+library(corrplot)
+corrplot(cor(noout[ , c(3:5)]))
+```
+
+```{r additivity-open}
+question_text(
+  "Do you meet the assumption for additivity?",
+  answer("Yes!", correct = TRUE),
+  incorrect = "Yes, because all of our correlations are below .9.",
+  try_again_button = "Modify your answer",
+  allow_retry = TRUE
+)
+```
+
+## Linearity
+
+To get started, we need to create our fake regression and other variables that help us assess the rest of the assumptions. Using the code from class, create the random variable, fake regression, standardized residuals, and standardized fit values. Finally, add the `qqnorm` plot to assess for linearity. 
+
+```{r linearity, exercise = TRUE}
+##set up for all assumptions
+
+##linearity
+
+```
+
+```{r linearity-solution}
+random <- rchisq(nrow(noout), 7)
+fake <- lm(random~., data = noout)
+standardized <- rstudent(fake)
+fitvalues <- scale(fake$fitted.values)
+
+qqnorm(standardized)
+abline(0,1)
+```
+
+```{r linearity-open}
+question_text(
+  "Do you meet the assumption for linearity?",
+  answer("Yes!", correct = TRUE),
+  incorrect = "While each graph is different, likely yes because the dots line up on the line between -2 and 2.",
+  try_again_button = "Modify your answer",
+  allow_retry = TRUE
+)
+```
+
+## Normality
+
+In this section, let's assess multivariate normality by examining a `hist()` on our standardized residuals. 
+
+```{r normality-setup}
+random <- rchisq(nrow(noout), 7)
+fake <- lm(random~., data = noout)
+standardized <- rstudent(fake)
+fitvalues <- scale(fake$fitted.values)
+```
+
+
+```{r normality, exercise = TRUE}
+
+```
+
+```{r normality-solution}
+hist(standardized, breaks = 15)
+```
+
+```{r normality-open}
+question_text(
+  "Do you meet the assumption for normality?",
+  answer("Yes!", correct = TRUE),
+  incorrect = "While each graph is different, you may have a little bit of positive skew.",
+  try_again_button = "Modify your answer",
+  allow_retry = TRUE
+)
+```
+
+## Homogeneity/Homoscedasticity
+
+Last, let's include our residual scatterplot of our fitvalues and standardized residuals. Use this plot to help answer your final two assumptions!
+
+```{r homog-setup}
+random <- rchisq(nrow(noout), 7)
+fake <- lm(random~., data = noout)
+standardized <- rstudent(fake)
+fitvalues <- scale(fake$fitted.values)
+```
+
+
+```{r homog, exercise = TRUE}
+
+```
+
+```{r homog-solution}
+plot(fitvalues, standardized) 
+abline(0,0)
+abline(v = 0)
+```
+
+```{r homog-open}
+question_text(
+  "Do you meet the assumption for homogeneity and homoscedasticity?",
+  answer("Yes!", correct = TRUE),
+  incorrect = "Everyone's graph will look different. You should check the spread of the dots around zero and the spread of the dots across the whole graph. Explain your answer: yes because it's all evenly spread or no because it looks like a giant triangle.",
+  try_again_button = "Modify your answer",
+  allow_retry = TRUE
+)
+```
+
+## Submit
+
+On this page, you will create the submission for your instructor (if necessary). Please copy this report and submit using a Word document or paste into the text window of your submission page. Click "Generate Submission" to get your work! 
+
+```{r context="server"}
+encoder_logic()
+```
+
+```{r encode, echo=FALSE}
+encoder_ui()
+```
+
+

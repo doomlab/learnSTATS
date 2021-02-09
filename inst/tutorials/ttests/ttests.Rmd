@@ -9,6 +9,8 @@ library(learnr)
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
+https://youtu.be/Qo0CHm2V-lc
+https://youtu.be/ej-hXzgef04
 
 ## Topic 1
 

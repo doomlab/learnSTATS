@@ -1,74 +1,309 @@
 ---
 title: "Data Screening"
+tutorial:
+  id: "datascreen"
 output: learnr::tutorial
 runtime: shiny_prerendered
+description: This tutorial covers the first half of data screening for accuracy, missing data, and outliers. 
 ---
 
-```{r setup, include=FALSE}
+```{r setup, include=FALSE, mesage = F}
 library(learnr)
+library(learnSTATS)
+library(faux)
+library(mice)
+data("datascreen_data")
+
+datascreen_data$Gender <- factor(datascreen_data$Gender, 
+                               levels = 1:2)
+datascreen_data$Group <- factor(datascreen_data$Group, 
+                              levels = 1:2)
+datascreen_data <- subset(datascreen_data, 
+                        complete.cases(datascreen_data))
+
+datascreen_data <- sim_df(datascreen_data, #data frame
+                      sample(50:100, 1), #how many of each group
+                      between = c("Gender", "Group")) 
+
+datascreen_data <- messy(datascreen_data, 
+                     prop = .02,
+                     2:6,
+                     replace = NA)
+
+datascreen_data <- datascreen_data[ , -1]
+
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
+## Introduction to Data Screening
 
-## Topic 1
+Now that we know how to use a little bit of *R* and a little bit of statistic theory, let's dive into the most critical component of any project: Data Screening. Remember: messy data produces messy answers. In this section, we cover: 
 
-### Exercise 
+- What is accuracy and error?
+- How to handle missing values
+- How to deal with outliers
 
-*Here's a simple exercise with an empty code chunk provided for entering the answer.*
+## Data Screening Video Part 1
 
-Write the R code required to add two plus two:
+The following videos are provided as a lecture for the class material. The lectures are provided here as part of the flow for the course. You can view the lecture notes within *R* using `vignette("Data-Screen-1", "learnSTATS")`. You can skip these pages if you are in class to go on to the assignment. 
 
-```{r two-plus-two, exercise=TRUE}
+<iframe width="560" height="315" src="https://www.youtube.com/embed/ZBk99pCVDto" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-```
+## Data Screening Video Part 2
 
-### Exercise with Code
+<iframe width="560" height="315" src="https://www.youtube.com/embed/pEjW8Svn280" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-*Here's an exercise with some prepopulated code as well as `exercise.lines = 5` to provide a bit more initial room to work.*
+## Data Screening Video Part 3
 
-Now write a function that adds any two numbers and then call it:
+<iframe width="560" height="315" src="https://www.youtube.com/embed/eHKODnpJyEI" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-```{r add-function, exercise=TRUE, exercise.lines = 5}
-add <- function() {
-  
-}
-```
+## Exercises
 
-## Topic 2
+In this next section, you will answer questions using the *R* code blocks provided. Be sure to use the `solution` option to see the answer if you need it!
 
-### Exercise with Hint
+Please enter your name for submission. If you do not need to submit, just type anything you'd like in this box. 
 
-*Here's an exercise where the chunk is pre-evaulated via the `exercise.eval` option (so the user can see the default output we'd like them to customize). We also add a "hint" to the correct solution via the chunk immediate below labeled `print-limit-hint`.*
-
-Modify the following code to limit the number of rows printed to 5:
-
-```{r print-limit, exercise=TRUE, exercise.eval=TRUE}
-mtcars
-```
-
-```{r print-limit-hint}
-head(mtcars)
-```
-
-### Quiz
-
-*You can include any number of single or multiple choice questions as a quiz. Use the `question` function to define a question and the `quiz` function for grouping multiple questions together.*
-
-Some questions to verify that you understand the purposes of various base and recommended R packages:
-
-```{r quiz}
-quiz(
-  question("Which package contains functions for installing other R packages?",
-    answer("base"),
-    answer("tools"),
-    answer("utils", correct = TRUE),
-    answer("codetools")
-  ),
-  question("Which of the R packages listed below are used to create plots?",
-    answer("lattice", correct = TRUE),
-    answer("tools"),
-    answer("stats"),
-    answer("grid", correct = TRUE)
-  )
+```{r details}
+question_text(
+  "Student Name:",
+  answer("Your Name", correct = TRUE),
+  incorrect = "Thanks!",
+  try_again_button = "Modify your answer",
+  allow_retry = TRUE
 )
 ```
+
+## Dataset
+
+A large number employees participated in a company-wide experiment to test if an educational program would be effective at increasing employee satisfaction. Half of the employees were assigned to be in the control group, while the other half were assigned to be in the experimental group. The experimental group was the only group that received the educational intervention. All groups were given an employee satisfaction scale at time one to measure their initial levels of satisfaction. The same scale was then used half way through the program and at the end of the program. The goal of the experiment was to assess satisfaction to see if it increased across the measurements during the program as compared to a control group. 
+
+a) Gender (1 = male, 2 = female)
+b) Group (1 = control group, 2 = experimental group)
+c) 3 satisfaction scores, ranging from 2-125 points. Decimals are possible! The control group was measured at the same three time points, but did not take part in the educational program. 
+    i) Before the program
+    ii)	Half way through the program 
+    iii) After the program 
+
+```{r echo = TRUE}
+head(datascreen_data)
+```
+
+## Accuracy in Categorical Variables
+
+First, let's fix the categorical variables for their issues. We should factor each variable to accurately denote the proper labels (you can go back to the previous page to view this information again). We will save this dataset as `notypos` to get started. 
+    
+```{r accuracy, exercise = TRUE}
+notypos <- datascreen_data
+
+```
+
+```{r accuracy-solution}
+notypos <- datascreen_data
+notypos$Gender <- factor(notypos$Gender, 
+                        levels = c(1,2), 
+                        labels = c("Male", "Female"))
+notypos$Group <- factor(notypos$Group, 
+                       levels = c(1,2), 
+                       labels = c("Control", "Experimental"))
+```
+
+## Accuracy in Continuous Variables
+
+Next, we should check our three continuous variables for issues with their ranges. These variables range from 2 to 100. Fix those values below and use `summary()` to make sure things look correct. 
+
+```{r accuracy2-setup}
+notypos <- datascreen_data
+notypos$Gender <- factor(notypos$Gender, 
+                        levels = c(1,2), 
+                        labels = c("Male", "Female"))
+notypos$Group <- factor(notypos$Group, 
+                       levels = c(1,2), 
+                       labels = c("Control", "Experimental"))
+```
+
+```{r accuracy2, exercise = TRUE}
+
+```
+
+
+```{r accuracy2-solution}
+##more than one way to do this, but here's an example
+notypos[ , 3:5][ notypos[ , 3:5] > 125 ] <- NA
+notypos[ , 3:5][ notypos[ , 3:5] < 2 ] <- NA
+summary(notypos)
+```
+
+## Missing data
+
+As we saw on our previous summary, we have missing data. Our normal rule for estimating missing data is 5%, but for this exercise, let's fill in anyone who is missing data at less than 25% of their missing data. 
+
+Start by creating a table of missing values by rows and subset out the participants who do not have at least 25% of their data. 
+
+```{r missingrows-setup}
+notypos <- datascreen_data
+notypos$Gender <- factor(notypos$Gender, 
+                        levels = c(1,2), 
+                        labels = c("Male", "Female"))
+notypos$Group <- factor(notypos$Group, 
+                       levels = c(1,2), 
+                       labels = c("Control", "Experimental"))
+notypos[ , 3:5][ notypos[ , 3:5] > 125 ] <- NA
+notypos[ , 3:5][ notypos[ , 3:5] < 2 ] <- NA
+```
+
+```{r missingrows, exercise = TRUE}
+##include the percent missing function
+
+##use apply to get the missing values
+
+##use a table to see the missing values
+
+##create replacement rows 
+replacerows <- subset()
+
+##create no replacement rows
+norows <- subset()
+```
+
+```{r missingrows-solution}
+##include the percent missing function
+percentmiss <- function(x){ sum(is.na(x))/length(x) *100 }
+##use apply to get the missing values
+missing <- apply(notypos, 1, percentmiss)
+##use a table to see the missing values
+table(missing)
+##create replacement rows 
+replacerows <- subset(notypos, missing <= 25)
+##create no replacement rows
+norows <- subset(notypos, missing > 25)
+```
+
+Next, we will filter out columns that we should not replace. We should check each column for missing data percents for less than 5% and exclude categorical variables. Due to the randomization of the data for this assignment, you should estimate missing data for Begin, Middle, and After. 
+
+```{r missingcols-setup}
+notypos <- datascreen_data
+notypos$Gender <- factor(notypos$Gender, 
+                        levels = c(1,2), 
+                        labels = c("Male", "Female"))
+notypos$Group <- factor(notypos$Group, 
+                       levels = c(1,2), 
+                       labels = c("Control", "Experimental"))
+notypos[ , 3:5][ notypos[ , 3:5] > 125 ] <- NA
+notypos[ , 3:5][ notypos[ , 3:5] < 2 ] <- NA
+percentmiss <- function(x){ sum(is.na(x))/length(x) *100 }
+missing <- apply(notypos, 1, percentmiss)
+replacerows <- subset(notypos, missing <= 25)
+norows <- subset(notypos, missing > 25)
+```
+
+```{r missingcols, exercise = TRUE}
+##use apply to get the missing values, no need to save it
+
+##create replacement columns 
+replacecols <- replacerows[ , c()]
+
+##create no replacement columns
+nocols <- replacerows[ , c()]
+```
+
+```{r missingcols-solution}
+##use apply to get the missing values, no need to save it
+apply(replacerows, 2, percentmiss)
+##create replacement columns 
+replacecols <- replacerows[ , c(3:5)]
+##create no replacement columns
+nocols <- replacerows[ , -c(3:5)]
+```
+
+In our last step, let's use `mice()` and `complete()` to create the replacement dataset. Note the last line of code that adds back in the original two columns. We will not add back in the rows with missing data.
+
+```{r mice-setup}
+notypos <- datascreen_data
+notypos$Gender <- factor(notypos$Gender, 
+                        levels = c(1,2), 
+                        labels = c("Male", "Female"))
+notypos$Group <- factor(notypos$Group, 
+                       levels = c(1,2), 
+                       labels = c("Control", "Experimental"))
+notypos[ , 3:5][ notypos[ , 3:5] > 125 ] <- NA
+notypos[ , 3:5][ notypos[ , 3:5] < 2 ] <- NA
+percentmiss <- function(x){ sum(is.na(x))/length(x) *100 }
+missing <- apply(notypos, 1, percentmiss)
+replacerows <- subset(notypos, missing <= 25)
+norows <- subset(notypos, missing > 25)
+replacecols <- replacerows[ , c(3:5)]
+nocols <- replacerows[ , -c(3:5)]
+```
+
+```{r mice, exercise = TRUE}
+tempnomiss <- mice() ##fill me in
+nomiss <- complete() ##fill me in
+allcolumns <- cbind(nocols, nomiss)
+```
+
+```{r mice-solution}
+tempnomiss <- mice(replacecols)
+nomiss <- complete(tempnomiss, 1)
+allcolumns <- cbind(nocols, nomiss)
+```
+
+## Outliers
+
+Using the `allcolumns` dataset, create the `mahal` scores, along with the cut off score for your values. Use a summary of your Mahalanobis scores less than the cut off to figure out how many outliers you have. Last, create the `noout` dataset by using `subset()` to eliminate any outliers. The next class assignment will use this dataset to continue data screening. 
+    
+```{r outliers-setup, echo = FALSE}
+notypos <- datascreen_data
+notypos$Gender <- factor(notypos$Gender, 
+                        levels = c(1,2), 
+                        labels = c("Male", "Female"))
+notypos$Group <- factor(notypos$Group, 
+                       levels = c(1,2), 
+                       labels = c("Control", "Experimental"))
+notypos[ , 3:5][ notypos[ , 3:5] > 125 ] <- NA
+notypos[ , 3:5][ notypos[ , 3:5] < 2 ] <- NA
+percentmiss <- function(x){ sum(is.na(x))/length(x) *100 }
+missing <- apply(notypos, 1, percentmiss)
+replacerows <- subset(notypos, missing <= 25)
+norows <- subset(notypos, missing > 25)
+replacecols <- replacerows[ , c(3:5)]
+nocols <- replacerows[ , -c(3:5)]
+tempnomiss <- mice(replacecols, print = FALSE)
+nomiss <- complete(tempnomiss, 1)
+allcolumns <- cbind(nocols, nomiss)
+```
+
+```{r outliers, exercise = TRUE}
+
+```
+
+```{r outliers-solution}
+mahal <- mahalanobis(allcolumns[ , -c(1,2)], 
+                    colMeans(allcolumns[ , -c(1,2)], na.rm = TRUE),
+                    cov(allcolumns[ , -c(1,2)], use="pairwise.complete.obs"))
+cutoff <- qchisq(1 - .001, ncol(allcolumns[ , -c(1,2)])) 
+summary(mahal < cutoff)
+noout <- subset(allcolumns, mahal < cutoff)
+```
+
+```{r interpretoutliers}
+question_text(
+  "How many outliers did you have? Look at the FALSE section of your table.",
+  answer("Depends", correct = TRUE),
+  incorrect = "This answer will depend on your randomized data, but likely is less than 10 outliers.",
+  try_again_button = "Modify your answer",
+  allow_retry = TRUE
+)
+```
+
+## Submit
+
+On this page, you will create the submission for your instructor (if necessary). Please copy this report and submit using a Word document or paste into the text window of your submission page. Click "Generate Submission" to get your work! 
+
+```{r context="server"}
+encoder_logic()
+```
+
+```{r encode, echo=FALSE}
+encoder_ui()
+```
+

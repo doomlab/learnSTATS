@@ -1,74 +1,253 @@
 ---
 title: "Data Visualization"
+tutorial:
+  id: "datavis"
 output: learnr::tutorial
 runtime: shiny_prerendered
+description: We will cover how to create plots in ggplot2 in this class assignment. 
 ---
 
-```{r setup, include=FALSE}
+```{r setup, include=FALSE, mesage = F}
 library(learnr)
+library(learnSTATS)
+library(faux)
+library(ggplot2)
+library(reshape)
+
+##simulated data
+between <- list(biz_focus = c(forward = "Forward Thinking",
+                                 traditional = "Traditional"),
+                internet = c(high = "High",
+                             medium = "Medium",
+                             low = "Low"))
+
+within <- list(rm_var = c("time_1", "time_2"))
+
+##time 1 is first, then time 2, can flip them here if you want to change the interpretation
+mu <- data.frame(
+  forward_high = c(7, 10),
+  forward_medium = c(4, 7),
+  forward_low = c(2, 5),
+  traditional_high = c(4, 3),
+  traditional_medium = c(3, 3),
+  traditional_low = c(2, 3),
+  row.names = within$rm_var)
+
+vis_data <- sim_design(within, between, 
+                       n = sample(25:100, 1), 
+                       mu = mu, 
+                       sd = 1, r = .10,
+                       interactive = FALSE,
+                       empirical = FALSE, 
+                       plot = FALSE)
+
+cleanup <- theme(panel.grid.major = element_blank(), 
+                panel.grid.minor = element_blank(), 
+                panel.background = element_blank(), 
+                axis.line.x = element_line(color = "black"),
+                axis.line.y = element_line(color = "black"),
+                legend.key = element_rect(fill = "white"),
+                text = element_text(size = 15))
+
+vis_data$biz_focus <- factor(vis_data$biz_focus,
+                             levels = levels(vis_data$biz_focus),
+                             labels = c("Forward Thinking", "Traditional"))
+
+vis_data$internet <- factor(vis_data$internet,
+                             levels = levels(vis_data$internet),
+                             labels = c("High", "Medium", "Low"))
+
+vis_data <- vis_data[ , -1]
+
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
+## Data Visualization
 
-## Topic 1
+The best half of statistics is data visualization! You will learn the basic components of `ggplot2`, how to add new layers, and how to format data appropriately for graphs. You will learn the following:
 
-### Exercise 
+- ggplot2 basics and customization
+- How to build histograms
+- How to build scatterplots and regression lines
+- How to build bar graphs
+- How to build a line graph
 
-*Here's a simple exercise with an empty code chunk provided for entering the answer.*
+## Data Visualization Video Part 1
 
-Write the R code required to add two plus two:
+The following videos are provided as a lecture for the class material. The lectures are provided here as part of the flow for the course. You can view the lecture notes within *R* using `vignette("Data-Visualization", "learnSTATS")`. You can skip these pages if you are in class to go on to the assignment. 
 
-```{r two-plus-two, exercise=TRUE}
+<iframe width="560" height="315" src="https://www.youtube.com/embed/k74656b1Q1M" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-```
+## Data Visualization Video Part 2
 
-### Exercise with Code
+<iframe width="560" height="315" src="https://www.youtube.com/embed/IYUf4YQEnuQ" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-*Here's an exercise with some prepopulated code as well as `exercise.lines = 5` to provide a bit more initial room to work.*
+## Exercises
 
-Now write a function that adds any two numbers and then call it:
+In this next section, you will answer questions using the *R* code blocks provided. Be sure to use the `solution` option to see the answer if you need it!
 
-```{r add-function, exercise=TRUE, exercise.lines = 5}
-add <- function() {
-  
-}
-```
+Please enter your name for submission. If you do not need to submit, just type anything you'd like in this box. 
 
-## Topic 2
-
-### Exercise with Hint
-
-*Here's an exercise where the chunk is pre-evaulated via the `exercise.eval` option (so the user can see the default output we'd like them to customize). We also add a "hint" to the correct solution via the chunk immediate below labeled `print-limit-hint`.*
-
-Modify the following code to limit the number of rows printed to 5:
-
-```{r print-limit, exercise=TRUE, exercise.eval=TRUE}
-mtcars
-```
-
-```{r print-limit-hint}
-head(mtcars)
-```
-
-### Quiz
-
-*You can include any number of single or multiple choice questions as a quiz. Use the `question` function to define a question and the `quiz` function for grouping multiple questions together.*
-
-Some questions to verify that you understand the purposes of various base and recommended R packages:
-
-```{r quiz}
-quiz(
-  question("Which package contains functions for installing other R packages?",
-    answer("base"),
-    answer("tools"),
-    answer("utils", correct = TRUE),
-    answer("codetools")
-  ),
-  question("Which of the R packages listed below are used to create plots?",
-    answer("lattice", correct = TRUE),
-    answer("tools"),
-    answer("stats"),
-    answer("grid", correct = TRUE)
-  )
+```{r details}
+question_text(
+  "Student Name:",
+  answer("Your Name", correct = TRUE),
+  incorrect = "Thanks!",
+  try_again_button = "Modify your answer",
+  allow_retry = TRUE
 )
 ```
+
+## The Data
+
+*Citation*: Trends in Internet-based business-to-business marketing
+
+*Abstract*: The Internet is changing the transactional paradigms under which businesses-to-business marketers operate. Business-to-business marketers that take advantage of the operational efficiencies and effectiveness that emerge from utilizing the Internet in transactions are out performing firms that utilize traditional transactional processes. As an example, Dell computers, by utilizing business-to-business processes that take advantage of the Internet, has gained the largest market share in the PC business when compared to traditional manufacturers such as Compaq. This paper first examines the genesis of the Internet movement in business-to-business markets. The long-term impact of the increase of business-to-business utilization of the Internet on the marketing theory and marketing process is then discussed. Finally, managerial implications and directions for future research are highlighted.
+
+Dataset `vis_data` includes:
+
+1)  Business marketing focus - traditional or forward thinking.
+2)	Internet use - low, medium, or high levels of business marketing use on the internet.
+3)	Time 1 - sales scores at the first measurement time.
+4)	Time 2 - sales scores at the second measurement time.
+
+```{r echo=TRUE}
+head(vis_data)
+```
+
+
+## Graph Cleanup
+
+When you are assessed for graphs in the course, we will use the following checklist. Use this assignment to make sure you understand how to add each of the following components. 
+
+1)	Is it readable?
+2)	Is X-axis labeled appropriately?
+3)	Is Y-axis labeled appropriately?
+4)	Is it the right graph?
+5) 	Do the labels in the legend look appropriate?
+6)	Are there error bars when appropriate?
+
+## Histogram
+
+The `ggplot2` and `reshape` libraries have been loaded for you. You will use the `vis_data` as the dataframe for each graph. The `cleanup` code from class is also loaded for you to use (or you can use `theme_bw()` or `theme_classic()`). 
+
+Make a simple histogram for sales at time 1. 
+
+```{r hist1, exercise = TRUE}
+
+```
+
+```{r hist1-solution}
+saleshist <- ggplot(vis_data, aes(time.1))
+saleshist + 
+  geom_histogram(binwidth=.4, 
+                 color = "black", 
+                 fill = "white") + 
+  xlab("Sales Time 1") +
+  ylab("Frequency") +
+  cleanup
+```
+
+## Bar Graphs
+
+Make a bar graph with two categorical independent variables: business focus (`biz_focus`) and internet. Use sales at time 2 as the dependent variable. 
+
+```{r bar1, exercise = TRUE}
+
+```
+
+```{r bar1-solution}
+twobar <- ggplot(vis_data, aes(internet, time.2, fill = biz_focus))
+twobar + 
+  stat_summary(fun = mean, 
+               geom = "bar", 
+               position="dodge") +
+  stat_summary(fun.data = mean_cl_normal, 
+               geom = "errorbar", 
+               position = position_dodge(width = 0.90), 
+               width = 0.2) +
+  xlab("Internet Useage") + 
+  ylab("Sales Time 2") +
+  scale_fill_discrete(name="Business Focus") +
+  cleanup
+```
+
+## Bar Graphs with Repeated Measures
+
+Make a bar chart using Time as an independent variable. Time is currently two different columns, so you will need to `reshape` the data into one column for time and one column for sales as the dependent variable. Use business focus as the second independent variable. 
+
+```{r bar2, exercise = TRUE}
+
+```
+
+```{r bar2-solution}
+long_data <- melt(vis_data, 
+                  id = c("biz_focus", "internet"), 
+                  measured = c("time.1", "time.2"))
+##change the column names - not necessary
+colnames(long_data) = c("biz_focus", "internet", "sales_time", "sales_score")
+
+##because this one has the repeated component it must be the long data
+##otherwise it's the same as a two iv graph
+rmbar2 <- ggplot(long_data, aes(sales_time, sales_score, fill = biz_focus))
+rmbar2 + 
+  stat_summary(fun = mean, 
+               geom = "bar", 
+               position="dodge") +
+  stat_summary(fun.data = mean_cl_normal, 
+               geom = "errorbar", 
+               position = position_dodge(width = 0.90), 
+               width = 0.2) +
+  xlab("Measurement Time") + 
+  ylab("Sales Score") +
+  scale_x_discrete(labels=c("Time 1", "Time 2")) + 
+  scale_fill_grey(name="Business Focus") + 
+  cleanup
+```
+
+## Scatterplots 
+
+Use `vis_data` to create a scatterplot of sales at time 1 versus sales at time 2. You can switch the X and Y axes from the solution for this graph, as the direction doesn't matter for correlation type graphs (unless you add a regression line!). 
+
+```{r scatter1, exercise = TRUE}
+
+```
+
+```{r scatter1-solution}
+scatter <- ggplot(vis_data, aes(time.1, time.2))
+scatter +
+  geom_point() +
+  xlab("Sales Time 1") +
+  ylab("Sales Time 2") +
+  cleanup
+```
+
+Using the same solution from the previous exercise, add business focus as a grouping variable for your graph. 
+
+```{r scatter2, exercise = TRUE}
+
+```
+
+```{r scatter2-solution}
+grouped <- ggplot(vis_data, aes(time.1, time.2, color = biz_focus))
+grouped +
+  geom_point() +
+  xlab("Sales Time 1") +
+  ylab("Sales Time 2") +
+  scale_color_manual(values = c("gray", "gray50"), 
+                     name="Business Focus") + 
+  cleanup
+```
+
+## Submit
+
+On this page, you will create the submission for your instructor (if necessary). Please copy this report and submit using a Word document or paste into the text window of your submission page. Click "Generate Submission" to get your work! 
+
+```{r context="server"}
+encoder_logic()
+```
+
+```{r encode, echo=FALSE}
+encoder_ui()
+```
+
