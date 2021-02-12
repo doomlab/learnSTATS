@@ -22,7 +22,7 @@ midterm_data <- function(idnum = NULL) {
 
     set.seed(idnum)
 
-    require(faux, quietly = T)
+    suppressPackageStartupMessages(require(faux, quietly = T))
     midterm <- sim_df(data = midterm, #data frame
                       n = sample(50:100, 1),#how many of each group
                       between = c("JOL_group", "type_cue"))
@@ -48,7 +48,7 @@ final_data <- function(idnum = NULL) {
 
     set.seed(idnum)
 
-    require(faux, quietly = T)
+    suppressPackageStartupMessages(require(faux, quietly = T))
     final <- sim_df(data = final, #data frame
                       n = sample(50:100, 1),#how many of each group
                       between = c("gender", "perception"))
