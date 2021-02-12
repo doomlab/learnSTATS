@@ -19,7 +19,8 @@ RoxygenNote: 7.1.1
 Imports: 
     learnr,
     shiny,
-    knitr
+    knitr, 
+    faux
 VignetteBuilder: knitr
 Suggests: 
     rmarkdown,
@@ -46,8 +47,7 @@ Suggests:
     ppcor,
     quantmod,
     pwr,
-    reshape,
-    faux
+    reshape
 Remotes: 
     doomlab/MeMoBootR,
     crsh/papaja

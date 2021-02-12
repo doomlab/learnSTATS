@@ -18,7 +18,7 @@ the functions.
 These functions help check that you have put
 together the tutorial correctly for the
 student answers to print out at the end of the
-tutorial
+tutorial.
 }
 \keyword{answers}
 \keyword{learnr,}
