@@ -2,6 +2,7 @@
 
 export(encoder_logic)
 export(encoder_ui)
+export(final_data)
 export(is_server_context)
 export(midterm_data)
 import(faux)

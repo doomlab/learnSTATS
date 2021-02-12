@@ -38,29 +38,5 @@ midterm_data <- function(idnum = NULL) {
 
 }
 
-final_data <- function(idnum = NULL) {
-
-  if (is.null(idnum)){
-    warning("You must put in an id number.")
-  } else {
-    data("final")
-    final <- na.omit(final)
-
-    set.seed(idnum)
-
-    suppressPackageStartupMessages(require(faux, quietly = T))
-    final <- sim_df(data = final, #data frame
-                      n = sample(50:100, 1),#how many of each group
-                      between = c("gender", "perception"))
-    final <- final[ , -1]
-    final$distance <- abs(final$distance)
-    final$length <- abs(final$length)
-    final$cyberloafing <- abs(final$cyberloafing)
-
-    return(final)
-  }
-
-}
-
-#' @rdname exam_data
+#' @rdname midterm_data
 #' @export
