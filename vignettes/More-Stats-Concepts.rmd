@@ -48,7 +48,7 @@ round(apply(quakes, 2, mean), 2)
 
 ## Utilizing the Power of the 'lapply' Functions 
 
-- **lappy()**
+- **lapply()**
 
     - Arguments = lapply(X, FUN)
     - Objective = Apply a function to all the elements of the input

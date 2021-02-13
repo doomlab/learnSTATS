@@ -24,9 +24,9 @@ knitr::opts_chunk$set(
 
 ```{r eval = F}
 textline +
-  stat_summary(fun.y = mean,
+  stat_summary(fun = mean,
                geom = "point") +
-  stat_summary(fun.y = mean,
+  stat_summary(fun = mean,
                geom = "line", 
                aes(group = Group)) +
   stat_summary(fun.data = mean_cl_normal,
@@ -482,7 +482,7 @@ chickbar +
 
 ```{r echo=TRUE, fig.height=4, fig.width=8, message=FALSE, warning=FALSE}
 chickbar + 
-  stat_summary(fun.y = mean,
+  stat_summary(fun = mean,
                geom = "bar",
                fill = "White", 
                color = "Black") +
@@ -502,7 +502,7 @@ chickbar +
 ```{r echo=TRUE, fig.height=4, fig.width=8, message=FALSE, warning=FALSE}
 chickbar2 <- ggplot(chickflick, aes(film, arousal, fill = gender))
 chickbar2 +
-  stat_summary(fun.y = mean,
+  stat_summary(fun = mean,
                geom = "bar",
                position = "dodge") +
   stat_summary(fun.data = mean_cl_normal,
