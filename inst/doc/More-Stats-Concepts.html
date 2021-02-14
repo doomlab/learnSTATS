@@ -544,13 +544,15 @@ list-style-type: none;
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">options</span>(<span class="dt">scipen =</span> <span class="dv">20</span>)</span>
 <span id="cb1-2"><a href="#cb1-2"></a><span class="co">#dataset, rows/columns, function </span></span>
 <span id="cb1-3"><a href="#cb1-3"></a><span class="kw">round</span>(<span class="kw">apply</span>(quakes, <span class="dv">2</span>, mean), <span class="dv">2</span>)</span>
-<span id="cb1-4"><a href="#cb1-4"></a><span class="co">#&gt;      lat     long    depth      mag stations   zscore </span></span>
-<span id="cb1-5"><a href="#cb1-5"></a><span class="co">#&gt;   -20.64   179.46   311.37     4.62    33.42     0.00</span></span></code></pre></div>
+<span id="cb1-4"><a href="#cb1-4"></a><span class="co">#&gt;      lat     long    depth      mag stations </span></span>
+<span id="cb1-5"><a href="#cb1-5"></a><span class="co">#&gt;   -20.64   179.46   311.37     4.62    33.42 </span></span>
+<span id="cb1-6"><a href="#cb1-6"></a><span class="co">#&gt;   zscore </span></span>
+<span id="cb1-7"><a href="#cb1-7"></a><span class="co">#&gt;     0.00</span></span></code></pre></div>
 </div>
 <div id="utilizing-the-power-of-the-lapply-functions" class="slide section level2">
 <h1>Utilizing the Power of the ‘lapply’ Functions</h1>
 <ul>
-<li><p><strong>lappy()</strong></p>
+<li><p><strong>lapply()</strong></p>
 <ul>
 <li>Arguments = lapply(X, FUN)</li>
 <li>Objective = Apply a function to all the elements of the input</li>
@@ -590,8 +592,10 @@ list-style-type: none;
 </ul></li>
 </ul>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw">round</span>(<span class="kw">sapply</span>(quakes, mean),<span class="dv">2</span>)</span>
-<span id="cb3-2"><a href="#cb3-2"></a><span class="co">#&gt;      lat     long    depth      mag stations   zscore </span></span>
-<span id="cb3-3"><a href="#cb3-3"></a><span class="co">#&gt;   -20.64   179.46   311.37     4.62    33.42     0.00</span></span></code></pre></div>
+<span id="cb3-2"><a href="#cb3-2"></a><span class="co">#&gt;      lat     long    depth      mag stations </span></span>
+<span id="cb3-3"><a href="#cb3-3"></a><span class="co">#&gt;   -20.64   179.46   311.37     4.62    33.42 </span></span>
+<span id="cb3-4"><a href="#cb3-4"></a><span class="co">#&gt;   zscore </span></span>
+<span id="cb3-5"><a href="#cb3-5"></a><span class="co">#&gt;     0.00</span></span></code></pre></div>
 </div>
 <div id="utilizing-the-power-of-the-tapply-functions" class="slide section level2">
 <h1>Utilizing the Power of the ‘tapply’ Functions</h1>
@@ -607,40 +611,48 @@ list-style-type: none;
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw">tapply</span>(quakes<span class="op">$</span>mag, <span class="co">#dependent variable</span></span>
 <span id="cb4-2"><a href="#cb4-2"></a>       <span class="kw">list</span>(quakes<span class="op">$</span>stations), <span class="co">#independent variable(s)</span></span>
 <span id="cb4-3"><a href="#cb4-3"></a>       mean) <span class="co">#function</span></span>
-<span id="cb4-4"><a href="#cb4-4"></a><span class="co">#&gt;       10       11       12       13       14       15 </span></span>
-<span id="cb4-5"><a href="#cb4-5"></a><span class="co">#&gt; 4.230000 4.228571 4.196000 4.333333 4.276923 4.282353 </span></span>
-<span id="cb4-6"><a href="#cb4-6"></a><span class="co">#&gt;       16       17       18       19       20       21 </span></span>
-<span id="cb4-7"><a href="#cb4-7"></a><span class="co">#&gt; 4.274286 4.350000 4.436364 4.379310 4.389286 4.362162 </span></span>
-<span id="cb4-8"><a href="#cb4-8"></a><span class="co">#&gt;       22       23       24       25       26       27 </span></span>
-<span id="cb4-9"><a href="#cb4-9"></a><span class="co">#&gt; 4.454286 4.382857 4.478571 4.527273 4.500000 4.575758 </span></span>
-<span id="cb4-10"><a href="#cb4-10"></a><span class="co">#&gt;       28       29       30       31       32       33 </span></span>
-<span id="cb4-11"><a href="#cb4-11"></a><span class="co">#&gt; 4.582609 4.573684 4.653571 4.660000 4.594737 4.592308 </span></span>
-<span id="cb4-12"><a href="#cb4-12"></a><span class="co">#&gt;       34       35       36       37       38       39 </span></span>
-<span id="cb4-13"><a href="#cb4-13"></a><span class="co">#&gt; 4.594444 4.715000 4.685714 4.666667 4.816667 4.630000 </span></span>
-<span id="cb4-14"><a href="#cb4-14"></a><span class="co">#&gt;       40       41       42       43       44       45 </span></span>
-<span id="cb4-15"><a href="#cb4-15"></a><span class="co">#&gt; 4.818182 4.708333 4.780000 4.885714 4.737500 4.966667 </span></span>
-<span id="cb4-16"><a href="#cb4-16"></a><span class="co">#&gt;       46       47       48       49       50       51 </span></span>
-<span id="cb4-17"><a href="#cb4-17"></a><span class="co">#&gt; 4.933333 4.837500 4.933333 5.014286 4.880000 4.850000 </span></span>
-<span id="cb4-18"><a href="#cb4-18"></a><span class="co">#&gt;       52       53       54       55       56       57 </span></span>
-<span id="cb4-19"><a href="#cb4-19"></a><span class="co">#&gt; 4.850000 5.300000 5.050000 5.000000 4.980000 4.950000 </span></span>
-<span id="cb4-20"><a href="#cb4-20"></a><span class="co">#&gt;       58       59       60       61       62       63 </span></span>
-<span id="cb4-21"><a href="#cb4-21"></a><span class="co">#&gt; 5.100000 5.000000 5.133333 5.200000 4.900000 5.100000 </span></span>
-<span id="cb4-22"><a href="#cb4-22"></a><span class="co">#&gt;       64       65       66       67       68       69 </span></span>
-<span id="cb4-23"><a href="#cb4-23"></a><span class="co">#&gt; 5.075000 5.157143 5.200000 5.242857 5.185714 5.200000 </span></span>
-<span id="cb4-24"><a href="#cb4-24"></a><span class="co">#&gt;       70       71       72       73       74       75 </span></span>
-<span id="cb4-25"><a href="#cb4-25"></a><span class="co">#&gt; 5.233333 5.283333 5.166667 5.300000 5.125000 5.300000 </span></span>
-<span id="cb4-26"><a href="#cb4-26"></a><span class="co">#&gt;       76       77       78       79       80       81 </span></span>
-<span id="cb4-27"><a href="#cb4-27"></a><span class="co">#&gt; 5.700000 5.000000 5.350000 5.275000 5.500000 5.300000 </span></span>
-<span id="cb4-28"><a href="#cb4-28"></a><span class="co">#&gt;       82       83       85       86       87       88 </span></span>
-<span id="cb4-29"><a href="#cb4-29"></a><span class="co">#&gt; 5.300000 6.000000 5.400000 5.366667 5.400000 5.400000 </span></span>
-<span id="cb4-30"><a href="#cb4-30"></a><span class="co">#&gt;       89       90       91       92       93       94 </span></span>
-<span id="cb4-31"><a href="#cb4-31"></a><span class="co">#&gt; 5.250000 5.700000 5.266667 5.500000 5.300000 5.850000 </span></span>
-<span id="cb4-32"><a href="#cb4-32"></a><span class="co">#&gt;       95       98       99      100      104      105 </span></span>
-<span id="cb4-33"><a href="#cb4-33"></a><span class="co">#&gt; 5.500000 5.600000 5.700000 5.000000 5.600000 5.450000 </span></span>
-<span id="cb4-34"><a href="#cb4-34"></a><span class="co">#&gt;      106      109      110      112      115      118 </span></span>
-<span id="cb4-35"><a href="#cb4-35"></a><span class="co">#&gt; 5.700000 5.600000 5.400000 5.700000 5.600000 5.900000 </span></span>
-<span id="cb4-36"><a href="#cb4-36"></a><span class="co">#&gt;      119      121      122      123      129      132 </span></span>
-<span id="cb4-37"><a href="#cb4-37"></a><span class="co">#&gt; 5.950000 5.600000 6.400000 5.700000 5.600000 6.000000</span></span></code></pre></div>
+<span id="cb4-4"><a href="#cb4-4"></a><span class="co">#&gt;       10       11       12       13       14 </span></span>
+<span id="cb4-5"><a href="#cb4-5"></a><span class="co">#&gt; 4.230000 4.228571 4.196000 4.333333 4.276923 </span></span>
+<span id="cb4-6"><a href="#cb4-6"></a><span class="co">#&gt;       15       16       17       18       19 </span></span>
+<span id="cb4-7"><a href="#cb4-7"></a><span class="co">#&gt; 4.282353 4.274286 4.350000 4.436364 4.379310 </span></span>
+<span id="cb4-8"><a href="#cb4-8"></a><span class="co">#&gt;       20       21       22       23       24 </span></span>
+<span id="cb4-9"><a href="#cb4-9"></a><span class="co">#&gt; 4.389286 4.362162 4.454286 4.382857 4.478571 </span></span>
+<span id="cb4-10"><a href="#cb4-10"></a><span class="co">#&gt;       25       26       27       28       29 </span></span>
+<span id="cb4-11"><a href="#cb4-11"></a><span class="co">#&gt; 4.527273 4.500000 4.575758 4.582609 4.573684 </span></span>
+<span id="cb4-12"><a href="#cb4-12"></a><span class="co">#&gt;       30       31       32       33       34 </span></span>
+<span id="cb4-13"><a href="#cb4-13"></a><span class="co">#&gt; 4.653571 4.660000 4.594737 4.592308 4.594444 </span></span>
+<span id="cb4-14"><a href="#cb4-14"></a><span class="co">#&gt;       35       36       37       38       39 </span></span>
+<span id="cb4-15"><a href="#cb4-15"></a><span class="co">#&gt; 4.715000 4.685714 4.666667 4.816667 4.630000 </span></span>
+<span id="cb4-16"><a href="#cb4-16"></a><span class="co">#&gt;       40       41       42       43       44 </span></span>
+<span id="cb4-17"><a href="#cb4-17"></a><span class="co">#&gt; 4.818182 4.708333 4.780000 4.885714 4.737500 </span></span>
+<span id="cb4-18"><a href="#cb4-18"></a><span class="co">#&gt;       45       46       47       48       49 </span></span>
+<span id="cb4-19"><a href="#cb4-19"></a><span class="co">#&gt; 4.966667 4.933333 4.837500 4.933333 5.014286 </span></span>
+<span id="cb4-20"><a href="#cb4-20"></a><span class="co">#&gt;       50       51       52       53       54 </span></span>
+<span id="cb4-21"><a href="#cb4-21"></a><span class="co">#&gt; 4.880000 4.850000 4.850000 5.300000 5.050000 </span></span>
+<span id="cb4-22"><a href="#cb4-22"></a><span class="co">#&gt;       55       56       57       58       59 </span></span>
+<span id="cb4-23"><a href="#cb4-23"></a><span class="co">#&gt; 5.000000 4.980000 4.950000 5.100000 5.000000 </span></span>
+<span id="cb4-24"><a href="#cb4-24"></a><span class="co">#&gt;       60       61       62       63       64 </span></span>
+<span id="cb4-25"><a href="#cb4-25"></a><span class="co">#&gt; 5.133333 5.200000 4.900000 5.100000 5.075000 </span></span>
+<span id="cb4-26"><a href="#cb4-26"></a><span class="co">#&gt;       65       66       67       68       69 </span></span>
+<span id="cb4-27"><a href="#cb4-27"></a><span class="co">#&gt; 5.157143 5.200000 5.242857 5.185714 5.200000 </span></span>
+<span id="cb4-28"><a href="#cb4-28"></a><span class="co">#&gt;       70       71       72       73       74 </span></span>
+<span id="cb4-29"><a href="#cb4-29"></a><span class="co">#&gt; 5.233333 5.283333 5.166667 5.300000 5.125000 </span></span>
+<span id="cb4-30"><a href="#cb4-30"></a><span class="co">#&gt;       75       76       77       78       79 </span></span>
+<span id="cb4-31"><a href="#cb4-31"></a><span class="co">#&gt; 5.300000 5.700000 5.000000 5.350000 5.275000 </span></span>
+<span id="cb4-32"><a href="#cb4-32"></a><span class="co">#&gt;       80       81       82       83       85 </span></span>
+<span id="cb4-33"><a href="#cb4-33"></a><span class="co">#&gt; 5.500000 5.300000 5.300000 6.000000 5.400000 </span></span>
+<span id="cb4-34"><a href="#cb4-34"></a><span class="co">#&gt;       86       87       88       89       90 </span></span>
+<span id="cb4-35"><a href="#cb4-35"></a><span class="co">#&gt; 5.366667 5.400000 5.400000 5.250000 5.700000 </span></span>
+<span id="cb4-36"><a href="#cb4-36"></a><span class="co">#&gt;       91       92       93       94       95 </span></span>
+<span id="cb4-37"><a href="#cb4-37"></a><span class="co">#&gt; 5.266667 5.500000 5.300000 5.850000 5.500000 </span></span>
+<span id="cb4-38"><a href="#cb4-38"></a><span class="co">#&gt;       98       99      100      104      105 </span></span>
+<span id="cb4-39"><a href="#cb4-39"></a><span class="co">#&gt; 5.600000 5.700000 5.000000 5.600000 5.450000 </span></span>
+<span id="cb4-40"><a href="#cb4-40"></a><span class="co">#&gt;      106      109      110      112      115 </span></span>
+<span id="cb4-41"><a href="#cb4-41"></a><span class="co">#&gt; 5.700000 5.600000 5.400000 5.700000 5.600000 </span></span>
+<span id="cb4-42"><a href="#cb4-42"></a><span class="co">#&gt;      118      119      121      122      123 </span></span>
+<span id="cb4-43"><a href="#cb4-43"></a><span class="co">#&gt; 5.900000 5.950000 5.600000 6.400000 5.700000 </span></span>
+<span id="cb4-44"><a href="#cb4-44"></a><span class="co">#&gt;      129      132 </span></span>
+<span id="cb4-45"><a href="#cb4-45"></a><span class="co">#&gt; 5.600000 6.000000</span></span></code></pre></div>
 </div>
 <div id="measuring-fit-1" class="slide section level2">
 <h1>Measuring Fit</h1>
@@ -730,10 +742,10 @@ list-style-type: none;
 <li>The SD and the SE will tell you the same thing about model fit.</li>
 </ul>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>psych<span class="op">::</span><span class="kw">describe</span>(quakes<span class="op">$</span>mag)</span>
-<span id="cb5-2"><a href="#cb5-2"></a><span class="co">#&gt;    vars    n mean  sd median trimmed  mad min max range</span></span>
-<span id="cb5-3"><a href="#cb5-3"></a><span class="co">#&gt; X1    1 1000 4.62 0.4    4.6    4.59 0.44   4 6.4   2.4</span></span>
-<span id="cb5-4"><a href="#cb5-4"></a><span class="co">#&gt;    skew kurtosis   se</span></span>
-<span id="cb5-5"><a href="#cb5-5"></a><span class="co">#&gt; X1 0.77      0.5 0.01</span></span></code></pre></div>
+<span id="cb5-2"><a href="#cb5-2"></a><span class="co">#&gt;    vars    n mean  sd median trimmed  mad min max</span></span>
+<span id="cb5-3"><a href="#cb5-3"></a><span class="co">#&gt; X1    1 1000 4.62 0.4    4.6    4.59 0.44   4 6.4</span></span>
+<span id="cb5-4"><a href="#cb5-4"></a><span class="co">#&gt;    range skew kurtosis   se</span></span>
+<span id="cb5-5"><a href="#cb5-5"></a><span class="co">#&gt; X1   2.4 0.77      0.5 0.01</span></span></code></pre></div>
 </div>
 <div id="confidence-intervals" class="slide section level2">
 <h1>Confidence Intervals</h1>
@@ -766,22 +778,28 @@ list-style-type: none;
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>M &lt;-<span class="st"> </span><span class="kw">apply</span>(quakes, <span class="dv">2</span>, mean)</span>
 <span id="cb6-2"><a href="#cb6-2"></a>SE &lt;-<span class="st"> </span><span class="kw">apply</span>(quakes, <span class="dv">2</span>, <span class="cf">function</span>(x){ <span class="kw">sd</span>(x)<span class="op">/</span><span class="kw">sqrt</span>(<span class="kw">length</span>(x)) })</span>
 <span id="cb6-3"><a href="#cb6-3"></a>M <span class="op">+</span><span class="st"> </span><span class="fl">1.96</span><span class="op">*</span>SE <span class="co"># 95% confidence interval</span></span>
-<span id="cb6-4"><a href="#cb6-4"></a><span class="co">#&gt;          lat         long        depth          mag </span></span>
-<span id="cb6-5"><a href="#cb6-5"></a><span class="co">#&gt; -20.33106231 179.83821131 324.73002857   4.64536413 </span></span>
-<span id="cb6-6"><a href="#cb6-6"></a><span class="co">#&gt;     stations       zscore </span></span>
-<span id="cb6-7"><a href="#cb6-7"></a><span class="co">#&gt;  34.77539998   0.06198064</span></span>
+<span id="cb6-4"><a href="#cb6-4"></a><span class="co">#&gt;          lat         long        depth </span></span>
+<span id="cb6-5"><a href="#cb6-5"></a><span class="co">#&gt; -20.33106231 179.83821131 324.73002857 </span></span>
+<span id="cb6-6"><a href="#cb6-6"></a><span class="co">#&gt;          mag     stations       zscore </span></span>
+<span id="cb6-7"><a href="#cb6-7"></a><span class="co">#&gt;   4.64536413  34.77539998   0.06198064</span></span>
 <span id="cb6-8"><a href="#cb6-8"></a>M</span>
-<span id="cb6-9"><a href="#cb6-9"></a><span class="co">#&gt;                        lat                       long </span></span>
-<span id="cb6-10"><a href="#cb6-10"></a><span class="co">#&gt; -20.6427499999999994884092 179.4620199999999954343366 </span></span>
-<span id="cb6-11"><a href="#cb6-11"></a><span class="co">#&gt;                      depth                        mag </span></span>
-<span id="cb6-12"><a href="#cb6-12"></a><span class="co">#&gt; 311.3709999999999809006113   4.6204000000000000625278 </span></span>
-<span id="cb6-13"><a href="#cb6-13"></a><span class="co">#&gt;                   stations                     zscore </span></span>
-<span id="cb6-14"><a href="#cb6-14"></a><span class="co">#&gt;  33.4179999999999992610356  -0.0000000000000001879391</span></span>
-<span id="cb6-15"><a href="#cb6-15"></a>M <span class="op">-</span><span class="st"> </span><span class="fl">1.96</span><span class="op">*</span>SE</span>
-<span id="cb6-16"><a href="#cb6-16"></a><span class="co">#&gt;          lat         long        depth          mag </span></span>
-<span id="cb6-17"><a href="#cb6-17"></a><span class="co">#&gt; -20.95443769 179.08582869 298.01197143   4.59543587 </span></span>
-<span id="cb6-18"><a href="#cb6-18"></a><span class="co">#&gt;     stations       zscore </span></span>
-<span id="cb6-19"><a href="#cb6-19"></a><span class="co">#&gt;  32.06060002  -0.06198064</span></span></code></pre></div>
+<span id="cb6-9"><a href="#cb6-9"></a><span class="co">#&gt;                        lat </span></span>
+<span id="cb6-10"><a href="#cb6-10"></a><span class="co">#&gt; -20.6427499999999994884092 </span></span>
+<span id="cb6-11"><a href="#cb6-11"></a><span class="co">#&gt;                       long </span></span>
+<span id="cb6-12"><a href="#cb6-12"></a><span class="co">#&gt; 179.4620199999999954343366 </span></span>
+<span id="cb6-13"><a href="#cb6-13"></a><span class="co">#&gt;                      depth </span></span>
+<span id="cb6-14"><a href="#cb6-14"></a><span class="co">#&gt; 311.3709999999999809006113 </span></span>
+<span id="cb6-15"><a href="#cb6-15"></a><span class="co">#&gt;                        mag </span></span>
+<span id="cb6-16"><a href="#cb6-16"></a><span class="co">#&gt;   4.6204000000000000625278 </span></span>
+<span id="cb6-17"><a href="#cb6-17"></a><span class="co">#&gt;                   stations </span></span>
+<span id="cb6-18"><a href="#cb6-18"></a><span class="co">#&gt;  33.4179999999999992610356 </span></span>
+<span id="cb6-19"><a href="#cb6-19"></a><span class="co">#&gt;                     zscore </span></span>
+<span id="cb6-20"><a href="#cb6-20"></a><span class="co">#&gt;  -0.0000000000000001879391</span></span>
+<span id="cb6-21"><a href="#cb6-21"></a>M <span class="op">-</span><span class="st"> </span><span class="fl">1.96</span><span class="op">*</span>SE</span>
+<span id="cb6-22"><a href="#cb6-22"></a><span class="co">#&gt;          lat         long        depth </span></span>
+<span id="cb6-23"><a href="#cb6-23"></a><span class="co">#&gt; -20.95443769 179.08582869 298.01197143 </span></span>
+<span id="cb6-24"><a href="#cb6-24"></a><span class="co">#&gt;          mag     stations       zscore </span></span>
+<span id="cb6-25"><a href="#cb6-25"></a><span class="co">#&gt;   4.59543587  32.06060002  -0.06198064</span></span></code></pre></div>
 </div>
 <div id="testing-hypotheses---nhst" class="slide section level2">
 <h1>Testing Hypotheses - (NHST)</h1>
@@ -957,16 +975,18 @@ list-style-type: none;
 <span id="cb7-4"><a href="#cb7-4"></a>N &lt;-<span class="st"> </span><span class="kw">tapply</span>(quakes<span class="op">$</span>mag, quakes<span class="op">$</span>stations, length)</span>
 <span id="cb7-5"><a href="#cb7-5"></a></span>
 <span id="cb7-6"><a href="#cb7-6"></a><span class="kw">head</span>(M)</span>
-<span id="cb7-7"><a href="#cb7-7"></a><span class="co">#&gt;       10       11       12       13       14       15 </span></span>
-<span id="cb7-8"><a href="#cb7-8"></a><span class="co">#&gt; 4.230000 4.228571 4.196000 4.333333 4.276923 4.282353</span></span>
-<span id="cb7-9"><a href="#cb7-9"></a></span>
-<span id="cb7-10"><a href="#cb7-10"></a><span class="co">#compare station 10 to 11</span></span>
-<span id="cb7-11"><a href="#cb7-11"></a>effect &lt;-<span class="st"> </span><span class="kw">d.ind.t</span>(M[<span class="dv">1</span>], M[<span class="dv">2</span>],</span>
-<span id="cb7-12"><a href="#cb7-12"></a>        STDEV[<span class="dv">1</span>], STDEV[<span class="dv">2</span>],</span>
-<span id="cb7-13"><a href="#cb7-13"></a>        N[<span class="dv">1</span>], N[<span class="dv">2</span>], <span class="dt">a =</span> <span class="fl">.05</span>)</span>
-<span id="cb7-14"><a href="#cb7-14"></a>effect<span class="op">$</span>d</span>
-<span id="cb7-15"><a href="#cb7-15"></a><span class="co">#&gt;          10 </span></span>
-<span id="cb7-16"><a href="#cb7-16"></a><span class="co">#&gt; 0.007661913</span></span></code></pre></div>
+<span id="cb7-7"><a href="#cb7-7"></a><span class="co">#&gt;       10       11       12       13       14 </span></span>
+<span id="cb7-8"><a href="#cb7-8"></a><span class="co">#&gt; 4.230000 4.228571 4.196000 4.333333 4.276923 </span></span>
+<span id="cb7-9"><a href="#cb7-9"></a><span class="co">#&gt;       15 </span></span>
+<span id="cb7-10"><a href="#cb7-10"></a><span class="co">#&gt; 4.282353</span></span>
+<span id="cb7-11"><a href="#cb7-11"></a></span>
+<span id="cb7-12"><a href="#cb7-12"></a><span class="co">#compare station 10 to 11</span></span>
+<span id="cb7-13"><a href="#cb7-13"></a>effect &lt;-<span class="st"> </span><span class="kw">d.ind.t</span>(M[<span class="dv">1</span>], M[<span class="dv">2</span>],</span>
+<span id="cb7-14"><a href="#cb7-14"></a>        STDEV[<span class="dv">1</span>], STDEV[<span class="dv">2</span>],</span>
+<span id="cb7-15"><a href="#cb7-15"></a>        N[<span class="dv">1</span>], N[<span class="dv">2</span>], <span class="dt">a =</span> <span class="fl">.05</span>)</span>
+<span id="cb7-16"><a href="#cb7-16"></a>effect<span class="op">$</span>d</span>
+<span id="cb7-17"><a href="#cb7-17"></a><span class="co">#&gt;          10 </span></span>
+<span id="cb7-18"><a href="#cb7-18"></a><span class="co">#&gt; 0.007661913</span></span></code></pre></div>
 </div>
 <div id="summary" class="slide section level2">
 <h1>Summary</h1>

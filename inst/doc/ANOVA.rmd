@@ -272,7 +272,7 @@ ezANOVA(data = master,
 
 - Levene's test is not significant, $F(2,12) = 0.12, p = .890$
 
-```{r echo = F, message=FALSE, warning=FALSE}
+```{r echo = T, message=FALSE, warning=FALSE}
 ezANOVA(data = master,
         dv = libido,
         between = dose,

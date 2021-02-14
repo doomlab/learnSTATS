@@ -1,78 +1,371 @@
 ---
 title: "Regression"
+tutorial:
+  id: "regression"
 output: learnr::tutorial
 runtime: shiny_prerendered
+description: This section is our first step into more complex models. You will learn simultaneous and hierarchical regression, as well as dummy coded variables. 
 ---
 
-```{r setup, include=FALSE}
+```{r setup, include=FALSE, mesage = F}
 library(learnr)
+library(learnSTATS)
+library(faux)
+library(emmeans)
+data("regress_data")
+
+regress_data <- na.omit(regress_data)
+
+regress_data <- sim_df(regress_data, #data frame
+                      sample(40:50, 1), #how many of each group
+                      between = "type_work") 
+
+regress_data <- regress_data[ , -1]
+
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
-https://youtu.be/KHWd1btlFuQ
-https://youtu.be/pKJQNSaBUtE
-https://youtu.be/5oirgr4iY18
+## Linear Regression
 
+This whole semester covers linear models! We recently covered correlation, which is a simple linear model. Let's extend that work into multiple predictors and more complex ideas. Here's what you will learn:
 
-## Topic 1
+- What is linear regression?
+- How is it related to correlation?
+- Interpreting linear models
 
-### Exercise 
+## Linear Regression Video Part 1
 
-*Here's a simple exercise with an empty code chunk provided for entering the answer.*
+The following videos are provided as a lecture for the class material. The lectures are provided here as part of the flow for the course. You can view the lecture notes within *R* using `vignette("Linear-Regression", "learnSTATS")`. You can skip these pages if you are in class to go on to the assignment. 
 
-Write the R code required to add two plus two:
+<iframe width="560" height="315" src="https://www.youtube.com/embed/KHWd1btlFuQ" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-```{r two-plus-two, exercise=TRUE}
+## Linear Regression Video Part 2
 
-```
+<iframe width="560" height="315" src="https://www.youtube.com/embed/pKJQNSaBUtE" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-### Exercise with Code
+## Linear Regression Video Part 3
 
-*Here's an exercise with some prepopulated code as well as `exercise.lines = 5` to provide a bit more initial room to work.*
+<iframe width="560" height="315" src="https://www.youtube.com/embed/5oirgr4iY18" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-Now write a function that adds any two numbers and then call it:
+## Exercises
 
-```{r add-function, exercise=TRUE, exercise.lines = 5}
-add <- function() {
-  
-}
-```
+In this next section, you will answer questions using the *R* code blocks provided. Be sure to use the `solution` option to see the answer if you need it!
 
-## Topic 2
+Please enter your name for submission. If you do not need to submit, just type anything you'd like in this box. 
 
-### Exercise with Hint
-
-*Here's an exercise where the chunk is pre-evaulated via the `exercise.eval` option (so the user can see the default output we'd like them to customize). We also add a "hint" to the correct solution via the chunk immediate below labeled `print-limit-hint`.*
-
-Modify the following code to limit the number of rows printed to 5:
-
-```{r print-limit, exercise=TRUE, exercise.eval=TRUE}
-mtcars
-```
-
-```{r print-limit-hint}
-head(mtcars)
-```
-
-### Quiz
-
-*You can include any number of single or multiple choice questions as a quiz. Use the `question` function to define a question and the `quiz` function for grouping multiple questions together.*
-
-Some questions to verify that you understand the purposes of various base and recommended R packages:
-
-```{r quiz}
-quiz(
-  question("Which package contains functions for installing other R packages?",
-    answer("base"),
-    answer("tools"),
-    answer("utils", correct = TRUE),
-    answer("codetools")
-  ),
-  question("Which of the R packages listed below are used to create plots?",
-    answer("lattice", correct = TRUE),
-    answer("tools"),
-    answer("stats"),
-    answer("grid", correct = TRUE)
-  )
+```{r details}
+question_text(
+  "Student Name:",
+  answer("Your Name", correct = TRUE),
+  incorrect = "Thanks!",
+  try_again_button = "Modify your answer",
+  allow_retry = TRUE
 )
+```
+
+## Experiment Design 
+
+*Title*: The influence of cognitive and affective based job satisfaction measures on the relationship between satisfaction and organizational citizenship behavior
+
+*Abstract*: One of the most widely believed maxims of management is that a happy worker is a productive worker. However, most research on the nature of the relationship between job satisfaction and job performance has not yielded convincing evidence that such a relationship exists to the degree most managers believe. One reason for this might lie in the way in which job performance is measured. Numerous studies have been published that showed that using Organizational Citizenship Behavior to supplant more traditional measures of job performance has resulted in a more robust relationship between job satisfaction and job performance. Yet, recent work has suggested that the relationship between job satisfaction and citizenship may be more complex than originally reported. This study investigated whether the relationship between job satisfaction and citizenship could depend upon the nature of the job satisfaction measure used. Specifically, it was hypothesized that job satisfaction measures which reflect a cognitive basis would be more strongly related to OCB than measures of job satisfaction, which reflect an affective basis. Results from data collected in two midwestern companies show support for the relative importance of cognition based satisfaction over affect based satisfaction. Implications for research on the causes of citizenship are discussed.
+
+## Dataset
+
+- Dependent variable (Y): OCB - Organizational citizenship behavior measure
+-	Independent variables (X)
+  - Affective - job satisfaction measures that measure emotion
+  - Cognitive - job satisfaction measures that measure cognition (thinking)
+  -	Years - years on the job
+  -	Type_work - type of employee measured (secretary, assistant, manager, boss)	
+  
+```{r echo = T, eval = F}
+library(learnSTATS)
+data("regress_data")
+head(regress_data)
+```
+  
+```{r}
+head(regress_data)
+```
+
+## Data Screening (short!)
+
+Assume the data is accurate with no missing values. You will want to screen the dataset using all the predictor variables to predict the outcome in a simultaneous multiple regression (all the variables at once). This analysis will let you screen for outliers and assumptions across all subsequent analyses/steps. 
+
+First, include the regression equation for our last hierarchical step of the analysis where all of our independent variables predict the dependent variable (go back a page if you've forgotten). We will save this model as `screen` because we are using it to screen our data.
+
+```{r final, exercise = TRUE}
+
+```
+
+```{r final-solution}
+screen <- lm(OCB ~ cognitive + affective + years + type_work, data = regress_data)
+```
+
+## Leverage
+
+Let's calculate leverage values from our `screen` model. The hardest thing with working with categorical predictors (`type_work`) is remembering that they count for more than one predictor. Use the `summary()` on `screen` to see how many predictors you have. 
+
+Use that value as `k` and calculate your `hatvalues()` and `badleverage` scores. Include a table of `badleverage` so you can see how many outliers you had. 
+
+```{r leverage-setup}
+screen <- lm(OCB ~ cognitive + affective + years + type_work, data = regress_data)
+```
+
+```{r leverage, exercise = TRUE}
+
+```
+
+```{r leverage-solution}
+summary(screen)
+k <- 6
+leverage <- hatvalues(screen)
+cutleverage <- (2*k+2)/nrow(regress_data)
+badleverage <- leverage > cutleverage
+table(badleverage)
+```
+
+```{r leverage-open}
+question_text(
+  "How many leverage outliers did you have?",
+  answer("Depends on your simulation.", correct = TRUE),
+  incorrect = "My output had eight, but yours may be a little different.",
+  try_again_button = "Modify your answer",
+  allow_retry = TRUE
+)
+```
+
+## Cooks
+
+Let's do that whole thing again for Cook's values. 
+
+```{r cooks-setup}
+screen <- lm(OCB ~ cognitive + affective + years + type_work, data = regress_data)
+k <- 6
+leverage <- hatvalues(screen)
+cutleverage <- (2*k+2)/nrow(regress_data)
+badleverage <- leverage > cutleverage
+```
+
+```{r cooks, exercise = TRUE}
+
+```
+
+```{r cooks-solution}
+cooks <- cooks.distance(screen)
+cutcooks <- 4 / (nrow(regress_data) - k - 1)
+badcooks <- cooks > cutcooks
+table(badcooks)
+```
+
+```{r cooks-open}
+question_text(
+  "How many Cooks outliers did you have?",
+  answer("Depends on your simulation.", correct = TRUE),
+  incorrect = "My output had seven, but yours may be a little different.",
+  try_again_button = "Modify your answer",
+  allow_retry = TRUE
+)
+```
+
+## Mahalanobis
+
+Finally, let's calculate our Mahalanobis scores. Remember to save the `badmahal`, and exclude the column with `type_work`.
+
+```{r mahal-setup}
+screen <- lm(OCB ~ cognitive + affective + years + type_work, data = regress_data)
+k <- 6
+leverage <- hatvalues(screen)
+cutleverage <- (2*k+2)/nrow(regress_data)
+badleverage <- leverage > cutleverage
+
+cooks <- cooks.distance(screen)
+cutcooks <- 4 / (nrow(regress_data) - k - 1)
+badcooks <- cooks > cutcooks
+```
+
+```{r mahal, exercise = TRUE}
+
+```
+
+```{r mahal-solution}
+mahal <- mahalanobis(regress_data[ , -1], 
+                    colMeans(regress_data[ , -1]), 
+                    cov(regress_data[ , -1]))
+cutmahal <- qchisq(1-.001, ncol(regress_data[ , -1]))
+badmahal <- mahal > cutmahal
+table(badmahal)
+```
+
+```{r mahal-open}
+question_text(
+  "How many Mahalanobis outliers did you have?",
+  answer("Depends on your simulation.", correct = TRUE),
+  incorrect = "My output had none, but yours may be a little different.",
+  try_again_button = "Modify your answer",
+  allow_retry = TRUE
+)
+```
+
+## No Outliers
+
+Let's add up our outlier indicators and figure out how many outliers we have with at least two indicators. Then you should create `noout` to exclude those points. 
+
+```{r noout-setup}
+screen <- lm(OCB ~ cognitive + affective + years + type_work, data = regress_data)
+k <- 6
+leverage <- hatvalues(screen)
+cutleverage <- (2*k+2)/nrow(regress_data)
+badleverage <- leverage > cutleverage
+
+cooks <- cooks.distance(screen)
+cutcooks <- 4 / (nrow(regress_data) - k - 1)
+badcooks <- cooks > cutcooks
+
+mahal <- mahalanobis(regress_data[ , -1], 
+                    colMeans(regress_data[ , -1]), 
+                    cov(regress_data[ , -1]))
+cutmahal <- qchisq(1-.001, ncol(regress_data[ , -1]))
+badmahal <- mahal > cutmahal
+```
+
+```{r noout, exercise = TRUE}
+
+```
+
+```{r noout-solution}
+totalout <- badleverage + badcooks + badmahal
+table(totalout)
+noout <- subset(regress_data, totalout < 2)
+```
+
+```{r noout-open}
+question_text(
+  "How many total outliers did you have?",
+  answer("Depends on your simulation.", correct = TRUE),
+  incorrect = "My output had two, but yours may be a little different.",
+  try_again_button = "Modify your answer",
+  allow_retry = TRUE
+)
+```
+
+## Hierarchical Regression
+
+1) First, control for years on the job in the first step of the regression analysis.
+2) Then use the factor coded type of job variable to determine if it has an effect on organizational citizenship behavior.
+3) Last, test if cognitive and affect measures of job satisfaction are predictors of organizational citizenship behavior. 
+4) Include the summaries of each step, along with the ANOVA of the change between each step.
+
+```{r hierarchical-setup}
+screen <- lm(OCB ~ cognitive + affective + years + type_work, data = regress_data)
+k <- 6
+leverage <- hatvalues(screen)
+cutleverage <- (2*k+2)/nrow(regress_data)
+badleverage <- leverage > cutleverage
+
+cooks <- cooks.distance(screen)
+cutcooks <- 4 / (nrow(regress_data) - k - 1)
+badcooks <- cooks > cutcooks
+
+mahal <- mahalanobis(regress_data[ , -1], 
+                    colMeans(regress_data[ , -1]), 
+                    cov(regress_data[ , -1]))
+cutmahal <- qchisq(1-.001, ncol(regress_data[ , -1]))
+badmahal <- mahal > cutmahal
+
+totalout <- badleverage + badcooks + badmahal
+noout <- subset(regress_data, totalout < 2)
+```
+
+```{r hierarchical, exercise = TRUE}
+
+```
+
+```{r hierarchical-solution}
+step1 <- lm(OCB ~ years, data = noout)
+step2 <- lm(OCB ~ years + type_work, data = noout)
+step3 <- lm(OCB ~ years + type_work + cognitive + affective, data = noout)
+
+summary(step1)
+summary(step2)
+summary(step3)
+anova(step1, step2, step3)
+```
+
+```{r overall-open}
+question_text(
+  "Examine your model comparisons. Did the addition of each step add a significant amount of variance?",
+  answer("Depends on your simulation.", correct = TRUE),
+  incorrect = "Step 1 was not significant, but Step 2 shows a significant change in R2, and Step 3 showed another significant change in R2. Step 2 added the most variance.",
+  try_again_button = "Modify your answer",
+  allow_retry = TRUE
+)
+```
+
+```{r predictors-open}
+question_text(
+  "Look at each predictor in the step they were first added. Which predictors are significant?",
+  answer("Depends on your simulation.", correct = TRUE),
+  incorrect = "Years is not in step 1, type work is significant in step 2, cognitive is not significant in step 3, but affective was significant in step 3.",
+  try_again_button = "Modify your answer",
+  allow_retry = TRUE
+)
+```
+
+To interpret our categorical predictors, we should calculate their marginal means. Use the `emmeans` library to calculate the means for `type_work` on step 2 of your model.
+
+```{r emmeans-setup}
+screen <- lm(OCB ~ cognitive + affective + years + type_work, data = regress_data)
+k <- 6
+leverage <- hatvalues(screen)
+cutleverage <- (2*k+2)/nrow(regress_data)
+badleverage <- leverage > cutleverage
+
+cooks <- cooks.distance(screen)
+cutcooks <- 4 / (nrow(regress_data) - k - 1)
+badcooks <- cooks > cutcooks
+
+mahal <- mahalanobis(regress_data[ , -1], 
+                    colMeans(regress_data[ , -1]), 
+                    cov(regress_data[ , -1]))
+cutmahal <- qchisq(1-.001, ncol(regress_data[ , -1]))
+badmahal <- mahal > cutmahal
+
+totalout <- badleverage + badcooks + badmahal
+noout <- subset(regress_data, totalout < 2)
+
+step1 <- lm(OCB ~ years, data = noout)
+step2 <- lm(OCB ~ years + type_work, data = noout)
+step3 <- lm(OCB ~ years + type_work + cognitive + affective, data = noout)
+```
+
+```{r emmeans, exercise = TRUE}
+library(emmeans)
+```
+
+```{r emmeans-solution}
+library(emmeans)
+emmeans(step2, "type_work")
+```
+
+```{r emmeans-open}
+question_text(
+  "Our dummy coding compared everyone to the Secretary. What the means tell us about the differences in citizenship behavior between the secretary and our other groups?",
+  answer("They are lower on OCB for all group comparisons.", correct = TRUE),
+  incorrect = "The predictors show they have different means from all other groups, and these means show that secretaries have lower OCB than everyone else.",
+  try_again_button = "Modify your answer",
+  allow_retry = TRUE
+)
+```
+
+## Submit
+
+On this page, you will create the submission for your instructor (if necessary). Please copy this report and submit using a Word document or paste into the text window of your submission page. Click "Generate Submission" to get your work! 
+
+```{r context="server"}
+encoder_logic()
+```
+
+```{r encode, echo=FALSE}
+encoder_ui()
 ```

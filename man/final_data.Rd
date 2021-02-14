@@ -7,7 +7,7 @@
 final_data(idnum = NULL)
 }
 \arguments{
-\item{id}{Student ID number to set up data.}
+\item{idnum}{Student ID number to set up data.}
 }
 \value{
 midterm dataset

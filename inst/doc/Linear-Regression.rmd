@@ -149,7 +149,7 @@ knitr::include_graphics("pictures/regression/6.png")
 - $\beta$ = standardized regression coefficient
 
     - b in standard deviation units.
-    - For every one SD increase in X, there will be $/beta$ SDs increase in Y.
+    - For every one SD increase in X, there will be $\beta$ SDs increase in Y.
     
 - b or $\beta$?:
 
@@ -267,7 +267,7 @@ table(badleverage)
 
 ```{r echo=TRUE, message=FALSE, warning=FALSE}
 cooks <- cooks.distance(model1)
-cutcooks <- 4 / (nrow(master) - k - 1)
+cutcooks <- 4 / (nrow(nomiss) - k - 1)
 badcooks <- as.numeric(cooks > cutcooks)
 table(badcooks)
 ```
@@ -283,7 +283,7 @@ table(badcooks)
 totalout <- badmahal + badleverage + badcooks
 table(totalout)
 
-noout <- subset(master, totalout < 2)
+noout <- subset(nomiss, totalout < 2)
 ```
 
 ## Example: Assumptions
@@ -426,9 +426,9 @@ knitr::include_graphics("pictures/regression/19.png")
 
 - We would add these to our other reports:
 
-    - Meaning: `r apa_style$full_result$PIL_total`, $pr^2 = .34$
+    - Meaning: `r apa_style$full_result$PIL_total`, $pr^2 = .30$
     - Alcohol: `r apa_style$full_result$AUDIT_TOTAL_NEW`, $pr^2 < .01$
-    - Drugs: `r apa_style$full_result$DAST_TOTAL_NEW`, $pr^2 = .02$
+    - Drugs: `r apa_style$full_result$DAST_TOTAL_NEW`, $pr^2 < .01$
 
 ```{r echo=TRUE, message=FALSE, warning=FALSE}
 library(ppcor)
@@ -556,7 +556,7 @@ anova(model1, model2)
     
 ## Example: Hierarchical Regression + Dummy Coding
 
-```{r, echo = FALSE, out.width="75%", fig.align='left'}
+```{r, echo = TRUE, out.width="75%", fig.align='left'}
 summary(model2)
 
 library(emmeans)
@@ -616,5 +616,3 @@ pwr.f2.test(u = model_summary$df[1],
     - Effect sizes and regression
     - Categorical predictors and regression
     - Power for regression
-    
-

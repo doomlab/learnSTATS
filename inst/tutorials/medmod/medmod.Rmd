@@ -1,76 +1,179 @@
 ---
 title: "Mediation and Moderation"
+tutorial:
+  id: "medmod"
 output: learnr::tutorial
 runtime: shiny_prerendered
+description: In this regression add-on section, you will learn about mediation and moderation analyses. 
 ---
 
-```{r setup, include=FALSE}
+```{r setup, include=FALSE, mesage = F}
 library(learnr)
+library(learnSTATS)
+library(faux)
+library(emmeans)
+
+if("MeMoBootR" %in% rownames(installed.packages()) == FALSE) {warning("Please install MeMoBootR using devtools::install_github('doomlab/MeMoBootR')")}
+
+library(MeMoBootR)
+data("regress_data")
+
+regress_data <- na.omit(regress_data)
+
+regress_data <- sim_df(regress_data, #data frame
+                      sample(40:50, 1), #how many of each group
+                      between = "type_work") 
+
+regress_data <- regress_data[ , -1]
+
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
-https://youtu.be/-ngp06-qrtI
-https://youtu.be/B_ZJDQXo4fs
+## Mediation and Moderation
 
-## Topic 1
+In the previous lecture, you learned about linear regression. This section will cover two special instances of regression that are popular: mediation and moderation. You will learn the following:
 
-### Exercise 
+- Mediation: Third Wheels, understanding how adding a third variable may redirect or change the relationship of two other variables
+- Moderation: Interactions, understanding how the third variable may interact with the predictor in understanding the dependent variable. 
 
-*Here's a simple exercise with an empty code chunk provided for entering the answer.*
+## Mediation Video
 
-Write the R code required to add two plus two:
+The following videos are provided as a lecture for the class material. The lectures are provided here as part of the flow for the course. You can view the lecture notes within *R* using `vignette("Mediation-Moderation", "learnSTATS")`. You can skip these pages if you are in class to go on to the assignment. 
 
-```{r two-plus-two, exercise=TRUE}
+<iframe width="560" height="315" src="https://www.youtube.com/embed/-ngp06-qrtI" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-```
+## Moderation Video
 
-### Exercise with Code
+<iframe width="560" height="315" src="https://www.youtube.com/embed/B_ZJDQXo4fs" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-*Here's an exercise with some prepopulated code as well as `exercise.lines = 5` to provide a bit more initial room to work.*
+## Exercises
 
-Now write a function that adds any two numbers and then call it:
+In this next section, you will answer questions using the *R* code blocks provided. Be sure to use the `solution` option to see the answer if you need it!
 
-```{r add-function, exercise=TRUE, exercise.lines = 5}
-add <- function() {
-  
-}
-```
+Please enter your name for submission. If you do not need to submit, just type anything you'd like in this box. 
 
-## Topic 2
-
-### Exercise with Hint
-
-*Here's an exercise where the chunk is pre-evaulated via the `exercise.eval` option (so the user can see the default output we'd like them to customize). We also add a "hint" to the correct solution via the chunk immediate below labeled `print-limit-hint`.*
-
-Modify the following code to limit the number of rows printed to 5:
-
-```{r print-limit, exercise=TRUE, exercise.eval=TRUE}
-mtcars
-```
-
-```{r print-limit-hint}
-head(mtcars)
-```
-
-### Quiz
-
-*You can include any number of single or multiple choice questions as a quiz. Use the `question` function to define a question and the `quiz` function for grouping multiple questions together.*
-
-Some questions to verify that you understand the purposes of various base and recommended R packages:
-
-```{r quiz}
-quiz(
-  question("Which package contains functions for installing other R packages?",
-    answer("base"),
-    answer("tools"),
-    answer("utils", correct = TRUE),
-    answer("codetools")
-  ),
-  question("Which of the R packages listed below are used to create plots?",
-    answer("lattice", correct = TRUE),
-    answer("tools"),
-    answer("stats"),
-    answer("grid", correct = TRUE)
-  )
+```{r details}
+question_text(
+  "Student Name:",
+  answer("Your Name", correct = TRUE),
+  incorrect = "Thanks!",
+  try_again_button = "Modify your answer",
+  allow_retry = TRUE
 )
+```
+
+## Experiment Design 
+
+**NOTE**: This dataset is the same as last week!
+
+*Title*: The influence of cognitive and affective based job satisfaction measures on the relationship between satisfaction and organizational citizenship behavior
+
+*Abstract*: One of the most widely believed maxims of management is that a happy worker is a productive worker. However, most research on the nature of the relationship between job satisfaction and job performance has not yielded convincing evidence that such a relationship exists to the degree most managers believe. One reason for this might lie in the way in which job performance is measured. Numerous studies have been published that showed that using Organizational Citizenship Behavior to supplant more traditional measures of job performance has resulted in a more robust relationship between job satisfaction and job performance. Yet, recent work has suggested that the relationship between job satisfaction and citizenship may be more complex than originally reported. This study investigated whether the relationship between job satisfaction and citizenship could depend upon the nature of the job satisfaction measure used. Specifically, it was hypothesized that job satisfaction measures which reflect a cognitive basis would be more strongly related to OCB than measures of job satisfaction, which reflect an affective basis. Results from data collected in two midwestern companies show support for the relative importance of cognition based satisfaction over affect based satisfaction. Implications for research on the causes of citizenship are discussed.
+
+## Dataset
+
+- Dependent variable (Y): OCB - Organizational citizenship behavior measure
+-	Independent variables (X)
+  - Affective - job satisfaction measures that measure emotion
+  - Cognitive - job satisfaction measures that measure cognition (thinking)
+  -	Years - years on the job
+  -	Type_work - type of employee measured (secretary, assistant, manager, boss)	
+  
+```{r echo = T, eval = F}
+library(learnSTATS)
+data("regress_data")
+head(regress_data)
+```
+  
+```{r echo = F}
+head(regress_data)
+```
+
+## Mediation
+
+Using the same data as last week, we will now practice our special regression using mediation and moderation. Use `regress_data` as our calculated dataset from the last class does not apply to this analysis. 
+
+Using `MeMoBootR`, let's calculate a mediation analysis with number of years mediating the relationship between affective measurements and the OCB. Be sure to print out the Sobel test and the bootstrapped results to answer questions. 
+
+```{r mediation, exercise = TRUE}
+library(MeMoBootR)
+```
+
+```{r mediation-solution}
+library(MeMoBootR)
+
+output <- mediation1(y = "OCB", x = "affective", m = "years", 
+                    df = regress_data)
+
+output$z.score; output$p.value
+
+output$boot.ci
+```
+
+```{r mediation-ds}
+question_text(
+  "Since the graphs print out for data screening - do you meet the assumption for normality? ",
+  answer("Depends on simulation, slight skew.", correct = TRUE),
+  incorrect = "My data had a slight negative skew but was mostly ok.",
+  try_again_button = "Modify your answer",
+  allow_retry = TRUE
+)
+```
+
+```{r mediation-effect}
+question_text(
+  "Is there any evidence of mediation? Explain both Sobel and bootstrapping.",
+  answer("Sobel test was not significant. The bootstrapping effect  confidence interval included zero. Therefore, no mediation.", correct = TRUE),
+  incorrect = "Sobel test was not significant. The bootstrapping effect  confidence interval included zero. Therefore, no mediation.",
+  try_again_button = "Modify your answer",
+  allow_retry = TRUE
+)
+```
+
+## Moderation
+
+Using `MeMoBootR`, let's calculate a moderation analysis where the cognitive and affective measurements interact to predict OCB. Be sure to print out your `graphslopes` and a `summary(output$model1)` to help you see if moderation has occurred. 
+
+```{r moderation, exercise = TRUE}
+
+```
+
+```{r moderation-solution}
+output <- moderation1(y = "OCB", x = "affective", m = "cognitive", 
+                    df = regress_data)
+
+output$graphslopes
+summary(output$model1)
+```
+
+```{r moderation-ds}
+question_text(
+  "Since the graphs print out for data screening - do you meet the assumption for linearity? ",
+  answer("Depends on simulation, but likely yes.", correct = TRUE),
+  incorrect = "My results indicated the data was linear.",
+  try_again_button = "Modify your answer",
+  allow_retry = TRUE
+)
+```
+
+```{r moderation-effect}
+question_text(
+  "Is there any evidence of moderation?",
+  answer("No, the interaction term was not significant. The slopes are parallel on the graph.", correct = TRUE),
+  incorrect = "No, the interaction term was not significant. The slopes are parallel on the graph.",
+  try_again_button = "Modify your answer",
+  allow_retry = TRUE
+)
+```
+
+## Submit
+
+On this page, you will create the submission for your instructor (if necessary). Please copy this report and submit using a Word document or paste into the text window of your submission page. Click "Generate Submission" to get your work! 
+
+```{r context="server"}
+encoder_logic()
+```
+
+```{r encode, echo=FALSE}
+encoder_ui()
 ```

@@ -1,4 +1,4 @@
-## ---- include = FALSE-----------------------------------
+## ---- include = FALSE---------------------------
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
@@ -7,7 +7,7 @@ knitr::opts_chunk$set(
 ## ---- echo = FALSE, out.width="75%", fig.align='center'----
 knitr::include_graphics("pictures/anova/1.png")
 
-## ----message=FALSE--------------------------------------
+## ----message=FALSE------------------------------
 library(rio)
 master <- import("data/viagra.sav")
 str(master)
@@ -51,7 +51,7 @@ knitr::include_graphics("pictures/anova/14.png")
 ## ---- echo = FALSE, out.width="100%", fig.align='center'----
 knitr::include_graphics("pictures/anova/15.png")
 
-## ----echo=TRUE------------------------------------------
+## ----echo=TRUE----------------------------------
 library(ez)
 
 ## you must have a participant number for ezANOVA
@@ -64,7 +64,7 @@ ezANOVA(data = master,
         type = 3, 
         detailed = T)
 
-## ----echo = F, message=FALSE, warning=FALSE-------------
+## ----echo = T, message=FALSE, warning=FALSE-----
 ezANOVA(data = master,
         dv = libido,
         between = dose,
@@ -72,11 +72,11 @@ ezANOVA(data = master,
         type = 3, 
         detailed = T)$`Levene's Test for Homogeneity of Variance`
 
-## -------------------------------------------------------
+## -----------------------------------------------
 ## running a one way anova - if Levene's Test is significant
 oneway.test(libido ~ dose, data = master)
 
-## ----echo=FALSE, message=FALSE, warning=FALSE-----------
+## ----echo=FALSE, message=FALSE, warning=FALSE----
 ezANOVA(data = master,
         dv = libido,
         between = dose,
@@ -84,7 +84,7 @@ ezANOVA(data = master,
         type = 3, 
         detailed = T)$ANOVA
 
-## ----echo=TRUE, message=FALSE, warning=FALSE------------
+## ----echo=TRUE, message=FALSE, warning=FALSE----
 library(MOTE)
 effect <- omega.F(dfm = 2, #this is dfn in the anova
                   dfe = 12, #this is dfd in the anova
@@ -93,7 +93,7 @@ effect <- omega.F(dfm = 2, #this is dfn in the anova
                   a = .05) #leave this as .05
 effect$omega
 
-## ----echo=TRUE, message=FALSE, warning=FALSE------------
+## ----echo=TRUE, message=FALSE, warning=FALSE----
 ## post hoc tests - p.value adjustment "none"
 pairwise.t.test(master$libido,
                 master$dose,
@@ -104,7 +104,7 @@ pairwise.t.test(master$libido,
 ## ---- echo = FALSE, out.width="75%", fig.align='center'----
 knitr::include_graphics("pictures/anova/16.png")
 
-## ----echo=TRUE, message=FALSE, warning=FALSE------------
+## ----echo=TRUE, message=FALSE, warning=FALSE----
 ## post hoc tests - p.value adjustment "bonferroni"
 pairwise.t.test(master$libido,
                 master$dose,
@@ -118,7 +118,7 @@ knitr::include_graphics("pictures/anova/17.png")
 ## ---- echo = FALSE, out.width="75%", fig.align='center'----
 knitr::include_graphics("pictures/anova/18.png")
 
-## ----echo=TRUE, message=FALSE, warning=FALSE------------
+## ----echo=TRUE, message=FALSE, warning=FALSE----
 ## get numbers for effect size
 M <- tapply(master$libido, master$dose, mean)
 N <- tapply(master$libido, master$dose, length)
@@ -170,7 +170,7 @@ bargraph +
 ## ---- echo = FALSE, out.width="75%", fig.align='center'----
 knitr::include_graphics("pictures/anova/19.png")
 
-## ----echo=TRUE, message=FALSE, warning=FALSE------------
+## ----echo=TRUE, message=FALSE, warning=FALSE----
 ## trend analysis
 k = 3 ## set to the number of groups
 master$dose2 <- master$dose #this changes the variable
@@ -193,7 +193,7 @@ doseline +
   ylab("Average Libido") + 
   cleanup
 
-## ----echo=TRUE, message=FALSE, warning=FALSE------------
+## ----echo=TRUE, message=FALSE, warning=FALSE----
 library(pwr)
 eta = .46
 f_eta = sqrt(eta / (1-eta))

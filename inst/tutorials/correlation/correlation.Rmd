@@ -11,54 +11,60 @@ description: Let's now move on from basic statistics to building our first model
 library(learnr)
 library(learnSTATS)
 library(faux)
+library(cocor)
+data("correlation")
 
-##original data
-lab7_original <- read.csv(paste("07_lab_correlation/07_data", current_data, sep = ""))
-summary(lab7_original)
+correlation <- na.omit(correlation)
 
-lab7_update <- sim_df(lab7_original, #data frame
-                      how_many, #how many of each group
-                      between = "gender",
-                      seed = this_year_seed) 
+correlation <- sim_df(correlation, #data frame
+                      sample(100:150, 1), #how many of each group
+                      between = "gender") 
 
-##add a bit more noise
-lab7_update$temporality <- lab7_update$temporality * small_changes[1]
-lab7_update$expectability <- round(lab7_update$expectability * small_changes[2], 0)
-lab7_update$relativity <- lab7_update$relativity * small_changes[3]
-lab7_update$positive <- lab7_update$positive * small_changes[4]
+correlation <- correlation[ , -1]
 
-
-
-lab7_update <- messy(lab7_update, 
-                     prop = .03,
-                     3:6,
+correlation <- messy(correlation, 
+                     prop = .01,
+                     2:5,
                      replace = NA)
+
+correlation$temporality[ correlation$temporality < 1 ] <- NA
+correlation$temporality[ correlation$temporality > 7 ] <- NA
+correlation$relativity[ correlation$relativity < 1 ] <- NA
+correlation$relativity[ correlation$relativity > 7 ] <- NA
+correlation$positive[ correlation$positive < 1 ] <- NA
+correlation$positive[ correlation$positive > 7 ] <- NA
+
+library(ggplot2)
+cleanup <- theme(panel.grid.major = element_blank(), 
+                panel.grid.minor = element_blank(), 
+                panel.background = element_blank(), 
+                axis.line.x = element_line(color = "black"),
+                axis.line.y = element_line(color = "black"),
+                legend.key = element_rect(fill = "white"),
+                text = element_text(size = 15))
+
+correlation$gender <- as.factor(correlation$gender)
 
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
-## Introduction to More Statistics
+## Correlation
 
-In this example, we will begin to build our first statistical models. You will learn how to use `apply` family of functions to calculate our descriptive statistics. The learning objectives include:
+In our first statistical analysis section, we will begin by creating the simplest of regression models: correlation. Correlation includes two variables, usually continuous, to examine their co-relation. The learning objectives include:
 
-- Know what a statistical model is and why we use them
-- Measures of central tendency, dispersion, frequency distributions
-- Know what the 'fit' of a model is and why it is important
-- Distinguish models for samples and populations
-  
+- What is correlation?
+- What are the various types of correlations?
+- How can we compare correlations?
 
-https://youtu.be/LPlDgz6CNBE
-https://youtu.be/zD5op6nHSpU
+## Correlation Video Part 1
 
-## More Statistics Video Part 1
+The following videos are provided as a lecture for the class material. The lectures are provided here as part of the flow for the course. You can view the lecture notes within *R* using `vignette("Correlation", "learnSTATS")`. You can skip these pages if you are in class to go on to the assignment. 
 
-The following videos are provided as a lecture for the class material. The lectures are provided here as part of the flow for the course. You can view the lecture notes within *R* using `vignette("More-Stats-Concepts", "learnSTATS")`. You can skip these pages if you are in class to go on to the assignment. 
+<iframe width="560" height="315" src="https://www.youtube.com/embed/LPlDgz6CNBE" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/o5a7wQXtAe0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+## Correlation Video Part 2
 
-## More Statistics Video Part 2
-
-<iframe width="560" height="315" src="https://www.youtube.com/embed/mmRejGb3cYg" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/zD5op6nHSpU" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 ## Exercises
 
@@ -75,3 +81,195 @@ question_text(
   allow_retry = TRUE
 )
 ```
+
+## Experiment Design
+
+*Title*: Big Data Analytics Services for Enhancing Business Intelligence
+
+*Abstract*: This article examines how to use big data analytics services to enhance business intelligence (BI). More specifically, this article proposes an ontology of big data analytics and presents a big data analytics service-oriented architecture (BASOA), and then applies BASOA to BI, where our surveyed data analysis shows that the proposed BASOA is viable for enhancing BI and enterprise information systems. This article also explores temporality, expectability, and relativity as the characteristics of intelligence in BI. These characteristics are what customers and decision makers expect from BI in terms of systems, products, and services of organizations. The proposed approach in this article might facilitate the research and development of business analytics, big data analytics, and BI as well as big data science and big data computing.
+
+## Dataset
+
+-	Gender of the participant surveyed on these topics
+-	Temporality: an average score of the rated ability to adapt to change over time 1 (not changing) to 7 (changing a lot)
+-	Expectability: a rated degree of satisfaction with the BI
+-	Relativity: average score rating of how much better one system is than another in BI 1 (not very good) to 7 (very good)
+-	Positive emotion: how positive participants felt about BI (higher scores are more positive, ranges from 1 to 7).
+
+```{r echo = T, eval = F}
+library(learnSTATS)
+data("correlation")
+head(correlation)
+```
+  
+```{r echo = F}
+head(correlation)
+```
+
+## Graphing Correlations
+
+Go back to your graphing notes to remember how to make these plots! The `cleanup` code has been loaded for you. Create a scatter plot of temporality and relativity.
+    
+```{r plot1, exercise = TRUE}
+
+```
+    
+```{r plot1-solution}
+scatter <- ggplot(correlation, aes(temporality, relativity))
+scatter +
+  cleanup +
+  geom_point() +
+  xlab("Temporality Rating") +
+  ylab("Relativity Rating") +
+  coord_cartesian(ylim = c(0.5,7.5), xlim = c(0.5, 7.5))
+```
+
+```{r plot1-open}
+question_text(
+  "Why type of relationship do these two variables have?",
+  answer("Positive relationship.", correct = TRUE),
+  incorrect = "They appear to have a positive relationship.",
+  try_again_button = "Modify your answer",
+  allow_retry = TRUE
+)
+```
+    
+## Graphing Correlations
+    
+Create a scatter plot of expectability and relativity, grouping by gender. Include the linear line on the graph. 
+
+```{r plot2, exercise = TRUE}
+
+```
+    
+```{r plot2-solution}
+scatter <- ggplot(correlation, aes(expectability, relativity, color = gender, fill = gender))
+scatter +
+  cleanup +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  xlab("Expectability Rating") +
+  ylab("Relativity Rating") +
+  coord_cartesian(ylim = c(1,7), xlim = c(1,7)) + 
+  scale_fill_discrete(name = "Gender", labels = c("Men", "Women")) +
+  scale_color_discrete(name = "Gender", labels = c("Men", "Women"))
+```
+
+```{r plot2-open}
+question_text(
+  "What type of relationship do these two variables appear to have for each group?",
+  answer("No relationship for women, small positive for men.", correct = TRUE),
+  incorrect = "There appears to be no relationship for women, but small and positive for men.",
+  try_again_button = "Modify your answer",
+  allow_retry = TRUE
+)
+```
+    
+## Correlation Tables
+
+Using `Hmisc` create a correlation table for all the variables using Pearson's correlation. Do not forget that you will need to restructure gender to create a point biserial correlation. Also, do not forget that `Hmisc` does not like missing data. 
+    
+```{r correl1, exercise = TRUE}
+library(Hmisc, quietly = T)
+```
+
+```{r correl1-solution}
+library(Hmisc, quietly = T)
+correlation$gender2 <- as.numeric(correlation$gender)
+rcorr(as.matrix(na.omit(correlation [ , -1])))
+```
+
+```{r correl1-open}
+question_text(
+  "Which correlation was the strongest?",
+  answer("Temporality and gender", correct = TRUE),
+  incorrect = "Temporality and gender - be sure to look at the first output for r.",
+  try_again_button = "Modify your answer",
+  allow_retry = TRUE
+)
+```
+
+## Confidence Intervals 
+
+Calculate correlation and confidence interval for temporality and relativity.
+
+```{r cicorrel1, exercise = TRUE}
+
+```
+
+```{r cicorrel1-solution}
+with(correlation, cor.test(relativity, temporality, method = "pearson"))
+##OR
+cor.test(correlation$relativity, correlation$temporality, method = "pearson")
+```
+
+```{r cicorrel1-open}
+question_text(
+  "Does that confidence interval include zero?",
+  answer("Negative", correct = TRUE),
+  incorrect = "No, which indicates it is unlikely to be zero in the population.",
+  try_again_button = "Modify your answer",
+  allow_retry = TRUE
+)
+```
+
+## Compare Dependent Correlations
+
+Calculate the difference in correlations for 1) temporality and expectability and 2) temporality and positive emotion.
+
+```{r correl2, exercise = TRUE}
+library(cocor)
+```
+
+```{r correl2-solution}
+library(cocor)
+cocor(~expectability + temporality | temporality + positive, data = correlation)
+```
+
+```{r correl2-open}
+question_text(
+  "Is there a significant difference in their correlations?",
+  answer("Yes there is.", correct = TRUE),
+  incorrect = "Yes, temporality is positively related to expectability, while negatively related to positive emotion.",
+  try_again_button = "Modify your answer",
+  allow_retry = TRUE
+)
+```
+
+## Compare Independent Correlations
+
+Calculate the difference in correlations for gender on temporality and relativity.
+
+```{r correl3, exercise = TRUE}
+
+```
+    
+```{r correl3-solution}
+men <- subset(correlation, gender == "men")
+women <- subset(correlation, gender == "women")
+inddata <- list(men, women)
+cocor(~temporality + relativity | temporality + relativity, data = inddata)
+```
+
+```{r correl3-open}
+question_text(
+  "Is there a significant difference in their correlations?",
+  answer("Depends on your data.", correct = TRUE),
+  incorrect = "In my case, yes as men have a small positive relationship while women have a medium negative relationship. Remember that the data is simulated differently for everyone!",
+  try_again_button = "Modify your answer",
+  allow_retry = TRUE
+)
+```
+    
+## Submit
+
+On this page, you will create the submission for your instructor (if necessary). Please copy this report and submit using a Word document or paste into the text window of your submission page. Click "Generate Submission" to get your work! 
+
+```{r context="server"}
+encoder_logic()
+```
+
+```{r encode, echo=FALSE}
+encoder_ui()
+```
+

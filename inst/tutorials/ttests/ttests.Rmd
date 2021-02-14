@@ -1,76 +1,336 @@
 ---
 title: "t-Tests"
+tutorial:
+  id: "ttests"
 output: learnr::tutorial
 runtime: shiny_prerendered
+description: You will now learn how to analyze a two-group simple design with one binary independent variable and one continous dependent variable - the t-test. 
 ---
 
-```{r setup, include=FALSE}
+```{r setup, include=FALSE, mesage = F}
 library(learnr)
+library(learnSTATS)
+library(faux)
+data("ttest_data")
+library(MOTE)
+library(pwr)
+library(reshape)
+
+ttest_data <- na.omit(ttest_data)
+
+ttest_data <- sim_df(ttest_data, #data frame
+                     sample(50:100, 1), #how many of each group
+                     between = "gender")
+
+ttest_data$PAL_cell[ttest_data$PAL_cell > 100 | ttest_data$PAL_cell < 0] <- NA
+ttest_data$PAL_acc[ttest_data$PAL_cell > 100 | ttest_data$PAL_acc < 0] <- NA
+
+ttest_data <- na.omit(ttest_data)
+
+ttest_data <- ttest_data[ , -1]
+
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
-https://youtu.be/Qo0CHm2V-lc
-https://youtu.be/ej-hXzgef04
+## Comparing Two Means
 
-## Topic 1
+The simplest experiment is two groups for your independent variable and a continuous dependent variable. This scenario can be analyzed with a t-test! In this section, we will go back to simple, special cases of regression. The learning objectives include:
 
-### Exercise 
+- What is t-test and how can we use it in data analytics?
+- What are independent and dependent t-tests?  
 
-*Here's a simple exercise with an empty code chunk provided for entering the answer.*
+## Independent t-Test Video
 
-Write the R code required to add two plus two:
+The following videos are provided as a lecture for the class material. The lectures are provided here as part of the flow for the course. You can view the lecture notes within *R* using `vignette("Comparing-Means", "learnSTATS")`. You can skip these pages if you are in class to go on to the assignment. 
 
-```{r two-plus-two, exercise=TRUE}
+<iframe width="560" height="315" src="https://www.youtube.com/embed/Qo0CHm2V-lc" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-```
+## Dependent t-Test Video
 
-### Exercise with Code
+<iframe width="560" height="315" src="https://www.youtube.com/embed/ej-hXzgef04" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-*Here's an exercise with some prepopulated code as well as `exercise.lines = 5` to provide a bit more initial room to work.*
+## Exercises
 
-Now write a function that adds any two numbers and then call it:
+In this next section, you will answer questions using the *R* code blocks provided. Be sure to use the `solution` option to see the answer if you need it!
 
-```{r add-function, exercise=TRUE, exercise.lines = 5}
-add <- function() {
-  
-}
-```
+Please enter your name for submission. If you do not need to submit, just type anything you'd like in this box. 
 
-## Topic 2
-
-### Exercise with Hint
-
-*Here's an exercise where the chunk is pre-evaulated via the `exercise.eval` option (so the user can see the default output we'd like them to customize). We also add a "hint" to the correct solution via the chunk immediate below labeled `print-limit-hint`.*
-
-Modify the following code to limit the number of rows printed to 5:
-
-```{r print-limit, exercise=TRUE, exercise.eval=TRUE}
-mtcars
-```
-
-```{r print-limit-hint}
-head(mtcars)
-```
-
-### Quiz
-
-*You can include any number of single or multiple choice questions as a quiz. Use the `question` function to define a question and the `quiz` function for grouping multiple questions together.*
-
-Some questions to verify that you understand the purposes of various base and recommended R packages:
-
-```{r quiz}
-quiz(
-  question("Which package contains functions for installing other R packages?",
-    answer("base"),
-    answer("tools"),
-    answer("utils", correct = TRUE),
-    answer("codetools")
-  ),
-  question("Which of the R packages listed below are used to create plots?",
-    answer("lattice", correct = TRUE),
-    answer("tools"),
-    answer("stats"),
-    answer("grid", correct = TRUE)
-  )
+```{r details}
+question_text(
+  "Student Name:",
+  answer("Your Name", correct = TRUE),
+  incorrect = "Thanks!",
+  try_again_button = "Modify your answer",
+  allow_retry = TRUE
 )
+```
+
+## Experiment Design
+
+*Title*: Estimation of physical activity levels using cell phone questionnaires: A comparison with accelerometry for evaluation of between-subject and within-subject variations
+
+*Abstract*: Physical activity promotes health and longevity. From a business perspective, healthier employees are more likely to report to work, miss less days, and cost less for health insurance. Your business wants to encourage healthy lifestyles in a cheap and affordable way through health care incentive programs. The use of telecommunication technologies such as cell phones is highly interesting in this respect. In an earlier report, we showed that physical activity level (PAL) assessed using a cell phone procedure agreed well with corresponding estimates obtained using the doubly labeled water method. However, our earlier study indicated high within-subject variation in relation to between-subject variations in PAL using cell phones, but we could not assess if this was a true variation of PAL or an artifact of the cell phone technique. Objective: Our objective was to compare within- and between-subject variations in PAL by means of cell phones with corresponding estimates using an accelerometer. In addition, we compared the agreement of daily PAL values obtained using the cell phone questionnaire with corresponding data obtained using an accelerometer. 
+
+## Dataset 
+
+-	Gender: male and female subjects were examined in this experiment.
+- PAL_cell: average physical activity values for the cell phone accelerometer (range 0-100).
+-	PAL_acc: average physical activity values for the hand held accelerometer (range 0-100).
+
+```{r echo = T, eval = F}
+library(learnSTATS)
+data("ttest_data")
+head(ttest_data)
+```
+  
+```{r echo = F}
+head(ttest_data)
+```
+
+## Independent t-Test
+
+Our hypothesis is that there are are differences in gender for the cell phone measurement of physical activity level. In our data screening, we found that we had equal variances, so we can perform an independent t-test to assess this question. 
+
+First, let's calculate and save the mean, standard deviation, and length to be able to use those values to calculate effect size. Save these values as `M`, `STDEV`, and `N`.
+
+```{r descriptive, exercise = TRUE}
+
+```
+
+```{r descriptive-solution}
+M <- tapply(ttest_data$PAL_cell, ttest_data$gender, mean)
+STDEV <- tapply(ttest_data$PAL_cell, ttest_data$gender, sd)
+N <- tapply(ttest_data$PAL_cell, ttest_data$gender, length)
+
+M;STDEV;N
+```
+
+Next, let's examine if there are group differences with our t-test. 
+
+```{r ind1-setup}
+M <- tapply(ttest_data$PAL_cell, ttest_data$gender, mean)
+STDEV <- tapply(ttest_data$PAL_cell, ttest_data$gender, sd)
+N <- tapply(ttest_data$PAL_cell, ttest_data$gender, length)
+```
+
+```{r ind1, exercise = TRUE}
+
+```
+    
+```{r ind1-solution}
+t.test(PAL_cell ~ gender, 
+       data = ttest_data, 
+       var.equal = TRUE,
+       paired = FALSE)
+```
+
+```{r ind1-open}
+question_text(
+  "Is there a significant p < .05 difference in the means?",
+  answer("Yes, p < .05", correct = TRUE),
+  incorrect = "Yes, we would reject the null hypothesis.",
+  try_again_button = "Modify your answer",
+  allow_retry = TRUE
+)
+```
+
+Next, let's get the effect size for this difference in means using `MOTE`. 
+
+```{r effect1-setup}
+M <- tapply(ttest_data$PAL_cell, ttest_data$gender, mean)
+STDEV <- tapply(ttest_data$PAL_cell, ttest_data$gender, sd)
+N <- tapply(ttest_data$PAL_cell, ttest_data$gender, length)
+```
+
+```{r effect1, exercise = TRUE}
+library(MOTE)
+```
+
+```{r effect1-solution}
+library(MOTE)
+effect <- d.ind.t(m1 = M[1], m2 = M[2],
+        sd1 = STDEV[1], sd2 = STDEV[2],
+        n1 = N[1], n2 = N[2], a = .05)
+
+effect$d
+```
+
+```{r effect1-open}
+question_text(
+  "What size is the difference in means?",
+  answer("Large", correct = TRUE),
+  incorrect = "This effect size is large.",
+  try_again_button = "Modify your answer",
+  allow_retry = TRUE
+)
+```
+
+Last, we should figure out how many participants we might need if we replicated this study and expected the same effect size (although, it is quite large, so we may not get something that big again).
+
+```{r power1-setup}
+M <- tapply(ttest_data$PAL_cell, ttest_data$gender, mean)
+STDEV <- tapply(ttest_data$PAL_cell, ttest_data$gender, sd)
+N <- tapply(ttest_data$PAL_cell, ttest_data$gender, length)
+effect <- d.ind.t(m1 = M[1], m2 = M[2],
+        sd1 = STDEV[1], sd2 = STDEV[2],
+        n1 = N[1], n2 = N[2], a = .05)
+```
+
+```{r power1, exercise = TRUE}
+library(pwr)
+```
+
+```{r power1-solution}
+pwr.t.test(n = NULL, 
+           d = effect$d, 
+           sig.level = .05,
+           power = .80, 
+           type = "two.sample", 
+           alternative = "two.sided")
+```
+
+```{r power1-open}
+question_text(
+  "How many participants would I need in this study?",
+  answer("Eight", correct = TRUE),
+  incorrect = "You would need four in each group, so eight total.",
+  try_again_button = "Modify your answer",
+  allow_retry = TRUE
+)
+```
+
+## Dependent t-Test
+
+Let's try those same steps again to examine the hypothesis that there are differences in the cell phone and hand held accelerometer results.
+
+First, let's calculate and save the mean, standard deviation, and length to be able to use those values to calculate effect size. Save these values as `M`, `STDEV`, and `N`. Don't forget! Repeated measures data should be restructured. You can rename the columns, but the solution shows the answer without this step. 
+
+```{r descriptive2, exercise = TRUE}
+
+```
+
+```{r descriptive2-solution}
+library(reshape)
+longdata <- melt(ttest_data, 
+                id = c("gender"), 
+                measured = c("PAL_cell", "PAL_acc"))
+M2 <- tapply(longdata$value, longdata$variable, mean)
+STDEV2 <- tapply(longdata$value, longdata$variable, sd)
+N2 <- tapply(longdata$value, longdata$variable, length)
+
+M2;STDEV2;N2
+```
+
+Are there group differences in the types of accelerometers?
+
+```{r dep1-setup}
+longdata <- melt(ttest_data, 
+                id = c("gender"), 
+                measured = c("PAL_cell", "PAL_acc"))
+M2 <- tapply(longdata$value, longdata$variable, mean)
+STDEV2 <- tapply(longdata$value, longdata$variable, sd)
+N2 <- tapply(longdata$value, longdata$variable, length)
+```
+
+```{r dep1, exercise = TRUE}
+
+```
+    
+```{r dep1-solution}
+t.test(value ~ variable,
+       data = longdata,
+       var.equal = TRUE, #you don't need this line
+       paired = TRUE)
+```
+
+```{r dep1-open}
+question_text(
+  "Is there a significant p < .05 difference in the means?",
+  answer("Yes, p < .05", correct = TRUE),
+  incorrect = "Yes, we would reject the null hypothesis.",
+  try_again_button = "Modify your answer",
+  allow_retry = TRUE
+)
+```
+
+There are several different effect sizes for dependent t. Let's use dependent t-test from averages to calculate the effect size (`d.dep.t.avg`).
+
+```{r effect2-setup}
+longdata <- melt(ttest_data, 
+                id = c("gender"), 
+                measured = c("PAL_cell", "PAL_acc"))
+M2 <- tapply(longdata$value, longdata$variable, mean)
+STDEV2 <- tapply(longdata$value, longdata$variable, sd)
+N2 <- tapply(longdata$value, longdata$variable, length)
+```
+
+```{r effect2, exercise = TRUE}
+
+```
+
+```{r effect2-solution}
+effect2 <- d.dep.t.avg(m1 = M2[1], m2 = M2[2],
+                 sd1 = STDEV2[1], sd2 = STDEV2[2],
+                 n = N2[1], a = .05)
+
+effect2$d
+```
+
+```{r effect2-open}
+question_text(
+  "What size is the difference in means?",
+  answer("Small!", correct = TRUE),
+  incorrect = "This effect size is small!",
+  try_again_button = "Modify your answer",
+  allow_retry = TRUE
+)
+```
+
+When we see a significant result, but a small effect, we know our sample size helped us have the power to find that small difference. How many participants did I actually need to find this small result?
+
+```{r power2-setup}
+longdata <- melt(ttest_data, 
+                id = c("gender"), 
+                measured = c("PAL_cell", "PAL_acc"))
+M2 <- tapply(longdata$value, longdata$variable, mean)
+STDEV2 <- tapply(longdata$value, longdata$variable, sd)
+N2 <- tapply(longdata$value, longdata$variable, length)
+effect2 <- d.dep.t.avg(m1 = M2[1], m2 = M2[2],
+                 sd1 = STDEV2[1], sd2 = STDEV2[2],
+                 n = N2[1], a = .05)
+```
+
+```{r power2, exercise = TRUE}
+
+```
+
+```{r power2-solution}
+pwr.t.test(n = NULL, 
+           d = effect2$d, 
+           sig.level = .05,
+           power = .80, 
+           type = "paired", 
+           alternative = "two.sided")
+```
+
+```{r power2-open}
+question_text(
+  "How many participants would I need in this study?",
+  answer("I would need over 100.", correct = TRUE),
+  incorrect = "My results suggest 113 pairs, which is 113 people. Your simulation might be different!",
+  try_again_button = "Modify your answer",
+  allow_retry = TRUE
+)
+```
+
+## Submit
+
+On this page, you will create the submission for your instructor (if necessary). Please copy this report and submit using a Word document or paste into the text window of your submission page. Click "Generate Submission" to get your work! 
+
+```{r context="server"}
+encoder_logic()
+```
+
+```{r encode, echo=FALSE}
+encoder_ui()
 ```

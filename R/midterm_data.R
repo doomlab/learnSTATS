@@ -4,12 +4,13 @@
 #' randomizes it for each student,
 #' and allows them to each have a unique dataset.
 #'
-#' @param id Student ID number to set up data.
+#' @param idnum Student ID number to set up data.
 #'
 #' @return midterm dataset
 #'
 #' @keywords student answers, datasets
 #' @import faux
+#' @import stats
 #' @export
 
 midterm_data <- function(idnum = NULL) {
@@ -22,7 +23,6 @@ midterm_data <- function(idnum = NULL) {
 
     set.seed(idnum)
 
-    suppressPackageStartupMessages(require(faux, quietly = T))
     midterm <- sim_df(data = midterm, #data frame
                       n = sample(50:100, 1),#how many of each group
                       between = c("JOL_group", "type_cue"))

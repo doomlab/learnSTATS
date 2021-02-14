@@ -20,64 +20,61 @@ Be sure to restart your **R** session, as this helps you get the **Tutorial Wind
 
 1. Introduction to R: 
 
-- Lecture: `vignette("Introduction-to_R", "learnSEM")`
-- Tutorial: `learnr::run_tutorial("introR", "learnSEM")`
+- Lecture: `vignette("Introduction-to-R", "learnSTATS")`
+- Tutorial: `learnr::run_tutorial("introR", "learnSTATS")`
 
-2. Data Screening Practice: 
+2. Introduction to Data Analytics
 
-- Lecture: `vignette("lecture_data_screen", "learnSEM")`
-- Tutorial: `learnr::run_tutorial("datascreen", "learnSEM")`
+- Lecture: `vignette("Introduction-Data-Analytics", "learnSTATS")`
 
-3. Exploratory Factor Analysis: 
+3. Basic Statistics
 
-- Lecture: `vignette("lecture_efa", "learnSEM")`
-- Tutorial: `learnr::run_tutorial("efa", "learnSEM")`
+- Lecture: `vignette("Basic-Stats-Concepts", "learnSTATS")`
+- Tutorial: `learnr::run_tutorial("basics", "learnSTATS")`
 
-4. Terminology: 
+4. More Statistics
 
-- Lecture: `vignette("lecture_terms", "learnSEM")`
-- Tutorial: `learnr::run_tutorial("terms", "learnSEM")`
+- Lecture: `vignette("More-Stats-Concepts", "learnSTATS")`
+- Tutorial: `learnr::run_tutorial("moreStats", "learnSTATS")`
 
-5. Path Models: 
+5. Data Visualization
 
-- Lecture: `vignette("lecture_path", "learnSEM")`
-- Tutorial: `learnr::run_tutorial("path1", "learnSEM")` 
-- Tutorial: `learnr::run_tutorial("path2", "learnSEM")`
+- Lecture: `vignette("Data-Visualization", "learnSTATS")`
+- Tutorial: `learnr::run_tutorial("datavis", "learnSTATS")`
 
-6. CFA Models: 
+6. Data Screening Part 1
 
-- Lecture: `vignette("lecture_cfa", "learnSEM")`
-- Tutorial: `learnr::run_tutorial("cfabasics", "learnSEM")`
+- Lecture: `vignette("Data-Screen-1", "learnSTATS")`
+- Tutorial: `learnr::run_tutorial("datascreen", "learnSTATS")`
 
-7. CFA Second Order Models: 
+7. Data Screening Part 2
 
-- Lecture: `vignette("lecture_secondcfa", "learnSEM")`
-- Tutorial: `learnr::run_tutorial("cfasecond", "learnSEM")`
+- Lecture: `vignette("Data-Screen-2", "learnSTATS")`
+- Tutorial: `learnr::run_tutorial("datascreen2", "learnSTATS")`
 
-8. Full Structural Models: 
+8. Correlation
 
-- Lecture: `vignette("lecture_sem", "learnSEM")`
-- Tutorial: `learnr::run_tutorial("fullsem", "learnSEM")`
+- Lecture: `vignette("Correlation", "learnSTATS")`
+- Tutorial: `learnr::run_tutorial("correlation", "learnSTATS")`
 
-9. Multitrait Multimethod: 
+9. Regression
 
-- Lecture: `vignette("lecture_mtmm", "learnSEM")`
-- Tutorial: `learnr::run_tutorial("mtmm", "learnSEM")`
+- Lecture: `vignette("Linear-Regression", "learnSTATS")`
+- Tutorial: `learnr::run_tutorial("regression", "learnSTATS")`
 
-10. Multigroup CFA: 
+10. Mediation and Moderation
 
-- Lecture: `vignette("lecture_mgcfa", "learnSEM")`
-- Tutorial: `learnr::run_tutorial("mgcfa", "learnSEM")` 
+- Lecture: `vignette("Mediation-Moderation", "learnSTATS")`
+- Tutorial: `learnr::run_tutorial("medmod", "learnSTATS")` 
 
-11. Latent Growth Models: 
+11. t-Tests
 
-- Lecture: `vignette("lecture_lgm", "learnSEM")`
-- Tutorial: `learnr::run_tutorial("lgm", "learnSEM")` 
+- Lecture: `vignette("Comparing-Means", "learnSTATS")`
+- Tutorial: `learnr::run_tutorial("ttests", "learnSTATS")` 
 
-12. Item Response Theory: 
+12. ANOVA
 
-- Lecture: `vignette("lecture_irt", "learnSEM")`
-- Tutorial: `learnr::run_tutorial("irt", "learnSEM")`
+- Lecture: `vignette("ANOVA", "learnSTATS")`
+- Tutorial: `learnr::run_tutorial("anova", "learnSTATS")`
 
-Lectures are being added every Friday! Check back if one is not open yet. 
-
+Lecture videos are embedded directly into the tutorials and the notes are provided as vignette. 

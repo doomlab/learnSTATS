@@ -1,77 +1,284 @@
 ---
 title: "ANOVA"
+tutorial:
+  id: "anova"
 output: learnr::tutorial
 runtime: shiny_prerendered
+description: In our last exercise, you will practice a one-way between subjects analysis of variance (ANOVA) and post hoc tests.
 ---
 
-```{r setup, include=FALSE}
+```{r setup, include=FALSE, mesage = F}
 library(learnr)
+library(learnSTATS)
+library(faux)
+library(MOTE)
+library(pwr)
+library(ez)
+library(ggplot2)
+cleanup <- theme(panel.grid.major = element_blank(), 
+                panel.grid.minor = element_blank(), 
+                panel.background = element_blank(), 
+                axis.line.x = element_line(color = "black"),
+                axis.line.y = element_line(color = "black"),
+                legend.key = element_rect(fill = "white"),
+                text = element_text(size = 15))
+
+##simulated data
+between <- list(participant_type = c(advanced = "Advanced", 
+                                     experienced = "Experienced", 
+                                     intermediate = "Intermediate",
+                                     novice = "Novice",
+                                     postgraduate = "Postgraduate"))
+
+##pattern is money, then time, so keep the numbers larger in the first one
+mu <- data.frame(
+  advanced = 85,
+  experienced = 75,
+  intermediate = 72, 
+  novice = 65,
+  postgraduate = 80
+  )
+  
+anova_data <- sim_design(between = between, 
+                          n = sample(50:90, 1), 
+                          mu = mu, 
+                          sd = 10, r = .2,
+                          interactive = FALSE,
+                          empirical = FALSE, 
+                          plot = FALSE)
+
+colnames(anova_data)[3] <- "competence"
+
+anova_data <- anova_data[ , -1]
+
+anova_data$participant_type <- factor(anova_data$participant_type, 
+                                     levels = c("novice", "intermediate", "advanced", "postgraduate", "experienced"))
+
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
-https://youtu.be/x0O6tjLE7_Q
-https://youtu.be/PJcIiUg9NgA
-https://youtu.be/-4Des8HMw8I
+## Analysis of Variance
 
-## Topic 1
+The ANalysis Of VAriance is our last section this semester. ANOVAs are designed for understanding categorical variables predicting continuous dependent variables. We will extend your knowledge from simple two-groups in the t-test to multiple groups in one-way between subjects ANOVAs. The learning outcomes are: 
 
-### Exercise 
+- Getting started with the Analysis of Variance
+- Understanding variance versus t-tests
+- One-Way Between Subjects
 
-*Here's a simple exercise with an empty code chunk provided for entering the answer.*
+## ANOVA Video Part 1
 
-Write the R code required to add two plus two:
+The following videos are provided as a lecture for the class material. The lectures are provided here as part of the flow for the course. You can view the lecture notes within *R* using `vignette("ANOVA", "learnSTATS")`. You can skip these pages if you are in class to go on to the assignment. 
 
-```{r two-plus-two, exercise=TRUE}
+<iframe width="560" height="315" src="https://www.youtube.com/embed/x0O6tjLE7_Q" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-```
+## ANOVA Video Part 2
 
-### Exercise with Code
+<iframe width="560" height="315" src="https://www.youtube.com/embed/PJcIiUg9NgA" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-*Here's an exercise with some prepopulated code as well as `exercise.lines = 5` to provide a bit more initial room to work.*
+## ANOVA Video Part 3
 
-Now write a function that adds any two numbers and then call it:
+<iframe width="560" height="315" src="https://www.youtube.com/embed/-4Des8HMw8I" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-```{r add-function, exercise=TRUE, exercise.lines = 5}
-add <- function() {
-  
-}
-```
+## Exercises
 
-## Topic 2
+In this next section, you will answer questions using the *R* code blocks provided. Be sure to use the `solution` option to see the answer if you need it!
 
-### Exercise with Hint
+Please enter your name for submission. If you do not need to submit, just type anything you'd like in this box. 
 
-*Here's an exercise where the chunk is pre-evaulated via the `exercise.eval` option (so the user can see the default output we'd like them to customize). We also add a "hint" to the correct solution via the chunk immediate below labeled `print-limit-hint`.*
-
-Modify the following code to limit the number of rows printed to 5:
-
-```{r print-limit, exercise=TRUE, exercise.eval=TRUE}
-mtcars
-```
-
-```{r print-limit-hint}
-head(mtcars)
-```
-
-### Quiz
-
-*You can include any number of single or multiple choice questions as a quiz. Use the `question` function to define a question and the `quiz` function for grouping multiple questions together.*
-
-Some questions to verify that you understand the purposes of various base and recommended R packages:
-
-```{r quiz}
-quiz(
-  question("Which package contains functions for installing other R packages?",
-    answer("base"),
-    answer("tools"),
-    answer("utils", correct = TRUE),
-    answer("codetools")
-  ),
-  question("Which of the R packages listed below are used to create plots?",
-    answer("lattice", correct = TRUE),
-    answer("tools"),
-    answer("stats"),
-    answer("grid", correct = TRUE)
-  )
+```{r details}
+question_text(
+  "Student Name:",
+  answer("Your Name", correct = TRUE),
+  incorrect = "Thanks!",
+  try_again_button = "Modify your answer",
+  allow_retry = TRUE
 )
+```
+
+## Experiment Design
+
+*Abstract*: How do university training and subsequent practical experience affect expertise in data science? To answer this question we developed methods to assess data science knowledge and the competence to formulate answers, construct code to problem solve, and create reports of outcomes. In the cross-sectional study, undergraduate students, trainees in a certified postgraduate data science curriculum, and data scientists with more than 10 years of experience were tested (novice, intermediate, and advanced university students, postgraduate trainees, and experienced data scientists). We discuss the results against the background of expertise research and the training of data scientist. Important factors for the continuing professional development of data scientists are proposed.
+
+## Dataset
+
+-	Participant type: novice students, intermediate students, advanced university students, postgraduate trainees, and experienced data scientists
+-	Competence: an average score of data science knowledge and competence based on a knowledge test and short case studies.
+
+```{r echo = T, eval = F}
+library(learnSTATS)
+data("anova_data")
+head(anova_data)
+```
+  
+```{r echo = F}
+head(anova_data)
+```
+
+## Hypothesis Testing
+
+Let's examine if there are any group differences in our therapists using the `ezANOVA` function. Remember to first add a participant number!
+
+```{r anova, exercise = TRUE}
+
+```
+    
+```{r anova-solution}
+anova_data$partno <- 1:nrow(anova_data)
+ezANOVA(data = anova_data,
+        dv = competence,
+        between = participant_type,
+        wid = partno,
+        type = 3, 
+        detailed = T)
+```
+
+```{r homog-open}
+question_text(
+  "Do you meet the assumption for homogeneity?",
+  answer("Yes!", correct = TRUE),
+  incorrect = "Yes, because p is greater than .001 - our cut off for data screening.",
+  try_again_button = "Modify your answer",
+  allow_retry = TRUE
+)
+```
+
+```{r anova-open}
+question_text(
+  "Is there a significant difference between groups?",
+  answer("Yes!", correct = TRUE),
+  incorrect = "Yes, the p value for our F test is less than .05, our alpha for hypothesis testing.",
+  try_again_button = "Modify your answer",
+  allow_retry = TRUE
+)
+```
+
+## Power 
+
+The effect size for this study is really large. Let's say we expect this study to replicate at only half that effect size. How many participants do I need to power that study? 
+
+```{r power, exercise = TRUE}
+library(pwr)
+#calculate f_eta
+
+#calculate power
+```
+
+```{r power-solution}
+library(pwr)
+#calculate f_eta my eta was .3 so .3/2
+f_eta <- sqrt(.15 / (1-.15))
+#calculate power
+pwr.anova.test(k = 5, n = NULL, f = f_eta,
+               sig.level = .05, power = .80)
+```
+
+```{r power-open}
+question_text(
+  "How many participants do you need?",
+  answer("15 times 5", correct = TRUE),
+  incorrect = "You need 15ish participants times 5 groups, so 75 total.",
+  try_again_button = "Modify your answer",
+  allow_retry = TRUE
+)
+```
+
+## Post Hoc Test
+
+Run a post hoc independent t-test with no correction and a Bonferroni correction. Remember, for a real analysis, you would only run one type of post hoc. This question should show you how each post hoc corrects for type 1 error by changing the *p*-values. We will make a graph in a minute to help us understand these results. 
+
+```{r posthoc, exercise = TRUE}
+
+```
+
+```{r posthoc-solution}
+pairwise.t.test(anova_data$competence,
+                anova_data$participant_type,
+                p.adjust.method = "none", 
+                paired = F, 
+                var.equal = T)
+
+pairwise.t.test(anova_data$competence,
+                anova_data$participant_type,
+                p.adjust.method = "bonferroni", 
+                paired = F, 
+                var.equal = T)
+```
+
+```{r posthoc-open}
+question_text(
+  "What do you see that the correction is doing?",
+  answer("Any good answer.", correct = TRUE),
+  incorrect = "There are a lot of right answers here. But you should see that the p-values are larger with the correction because they are fixed for running so many tests.",
+  try_again_button = "Modify your answer",
+  allow_retry = TRUE
+)
+```
+
+## Trend Analysis
+
+Participant type is coded in a slightly continuous manner - each group represents more experience and time spent in the field. You should always check that your `levels` are in order before coding this analysis. An example of that code is provided, and these levels should be in order. 
+
+Add in the code for the trend analysis. 
+
+```{r trend, exercise = TRUE}
+levels(anova_data$participant_type)
+```
+    
+```{r trend-solution}
+levels(anova_data$participant_type)
+k = 5
+anova_data$part <- anova_data$participant_type
+contrasts(anova_data$part) <- contr.poly(k)
+output2 <- aov(competence ~ part, data = anova_data)
+summary.lm(output2)
+```
+
+```{r trend-open}
+question_text(
+  "Is there a significant trend?",
+  answer("Yes, quartic.", correct = TRUE),
+  incorrect = "Yes, but it's a quartic trend - let's make a graph to see what it looks like.",
+  try_again_button = "Modify your answer",
+  allow_retry = TRUE
+)
+```
+
+## Graph the Groups
+
+In order to understand our trend analysis, let's try making a graph of the results. Use the original `participant_type` column to make this graph.  
+
+Once you have the graph, you should see that this trend may not make sense, even though significant - it actually appears that the data is curvilinear (quadratic) - it peaks at advanced and then decreases. 
+
+```{r graph, exercise = TRUE}
+
+```
+
+```{r graph-solution}
+bargraph <- ggplot(anova_data, aes(participant_type, competence))
+bargraph +
+  theme_classic() + #cleanup is loaded too 
+  stat_summary(fun = mean,
+               geom = "bar", 
+               fill = "white", 
+               color = "black") +
+  stat_summary(fun.data = mean_cl_normal,
+               geom = "errorbar",
+               position = "dodge",
+               width = .2) +
+  xlab("Level of Study of Participant") +
+  ylab("Average Competence Rating") +
+  coord_cartesian(ylim = c(0,100)) +
+  scale_x_discrete(labels = c("Novice", "Intermediate", "Advanced", "Post-Graduate", "Experienced"))
+```
+
+## Submit
+
+On this page, you will create the submission for your instructor (if necessary). Please copy this report and submit using a Word document or paste into the text window of your submission page. Click "Generate Submission" to get your work! 
+
+```{r context="server"}
+encoder_logic()
+```
+
+```{r encode, echo=FALSE}
+encoder_ui()
 ```
