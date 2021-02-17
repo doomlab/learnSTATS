@@ -109,7 +109,7 @@ notypos$Group <- factor(notypos$Group,
 
 ## Accuracy in Continuous Variables
 
-Next, we should check our three continuous variables for issues with their ranges. These variables range from 2 to 100. Fix those values below and use `summary()` to make sure things look correct. 
+Next, we should check our three continuous variables for issues with their ranges. These variables range from 2 to 125. Fix those values below and use `summary()` to make sure things look correct. 
 
 ```{r accuracy2-setup}
 notypos <- datascreen_data
