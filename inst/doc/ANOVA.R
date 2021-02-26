@@ -1,13 +1,13 @@
-## ---- include = FALSE---------------------------
+## ---- include = FALSE-----------------------------------------------------------
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
 
-## ---- echo = FALSE, out.width="75%", fig.align='center'----
+## ---- echo = FALSE, out.width="75%", fig.align='center'-------------------------
 knitr::include_graphics("pictures/anova/1.png")
 
-## ----message=FALSE------------------------------
+## ----message=FALSE--------------------------------------------------------------
 library(rio)
 master <- import("data/viagra.sav")
 str(master)
@@ -15,43 +15,43 @@ master$dose <- factor(master$dose,
                       levels = c(1,2,3),
                       labels = c("Placebo", "Low Dose", "High Dose"))
 
-## ---- echo = FALSE, out.width="100%", fig.align='center'----
+## ---- echo = FALSE, out.width="100%", fig.align='center'------------------------
 knitr::include_graphics("pictures/anova/4.png")
 
-## ---- echo = FALSE, out.width="100%", fig.align='center'----
+## ---- echo = FALSE, out.width="100%", fig.align='center'------------------------
 knitr::include_graphics("pictures/anova/5.png")
 
-## ---- echo = FALSE, out.width="100%", fig.align='center'----
+## ---- echo = FALSE, out.width="100%", fig.align='center'------------------------
 knitr::include_graphics("pictures/anova/6.png")
 
-## ---- echo = FALSE, out.width="100%", fig.align='center'----
+## ---- echo = FALSE, out.width="100%", fig.align='center'------------------------
 knitr::include_graphics("pictures/anova/7.png")
 
-## ---- echo = FALSE, out.width="100%", fig.align='center'----
+## ---- echo = FALSE, out.width="100%", fig.align='center'------------------------
 knitr::include_graphics("pictures/anova/8.png")
 
-## ---- echo = FALSE, out.width="100%", fig.align='center'----
+## ---- echo = FALSE, out.width="100%", fig.align='center'------------------------
 knitr::include_graphics("pictures/anova/9.png")
 
-## ---- echo = FALSE, out.width="100%", fig.align='center'----
+## ---- echo = FALSE, out.width="100%", fig.align='center'------------------------
 knitr::include_graphics("pictures/anova/10.png")
 
-## ---- echo = FALSE, out.width="100%", fig.align='center'----
+## ---- echo = FALSE, out.width="100%", fig.align='center'------------------------
 knitr::include_graphics("pictures/anova/11.png")
 
-## ---- echo = FALSE, out.width="50%", fig.align='center'----
+## ---- echo = FALSE, out.width="50%", fig.align='center'-------------------------
 knitr::include_graphics("pictures/anova/12.png")
 
-## ---- echo = FALSE, out.width="100%", fig.align='center'----
+## ---- echo = FALSE, out.width="100%", fig.align='center'------------------------
 knitr::include_graphics("pictures/anova/13.png")
 
-## ---- echo = FALSE, out.width="100%", fig.align='center'----
+## ---- echo = FALSE, out.width="100%", fig.align='center'------------------------
 knitr::include_graphics("pictures/anova/14.png")
 
-## ---- echo = FALSE, out.width="100%", fig.align='center'----
+## ---- echo = FALSE, out.width="100%", fig.align='center'------------------------
 knitr::include_graphics("pictures/anova/15.png")
 
-## ----echo=TRUE----------------------------------
+## ----echo=TRUE------------------------------------------------------------------
 library(ez)
 
 ## you must have a participant number for ezANOVA
@@ -64,7 +64,7 @@ ezANOVA(data = master,
         type = 3, 
         detailed = T)
 
-## ----echo = T, message=FALSE, warning=FALSE-----
+## ----echo = T, message=FALSE, warning=FALSE-------------------------------------
 ezANOVA(data = master,
         dv = libido,
         between = dose,
@@ -72,11 +72,11 @@ ezANOVA(data = master,
         type = 3, 
         detailed = T)$`Levene's Test for Homogeneity of Variance`
 
-## -----------------------------------------------
+## -------------------------------------------------------------------------------
 ## running a one way anova - if Levene's Test is significant
 oneway.test(libido ~ dose, data = master)
 
-## ----echo=FALSE, message=FALSE, warning=FALSE----
+## ----echo=FALSE, message=FALSE, warning=FALSE-----------------------------------
 ezANOVA(data = master,
         dv = libido,
         between = dose,
@@ -84,7 +84,7 @@ ezANOVA(data = master,
         type = 3, 
         detailed = T)$ANOVA
 
-## ----echo=TRUE, message=FALSE, warning=FALSE----
+## ----echo=TRUE, message=FALSE, warning=FALSE------------------------------------
 library(MOTE)
 effect <- omega.F(dfm = 2, #this is dfn in the anova
                   dfe = 12, #this is dfd in the anova
@@ -93,7 +93,7 @@ effect <- omega.F(dfm = 2, #this is dfn in the anova
                   a = .05) #leave this as .05
 effect$omega
 
-## ----echo=TRUE, message=FALSE, warning=FALSE----
+## ----echo=TRUE, message=FALSE, warning=FALSE------------------------------------
 ## post hoc tests - p.value adjustment "none"
 pairwise.t.test(master$libido,
                 master$dose,
@@ -101,10 +101,10 @@ pairwise.t.test(master$libido,
                 paired = F, 
                 var.equal = T)
 
-## ---- echo = FALSE, out.width="75%", fig.align='center'----
+## ---- echo = FALSE, out.width="75%", fig.align='center'-------------------------
 knitr::include_graphics("pictures/anova/16.png")
 
-## ----echo=TRUE, message=FALSE, warning=FALSE----
+## ----echo=TRUE, message=FALSE, warning=FALSE------------------------------------
 ## post hoc tests - p.value adjustment "bonferroni"
 pairwise.t.test(master$libido,
                 master$dose,
@@ -112,13 +112,13 @@ pairwise.t.test(master$libido,
                 paired = F, 
                 var.equal = T)
 
-## ---- echo = FALSE, out.width="75%", fig.align='center'----
+## ---- echo = FALSE, out.width="75%", fig.align='center'-------------------------
 knitr::include_graphics("pictures/anova/17.png")
 
-## ---- echo = FALSE, out.width="75%", fig.align='center'----
+## ---- echo = FALSE, out.width="75%", fig.align='center'-------------------------
 knitr::include_graphics("pictures/anova/18.png")
 
-## ----echo=TRUE, message=FALSE, warning=FALSE----
+## ----echo=TRUE, message=FALSE, warning=FALSE------------------------------------
 ## get numbers for effect size
 M <- tapply(master$libido, master$dose, mean)
 N <- tapply(master$libido, master$dose, length)
@@ -142,7 +142,7 @@ effect3 = d.ind.t(m1 = M[2], m2 = M[3],
                   n1 = N[2], n2 = N[3], a = .05)
 effect3$d
 
-## ----echo=TRUE, fig.height=4, fig.width=8, message=FALSE, warning=FALSE----
+## ----echo=TRUE, fig.height=4, fig.width=8, message=FALSE, warning=FALSE---------
 library(ggplot2)
 
 cleanup <- theme(panel.grid.major = element_blank(), 
@@ -167,10 +167,10 @@ bargraph +
   xlab("Dosage of Drug") +
   ylab("Average Libido")
 
-## ---- echo = FALSE, out.width="75%", fig.align='center'----
+## ---- echo = FALSE, out.width="75%", fig.align='center'-------------------------
 knitr::include_graphics("pictures/anova/19.png")
 
-## ----echo=TRUE, message=FALSE, warning=FALSE----
+## ----echo=TRUE, message=FALSE, warning=FALSE------------------------------------
 ## trend analysis
 k = 3 ## set to the number of groups
 master$dose2 <- master$dose #this changes the variable
@@ -178,7 +178,7 @@ contrasts(master$dose2) <- contr.poly(k) ## note this does change the original d
 output <- aov(libido ~ dose2, data = master)
 summary.lm(output)
 
-## ----echo=TRUE, fig.height=4, fig.width=8, message=FALSE, warning=FALSE----
+## ----echo=TRUE, fig.height=4, fig.width=8, message=FALSE, warning=FALSE---------
 doseline <- ggplot(master, aes(dose2, libido))
 doseline +
   stat_summary(fun.y = mean, ## adds the points
@@ -193,7 +193,7 @@ doseline +
   ylab("Average Libido") + 
   cleanup
 
-## ----echo=TRUE, message=FALSE, warning=FALSE----
+## ----echo=TRUE, message=FALSE, warning=FALSE------------------------------------
 library(pwr)
 eta = .46
 f_eta = sqrt(eta / (1-eta))
