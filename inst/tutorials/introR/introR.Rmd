@@ -71,7 +71,7 @@ Use logical operations to test whether 8 ^ 13 is less than 15 ^ 9.
 ```
 
 ```{r q2-solution}
-8 ^ 13 < 15 ^ 19
+8 ^ 13 < 15 ^ 9
 ```
 
 ## Simple Variables

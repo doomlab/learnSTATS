@@ -250,7 +250,7 @@ model1 <- lm(CESD_total ~ PIL_total + AUDIT_TOTAL_NEW + DAST_TOTAL_NEW,
 ## Example: Leverage 
 
 ```{r echo=TRUE, message=FALSE, warning=FALSE}
-k = 2 ##number of IVs
+k <- 3 ##number of IVs
 leverage <- hatvalues(model1)
 cutleverage <- (2*k+2) / nrow(nomiss)
 badleverage <- as.numeric(leverage > cutleverage)
