@@ -21,7 +21,7 @@ between <- list(biz_focus = c(forward = "Forward Thinking",
                              medium = "Medium",
                              low = "Low"))
 
-within <- list(rm_var = c("time_1", "time_2"))
+within <- list(rm_var = c("time1", "time2"))
 
 ##time 1 is first, then time 2, can flip them here if you want to change the interpretation
 mu <- data.frame(
