@@ -13,7 +13,7 @@ library(learnSTATS)
 library(faux)
 library(emmeans)
 
-if("MeMoBootR" %in% rownames(installed.packages()) == FALSE) {warning("Please install MeMoBootR using devtools::install_github('doomlab/MeMoBootR')")}
+if("MeMoBootR" %in% rownames(installed.packages()) == FALSE) {warning("Please install MeMoBootR using devtools::install_github('doomlab/MeMoBootR') \n If you see an error saying Error: (converted from warning) package 'packagename' was built under R version NUMBER, then first run: Sys.setenv(R_REMOTES_NO_ERRORS_FROM_WARNINGS='true'), followed by devtools::install_github('doomlab/MeMoBootR')")}
 
 library(MeMoBootR)
 data("regress_data")
@@ -93,7 +93,9 @@ head(regress_data)
 
 Using the same data as last week, we will now practice our special regression using mediation and moderation. Use `regress_data` as our calculated dataset from the last class does not apply to this analysis. 
 
-Using `MeMoBootR`, let's calculate a mediation analysis with number of years mediating the relationship between affective measurements and the OCB. Be sure to print out the Sobel test and the bootstrapped results to answer questions. 
+Using `MeMoBootR`, let's calculate a mediation analysis with number of years mediating the relationship between affective measurements and the OCB. Be sure to print out the Sobel test and/or the bootstrapped results to answer questions. 
+
+*Note*: You can install `MeMoBootR` using `devtools::install_github('doomlab/MeMoBootR')`. If you see an error saying `Error: (converted from warning) package 'packagename' was built under R version NUMBER`, then first run: `Sys.setenv(R_REMOTES_NO_ERRORS_FROM_WARNINGS="true")`, followed by `devtools::install_github('doomlab/MeMoBootR')`.
 
 ```{r mediation, exercise = TRUE}
 library(MeMoBootR)
@@ -122,8 +124,8 @@ question_text(
 
 ```{r mediation-effect}
 question_text(
-  "Is there any evidence of mediation? Explain both Sobel and bootstrapping.",
-  answer("Sobel test was not significant. The bootstrapping effect  confidence interval included zero. Therefore, no mediation.", correct = TRUE),
+  "Is there any evidence of mediation? Explain either Sobel and bootstrapping.",
+  answer("Sobel test was not significant. The bootstrapping effect confidence interval included zero. Therefore, no mediation.", correct = TRUE),
   incorrect = "Sobel test was not significant. The bootstrapping effect  confidence interval included zero. Therefore, no mediation.",
   try_again_button = "Modify your answer",
   allow_retry = TRUE

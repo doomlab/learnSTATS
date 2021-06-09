@@ -203,7 +203,7 @@ question_text(
 
 Let's try those same steps again to examine the hypothesis that there are differences in the cell phone and hand held accelerometer results.
 
-First, let's calculate and save the mean, standard deviation, and length to be able to use those values to calculate effect size. Save these values as `M`, `STDEV`, and `N`. Don't forget! Repeated measures data should be restructured. You can rename the columns, but the solution shows the answer without this step. 
+First, let's calculate and save the mean, standard deviation, and length to be able to use those values to calculate effect size. Save these values as `M2`, `STDEV2`, and `N2`. Don't forget! Repeated measures data should be restructured. You can rename the columns, but the solution shows the answer without this step. 
 
 ```{r descriptive2, exercise = TRUE}
 
