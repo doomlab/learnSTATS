@@ -163,7 +163,7 @@ The `basics_data` dataframe has been loaded for you. In the dataframe, you are p
 names(basics_data)
 ```
 
-Create a frequency table the places the jobs were outsources to using the `table()` function.
+Create a frequency table the places the jobs were outsourced to using the `table()` function.
 
 ```{r freqtable, exercise = TRUE}
 
