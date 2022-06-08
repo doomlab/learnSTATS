@@ -116,7 +116,7 @@ head(anova_data)
 
 ## Hypothesis Testing
 
-Let's examine if there are any group differences in our therapists using the `ezANOVA` function. Remember to first add a participant number!
+Let's examine if there are any group differences in our data scientists using the `ezANOVA` function. Remember to first add a participant number!
 
 ```{r anova, exercise = TRUE}
 
